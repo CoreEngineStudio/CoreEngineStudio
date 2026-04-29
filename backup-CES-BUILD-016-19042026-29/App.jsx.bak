@@ -27,7 +27,7 @@ import ShowcaseCube from "./components/showcase-cube/ShowcaseCube";
 import MatrixRain from "./components/matrix-rain/MatrixRain";
 import "./App.css";
 
-const BUILD_ID = "CES-BUILD-023 · Gradient Descender Final Fix";
+const BUILD_ID = "CES-BUILD-015 · Services Section Upgrade";
 
 const colorPhases = ["green", "cyan", "purple", "red"];
 
@@ -249,35 +249,20 @@ function App() {
     let animationFrame = 0;
     let currentMain = [...colorValues.green.main];
     let currentSoft = [...colorValues.green.soft];
-    let currentNextMain = [...colorValues.cyan.main];
-    let currentNextSoft = [...colorValues.cyan.soft];
 
     const applyColors = () => {
-      const activeToneName = activeToneRef.current;
-      const activeIndex = Math.max(0, colorPhases.indexOf(activeToneName));
-      const nextToneName = colorPhases[(activeIndex + 1) % colorPhases.length];
-
-      const target = colorValues[activeToneName] || colorValues.green;
-      const nextTarget = colorValues[nextToneName] || colorValues.cyan;
+      const target = colorValues[activeToneRef.current] || colorValues.green;
 
       currentMain = mixColor(currentMain, target.main, 0.028);
       currentSoft = mixColor(currentSoft, target.soft, 0.028);
-      currentNextMain = mixColor(currentNextMain, nextTarget.main, 0.028);
-      currentNextSoft = mixColor(currentNextSoft, nextTarget.soft, 0.028);
 
       const mainRgb = colorToRgb(currentMain);
       const softRgb = colorToRgb(currentSoft);
-      const nextMainRgb = colorToRgb(currentNextMain);
-      const nextSoftRgb = colorToRgb(currentNextSoft);
 
       element.style.setProperty("--pulse-rgb", mainRgb);
       element.style.setProperty("--pulse-main", `rgb(${mainRgb})`);
       element.style.setProperty("--pulse-soft", `rgb(${softRgb})`);
-      element.style.setProperty("--pulse-next-rgb", nextMainRgb);
-      element.style.setProperty("--pulse-next-main", `rgb(${nextMainRgb})`);
-      element.style.setProperty("--pulse-next-soft", `rgb(${nextSoftRgb})`);
       element.style.setProperty("--pulse-glow", `rgba(${mainRgb}, 0.28)`);
-      element.style.setProperty("--pulse-next-glow", `rgba(${nextMainRgb}, 0.28)`);
       element.style.setProperty("--green", `rgb(${mainRgb})`);
       element.style.setProperty("--green-soft", `rgb(${softRgb})`);
 
@@ -325,7 +310,7 @@ function App() {
         >
           <div className="eyebrow">
             <Sparkles size={16} />
-            Gradient Final · Build 023
+            Services Upgrade · Build 015
           </div>
 
           <div className="hero-brandline">
@@ -333,9 +318,9 @@ function App() {
             <strong>Digital Studio für Webseiten, Systeme & Automatisierung</strong>
           </div>
 
-          <h1 className="hero-gradient-title">
-            <span className="gradient-title-line">Digitale Auftritte</span>
-            <span className="gradient-title-line">mit smarter Engine.</span>
+          <h1>
+            Digitale Auftritte
+            <span>mit smarter Engine.</span>
           </h1>
 
           <p className="hero-lead">
@@ -432,42 +417,6 @@ function App() {
               <span>System</span>
               <ArrowRight size={15} />
               <span>Automation</span>
-            </div>
-
-            <div className="service-engine-visual" aria-label="Animierter Service Engine Flow">
-              <div className="flow-grid-bg" />
-              <div className="flow-core refined-flow-core">
-                <span>CORE</span>
-                <strong>FLOW</strong>
-                <small>ENGINE</small>
-              </div>
-
-              <div className="flow-node flow-node-design">
-                <span>01</span>
-                <strong>Design</strong>
-              </div>
-              <div className="flow-node flow-node-web">
-                <span>02</span>
-                <strong>Website</strong>
-              </div>
-              <div className="flow-node flow-node-system">
-                <span>03</span>
-                <strong>System</strong>
-              </div>
-              <div className="flow-node flow-node-auto">
-                <span>04</span>
-                <strong>Automation</strong>
-              </div>
-
-              <div className="flow-path flow-path-a" />
-              <div className="flow-path flow-path-b" />
-              <div className="flow-path flow-path-c" />
-              <div className="flow-path flow-path-d" />
-
-              <span className="data-pulse pulse-one" />
-              <span className="data-pulse pulse-two" />
-              <span className="data-pulse pulse-three" />
-              <span className="data-pulse pulse-four" />
             </div>
           </motion.article>
 

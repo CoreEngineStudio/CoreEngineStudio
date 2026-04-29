@@ -27,7 +27,7 @@ import ShowcaseCube from "./components/showcase-cube/ShowcaseCube";
 import MatrixRain from "./components/matrix-rain/MatrixRain";
 import "./App.css";
 
-const BUILD_ID = "CES-BUILD-023 · Gradient Descender Final Fix";
+const BUILD_ID = "CES-BUILD-022 · Gradient Balken Fix";
 
 const colorPhases = ["green", "cyan", "purple", "red"];
 
@@ -325,7 +325,7 @@ function App() {
         >
           <div className="eyebrow">
             <Sparkles size={16} />
-            Gradient Final · Build 023
+            Gradient Fix · Build 022
           </div>
 
           <div className="hero-brandline">

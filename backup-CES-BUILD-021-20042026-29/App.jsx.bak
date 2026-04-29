@@ -27,7 +27,7 @@ import ShowcaseCube from "./components/showcase-cube/ShowcaseCube";
 import MatrixRain from "./components/matrix-rain/MatrixRain";
 import "./App.css";
 
-const BUILD_ID = "CES-BUILD-023 · Gradient Descender Final Fix";
+const BUILD_ID = "CES-BUILD-020 · Global Gradient Typography";
 
 const colorPhases = ["green", "cyan", "purple", "red"];
 
@@ -325,7 +325,7 @@ function App() {
         >
           <div className="eyebrow">
             <Sparkles size={16} />
-            Gradient Final · Build 023
+            Gradient Type · Build 020
           </div>
 
           <div className="hero-brandline">
@@ -333,9 +333,9 @@ function App() {
             <strong>Digital Studio für Webseiten, Systeme & Automatisierung</strong>
           </div>
 
-          <h1 className="hero-gradient-title">
-            <span className="gradient-title-line">Digitale Auftritte</span>
-            <span className="gradient-title-line">mit smarter Engine.</span>
+          <h1>
+            Digitale Auftritte
+            <span>mit smarter Engine.</span>
           </h1>
 
           <p className="hero-lead">
