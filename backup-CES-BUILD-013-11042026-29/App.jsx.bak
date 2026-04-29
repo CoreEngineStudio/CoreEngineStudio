@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import {
   ArrowRight,
@@ -27,37 +27,9 @@ import ShowcaseCube from "./components/showcase-cube/ShowcaseCube";
 import MatrixRain from "./components/matrix-rain/MatrixRain";
 import "./App.css";
 
-const BUILD_ID = "CES-BUILD-014 · Smooth Pulse Descender Fix";
+const BUILD_ID = "CES-BUILD-012 · Hero Width Typography Fix";
 
 const colorPhases = ["green", "cyan", "purple", "red"];
-
-const colorValues = {
-  green: {
-    main: [118, 255, 22],
-    soft: [184, 255, 122],
-  },
-  cyan: {
-    main: [65, 217, 255],
-    soft: [191, 244, 255],
-  },
-  purple: {
-    main: [176, 92, 255],
-    soft: [223, 194, 255],
-  },
-  red: {
-    main: [255, 69, 58],
-    soft: [255, 177, 170],
-  },
-};
-
-function mixColor(current, target, strength) {
-  return current.map((value, index) => value + (target[index] - value) * strength);
-}
-
-function colorToRgb(value) {
-  return value.map((part) => Math.round(part)).join(", ");
-}
-
 
 const services = [
   {
@@ -217,12 +189,6 @@ const steps = [
 function App() {
   const [toneIndex, setToneIndex] = useState(0);
   const activeTone = colorPhases[toneIndex];
-  const shellRef = useRef(null);
-  const activeToneRef = useRef(activeTone);
-
-  useEffect(() => {
-    activeToneRef.current = activeTone;
-  }, [activeTone]);
 
   useEffect(() => {
     const timer = window.setInterval(() => {
@@ -232,40 +198,8 @@ function App() {
     return () => window.clearInterval(timer);
   }, []);
 
-  useEffect(() => {
-    const element = shellRef.current;
-    if (!element) return undefined;
-
-    let animationFrame = 0;
-    let currentMain = [...colorValues.green.main];
-    let currentSoft = [...colorValues.green.soft];
-
-    const applyColors = () => {
-      const target = colorValues[activeToneRef.current] || colorValues.green;
-
-      currentMain = mixColor(currentMain, target.main, 0.028);
-      currentSoft = mixColor(currentSoft, target.soft, 0.028);
-
-      const mainRgb = colorToRgb(currentMain);
-      const softRgb = colorToRgb(currentSoft);
-
-      element.style.setProperty("--pulse-rgb", mainRgb);
-      element.style.setProperty("--pulse-main", `rgb(${mainRgb})`);
-      element.style.setProperty("--pulse-soft", `rgb(${softRgb})`);
-      element.style.setProperty("--pulse-glow", `rgba(${mainRgb}, 0.28)`);
-      element.style.setProperty("--green", `rgb(${mainRgb})`);
-      element.style.setProperty("--green-soft", `rgb(${softRgb})`);
-
-      animationFrame = window.requestAnimationFrame(applyColors);
-    };
-
-    applyColors();
-
-    return () => window.cancelAnimationFrame(animationFrame);
-  }, []);
-
   return (
-    <main ref={shellRef} className="app-shell">
+    <main className={`app-shell tone-${activeTone}`}>
       <MatrixRain tone={activeTone} />
       <div className="engine-grid" />
       <div className="soft-scanlines" />
@@ -300,7 +234,7 @@ function App() {
         >
           <div className="eyebrow">
             <Sparkles size={16} />
-            Smooth Pulse · Build 014
+            Hero Width · Build 012
           </div>
 
           <div className="hero-brandline">
