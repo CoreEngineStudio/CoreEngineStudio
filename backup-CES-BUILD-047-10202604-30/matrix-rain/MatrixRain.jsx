@@ -1,28 +1,8 @@
-// =====================================================
-// MATRIX RAIN COMPONENT
-// Datei: src/components/matrix-rain/MatrixRain.jsx
-//
-// Zuständig für:
-// - animierten Matrix-Code-Regen im Hintergrund
-// - Canvas-Zeichnung
-// - weichen Farbwechsel passend zur aktiven Akzentfarbe
-//
-// Wird genutzt in:
-// src/App.jsx -> <MatrixRain tone={activeTone} />
-//
-// Typische Änderungen:
-// - SYMBOLS: Zeichen im Regen
-// - TONE_COLORS: Grundfarben des Regens
-// - fontSize / drops / Loop: Dichte und Bewegung
-// =====================================================
-
 import { useEffect, useRef } from "react";
 import "./MatrixRain.css";
 
-// Zeichenpool für den fallenden Code.
 const SYMBOLS = "011010110101COREENGINESTUDIO<>/{}[]#$%&";
 
-// Farbwerte für die Matrix-Animation.
 const TONE_COLORS = {
   green: [118, 255, 22],
   cyan: [65, 217, 255],
@@ -30,7 +10,6 @@ const TONE_COLORS = {
   red: [255, 69, 58],
 };
 
-// Interpoliert zwischen aktueller und nächster Farbe.
 function lerpColor(current, target, strength) {
   return [
     current[0] + (target[0] - current[0]) * strength,
@@ -39,24 +18,16 @@ function lerpColor(current, target, strength) {
   ];
 }
 
-// Hauptkomponente:
- // tone kommt aus App.jsx und bestimmt die aktuelle Akzentfarbe.
 function MatrixRain({ tone = "green" }) {
   const canvasRef = useRef(null);
   const animationRef = useRef(null);
   const targetColorRef = useRef(TONE_COLORS[tone] || TONE_COLORS.green);
   const currentColorRef = useRef(TONE_COLORS[tone] || TONE_COLORS.green);
 
-  // Wenn sich die Akzentfarbe ändert, wird nur die Ziel-Farbe aktualisiert.
-  // Der sichtbare Übergang passiert weich im Animationsloop.
   useEffect(() => {
     targetColorRef.current = TONE_COLORS[tone] || TONE_COLORS.green;
   }, [tone]);
 
-  // Canvas-Setup:
-  // - Größe an Viewport anpassen
-  // - Animation starten
-  // - bei prefers-reduced-motion deaktivieren
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return undefined;

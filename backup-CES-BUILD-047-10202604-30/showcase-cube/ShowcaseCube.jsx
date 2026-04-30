@@ -1,27 +1,6 @@
-// =====================================================
-// SHOWCASE CUBE COMPONENT
-// Datei: src/components/showcase-cube/ShowcaseCube.jsx
-//
-// Zuständig für:
-// - 3D-CoreCube im Hero-/Showcase-Bereich
-// - Würfelflächen
-// - Übergabe von Texten pro Fläche
-// - Auswahl der Animationsklasse
-//
-// Wird genutzt in:
-// src/App.jsx -> <ShowcaseCube ... />
-//
-// Typische Änderungen:
-// - defaultFaces: Standardtexte auf den Flächen
-// - size-Prop: Größe des Cubes
-// - rotationMode: Animationsmodus
-// - ShowcaseCube.css: Optik und Rotation
-// =====================================================
-
 import React from 'react';
 import './ShowcaseCube.css';
 
-// Standardflächen des Würfels.
 const defaultFaces = [
   { key: 'front', label: 'Business Clean', eyebrow: 'Website', hint: 'klar · hell · seriös' },
   { key: 'right', label: 'Dark Premium', eyebrow: 'Brand', hint: 'edel · stark · modern' },
@@ -31,12 +10,6 @@ const defaultFaces = [
   { key: 'bottom', label: 'Gaming Matrix', eyebrow: 'Community', hint: 'server · team · live' },
 ];
 
-// Hauptkomponente:
- // size: steuert Würfelgröße über CSS-Variable --cube-size
- // faces: überschreibt optional defaultFaces
- // autoRotate: aktiviert/deaktiviert automatische Rotation
- // rotationMode: wählt CSS-Animationsmodus
- // className: erlaubt zusätzliche Klassen von außen
 export default function ShowcaseCube({
   size = 320,
   faces = defaultFaces,
@@ -44,17 +17,13 @@ export default function ShowcaseCube({
   rotationMode = 'tour',
   className = '',
 }) {
-  // Mischt Standardflächen mit optional übergebenen Faces.
   const normalizedFaces = defaultFaces.map((fallback, index) => ({
     ...fallback,
     ...(faces[index] || {}),
   }));
 
-  // Bestimmt, welche CSS-Animationsklasse aktiv ist.
   const modeClass = rotationMode === 'orbit' ? 'is-orbiting' : 'is-touring';
 
-  // Render:
-  // Stage -> Glow/Schatten -> 3D-Würfel -> sechs Flächen.
   return (
     <section className={`showcase-cube-stage ${className}`} style={{ '--cube-size': `${size}px` }}>
       <div className="showcase-cube-glow" aria-hidden="true" />

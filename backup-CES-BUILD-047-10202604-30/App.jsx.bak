@@ -58,7 +58,7 @@ import "./App.css";
 // Diese Kennung erscheint unten im Footer und hilft beim Prüfen,
 // ob die richtige Version lokal/live geladen ist.
 // =====================================================
-const BUILD_ID = "CES-BUILD-047 · Component Source Map";
+const BUILD_ID = "CES-BUILD-046 · Source Structure Map";
 
 // =====================================================
 // FARB-/PULSE-SYSTEM
@@ -615,7 +615,7 @@ function App() {
         >
           <div className="eyebrow">
             <Sparkles size={16} />
-            Component Map · Build 047
+            Source Map · Build 046
           </div>
 
           <div className="hero-brandline">
