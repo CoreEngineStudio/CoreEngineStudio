@@ -36,7 +36,7 @@ import ShowcaseCube from "./components/showcase-cube/ShowcaseCube";
 import MatrixRain from "./components/matrix-rain/MatrixRain";
 import "./App.css";
 
-const BUILD_ID = "CES-BUILD-045 · Contact Card Grid Polish";
+const BUILD_ID = "CES-BUILD-040 · WebCube Titles + Project Merge Visual";
 
 const colorPhases = ["green", "cyan", "purple", "red"];
 
@@ -446,7 +446,7 @@ function App() {
         >
           <div className="eyebrow">
             <Sparkles size={16} />
-            Contact Grid · Build 045
+            Project Merge · Build 040
           </div>
 
           <div className="hero-brandline">
@@ -733,10 +733,8 @@ function App() {
                   </div>
                   <span>{theme.tone}</span>
                 </div>
-                <div className="theme-title-stack">
-                  <strong className="theme-title-label">{theme.label}</strong>
-                  <h3 className="theme-title-main">{theme.title}</h3>
-                </div>
+                <h3>{theme.title}</h3>
+                <strong>{theme.label}</strong>
                 <p>{theme.text}</p>
               </motion.article>
             );
@@ -1047,7 +1045,7 @@ function App() {
             <ArrowRight size={17} />
           </a>
 
-          <div className="contact-card-grid contact-card-grid-polished">
+          <div className="contact-card-grid">
             <span>
               <Calendar size={14} />
               Erstkontakt kostenlos
@@ -1059,10 +1057,6 @@ function App() {
             <span>
               <Workflow size={14} />
               Website + System denkbar
-            </span>
-            <span>
-              <CheckCircle size={14} />
-              klare nächste Schritte
             </span>
           </div>
         </div>

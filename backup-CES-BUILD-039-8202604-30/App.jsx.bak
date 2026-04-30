@@ -36,7 +36,7 @@ import ShowcaseCube from "./components/showcase-cube/ShowcaseCube";
 import MatrixRain from "./components/matrix-rain/MatrixRain";
 import "./App.css";
 
-const BUILD_ID = "CES-BUILD-045 · Contact Card Grid Polish";
+const BUILD_ID = "CES-BUILD-038 · Final Flow Builder Visual";
 
 const colorPhases = ["green", "cyan", "purple", "red"];
 
@@ -446,7 +446,7 @@ function App() {
         >
           <div className="eyebrow">
             <Sparkles size={16} />
-            Contact Grid · Build 045
+            Builder Visual · Build 038
           </div>
 
           <div className="hero-brandline">
@@ -733,10 +733,8 @@ function App() {
                   </div>
                   <span>{theme.tone}</span>
                 </div>
-                <div className="theme-title-stack">
-                  <strong className="theme-title-label">{theme.label}</strong>
-                  <h3 className="theme-title-main">{theme.title}</h3>
-                </div>
+                <h3>{theme.title}</h3>
+                <strong>{theme.label}</strong>
                 <p>{theme.text}</p>
               </motion.article>
             );
@@ -935,43 +933,35 @@ function App() {
           </div>
 
           <aside className="flow-summary-card" aria-label="CoreEngineStudio Ablauf-Zusammenfassung">
-            <div className="builder-visual chaos-builder-visual" aria-hidden="true">
-              <div className="chaos-stack">
-                <div className="builder-chip chip-idea">
-                  <small>01</small>
-                  <span>Idee</span>
-                </div>
-                <div className="builder-chip chip-goal">
-                  <small>02</small>
-                  <span>Ziel</span>
-                </div>
-                <div className="builder-chip chip-design">
-                  <small>03</small>
-                  <span>Design</span>
-                </div>
-                <div className="builder-chip chip-data">
-                  <small>04</small>
-                  <span>Daten</span>
-                </div>
+            <div className="builder-visual" aria-hidden="true">
+              <div className="builder-chip chip-idea">
+                <small>01</small>
+                <span>Idee</span>
+              </div>
+              <div className="builder-chip chip-goal">
+                <small>02</small>
+                <span>Ziel</span>
+              </div>
+              <div className="builder-chip chip-design">
+                <small>03</small>
+                <span>Design</span>
+              </div>
+              <div className="builder-chip chip-data">
+                <small>04</small>
+                <span>Daten</span>
               </div>
 
-              <div className="builder-merge-lines">
-                <i className="merge-line merge-top" />
-                <i className="merge-line merge-mid" />
-                <i className="merge-line merge-bottom" />
-                <i className="merge-line merge-out" />
-              </div>
+              <div className="builder-scanline" />
+              <div className="builder-node node-left" />
+              <div className="builder-node node-mid" />
+              <div className="builder-node node-right" />
 
-              <div className="builder-chip chip-project merge-project-chip">
-                <small>05</small>
-                <span>Projekt</span>
-              </div>
+              <i className="builder-connector connector-a" />
+              <i className="builder-connector connector-b" />
+              <i className="builder-connector connector-c" />
+              <i className="builder-connector connector-d" />
 
-              <div className="builder-sort-beam">
-                <span>Sortierung</span>
-              </div>
-
-              <div className="builder-output chaos-output">
+              <div className="builder-output">
                 <div className="builder-output-top">
                   <span />
                   <span />
@@ -988,7 +978,7 @@ function App() {
 
               <div className="builder-status">
                 <span>Analyse</span>
-                <strong>Aus losen Ideen wird ein klarer Ablauf</strong>
+                <strong>Projekt wird sortiert</strong>
               </div>
             </div>
 
@@ -1047,7 +1037,7 @@ function App() {
             <ArrowRight size={17} />
           </a>
 
-          <div className="contact-card-grid contact-card-grid-polished">
+          <div className="contact-card-grid">
             <span>
               <Calendar size={14} />
               Erstkontakt kostenlos
@@ -1059,10 +1049,6 @@ function App() {
             <span>
               <Workflow size={14} />
               Website + System denkbar
-            </span>
-            <span>
-              <CheckCircle size={14} />
-              klare nächste Schritte
             </span>
           </div>
         </div>

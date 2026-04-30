@@ -36,7 +36,7 @@ import ShowcaseCube from "./components/showcase-cube/ShowcaseCube";
 import MatrixRain from "./components/matrix-rain/MatrixRain";
 import "./App.css";
 
-const BUILD_ID = "CES-BUILD-045 · Contact Card Grid Polish";
+const BUILD_ID = "CES-BUILD-036 · Case Gallery Arrows Only";
 
 const colorPhases = ["green", "cyan", "purple", "red"];
 
@@ -282,36 +282,12 @@ const referenceCases = [
 ];
 
 const steps = [
-  {
-    title: "Kostenloser Erstkontakt",
-    text: "Kurze Nachricht, grobe Idee, erste Einschätzung. Ohne Druck und ohne Kosten.",
-    tag: "Start",
-  },
-  {
-    title: "Ziel & Richtung klären",
-    text: "Was soll die Seite oder das System wirklich leisten? Design, Funktion und Zielgruppe werden sortiert.",
-    tag: "Klarheit",
-  },
-  {
-    title: "Konzept & Designbasis",
-    text: "Aus der Idee entsteht eine konkrete Richtung mit Struktur, Look, Bereichen und sinnvoller Nutzerführung.",
-    tag: "Konzept",
-  },
-  {
-    title: "Umsetzung mit Struktur",
-    text: "Die Oberfläche wird sauber aufgebaut und mit der passenden Technik im Hintergrund verbunden.",
-    tag: "Build",
-  },
-  {
-    title: "Test & Feinschliff",
-    text: "Ansicht, Texte, responsive Verhalten, kleine Details und Abläufe werden geprüft und poliert.",
-    tag: "Polish",
-  },
-  {
-    title: "Onlinegang & Betreuung",
-    text: "Nach dem Start können Erweiterungen, Pflege, neue Funktionen oder weitere Systeme folgen.",
-    tag: "Weiter",
-  },
+  "Kostenloser Erstkontakt",
+  "Ziel und Richtung klären",
+  "Konzept und Designbasis erstellen",
+  "Umsetzung mit sauberer Struktur",
+  "Test, Feinschliff und Onlinegang",
+  "Betreuung und Erweiterung auf Wunsch",
 ];
 
 function App() {
@@ -446,7 +422,7 @@ function App() {
         >
           <div className="eyebrow">
             <Sparkles size={16} />
-            Contact Grid · Build 045
+            Gallery Arrows Only · Build 036
           </div>
 
           <div className="hero-brandline">
@@ -733,10 +709,8 @@ function App() {
                   </div>
                   <span>{theme.tone}</span>
                 </div>
-                <div className="theme-title-stack">
-                  <strong className="theme-title-label">{theme.label}</strong>
-                  <h3 className="theme-title-main">{theme.title}</h3>
-                </div>
+                <h3>{theme.title}</h3>
+                <strong>{theme.label}</strong>
                 <p>{theme.text}</p>
               </motion.article>
             );
@@ -901,8 +875,8 @@ function App() {
         </div>
       )}
 
-      <section id="ablauf" className="section-block compact flow-section final-flow-section full-bleed-section">
-        <div className="section-heading wide-heading flow-heading">
+      <section id="ablauf" className="section-block compact full-bleed-section">
+        <div className="section-heading wide-heading">
           <span>Ablauf</span>
           <h2>Vom ersten Gespräch bis zur fertigen Engine.</h2>
           <p>
@@ -911,172 +885,35 @@ function App() {
           </p>
         </div>
 
-        <div className="final-flow-layout">
-          <div className="final-flow-rail" aria-label="Projektablauf">
-            {steps.map((step, index) => (
-              <motion.article
-                className="step-item final-step-card"
-                key={step.title}
-                initial={{ opacity: 0, y: 14 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.18 }}
-                transition={{ duration: 0.34, delay: index * 0.035 }}
-              >
-                <div className="final-step-number">
-                  <span>{String(index + 1).padStart(2, "0")}</span>
-                </div>
-                <div>
-                  <small>{step.tag}</small>
-                  <h3>{step.title}</h3>
-                  <p>{step.text}</p>
-                </div>
-              </motion.article>
-            ))}
-          </div>
-
-          <aside className="flow-summary-card" aria-label="CoreEngineStudio Ablauf-Zusammenfassung">
-            <div className="builder-visual chaos-builder-visual" aria-hidden="true">
-              <div className="chaos-stack">
-                <div className="builder-chip chip-idea">
-                  <small>01</small>
-                  <span>Idee</span>
-                </div>
-                <div className="builder-chip chip-goal">
-                  <small>02</small>
-                  <span>Ziel</span>
-                </div>
-                <div className="builder-chip chip-design">
-                  <small>03</small>
-                  <span>Design</span>
-                </div>
-                <div className="builder-chip chip-data">
-                  <small>04</small>
-                  <span>Daten</span>
-                </div>
-              </div>
-
-              <div className="builder-merge-lines">
-                <i className="merge-line merge-top" />
-                <i className="merge-line merge-mid" />
-                <i className="merge-line merge-bottom" />
-                <i className="merge-line merge-out" />
-              </div>
-
-              <div className="builder-chip chip-project merge-project-chip">
-                <small>05</small>
-                <span>Projekt</span>
-              </div>
-
-              <div className="builder-sort-beam">
-                <span>Sortierung</span>
-              </div>
-
-              <div className="builder-output chaos-output">
-                <div className="builder-output-top">
-                  <span />
-                  <span />
-                  <span />
-                </div>
-                <strong>Engine</strong>
-                <p>Struktur · Oberfläche · Ablauf</p>
-                <div className="builder-output-bars">
-                  <i />
-                  <i />
-                  <i />
-                </div>
-              </div>
-
-              <div className="builder-status">
-                <span>Analyse</span>
-                <strong>Aus losen Ideen wird ein klarer Ablauf</strong>
-              </div>
+        <div className="steps-list">
+          {steps.map((step, index) => (
+            <div className="step-item" key={step}>
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <p>{step}</p>
             </div>
-
-            <div className="flow-summary-content">
-              <span>Keine starre Baukastenlösung</span>
-              <h3>Erst verstehen, dann bauen.</h3>
-              <p>
-                Jedes Projekt bekommt eine passende Richtung: vom einfachen
-                Auftritt bis zur smarten Engine mit Formularen, Datenbank,
-                Statuslogik oder späterem Portal.
-              </p>
-
-              <div className="flow-summary-points">
-                <span>
-                  <CheckCircle size={14} />
-                  kostenloser Erstkontakt
-                </span>
-                <span>
-                  <CheckCircle size={14} />
-                  klare nächste Schritte
-                </span>
-                <span>
-                  <CheckCircle size={14} />
-                  erweiterbar nach Bedarf
-                </span>
-              </div>
-            </div>
-          </aside>
+          ))}
         </div>
       </section>
 
-      <section id="kontakt" className="contact-section final-contact-section full-bleed-section">
-        <div className="contact-copy">
+      <section id="kontakt" className="contact-section full-bleed-section">
+        <div>
           <span>Projekt anfragen</span>
           <h2>Bereit für den nächsten digitalen Schritt?</h2>
           <p>
-            Für den Anfang reicht eine kurze Nachricht. Erzähl kurz, worum es
-            geht, was du brauchst und welche Richtung dir gefällt. Daraus wird
-            dann ein klarer nächster Schritt.
+            Für den Anfang reicht eine kurze Nachricht. Der Anfrageassistent
+            wird später als eigene smarte Engine ausgebaut.
           </p>
         </div>
 
-        <div className="contact-card">
-          <div className="contact-card-head">
-            <div className="contact-mail-icon">
-              <Mail size={21} />
-            </div>
-            <div>
-              <small>Direkter Kontakt</small>
-              <strong>CoreEngineStudio</strong>
-            </div>
-          </div>
-
-          <a className="contact-mail-link" href="mailto:info@coreenginestudio.de">
-            info@coreenginestudio.de
-            <ArrowRight size={17} />
-          </a>
-
-          <div className="contact-card-grid contact-card-grid-polished">
-            <span>
-              <Calendar size={14} />
-              Erstkontakt kostenlos
-            </span>
-            <span>
-              <Rocket size={14} />
-              Projektstart nach Absprache
-            </span>
-            <span>
-              <Workflow size={14} />
-              Website + System denkbar
-            </span>
-            <span>
-              <CheckCircle size={14} />
-              klare nächste Schritte
-            </span>
-          </div>
-        </div>
+        <a className="primary-action" href="mailto:info@coreenginestudio.de">
+          <Mail size={18} />
+          info@coreenginestudio.de
+        </a>
       </section>
 
-      <footer className="site-footer final-site-footer full-bleed-section">
-        <div>
-          <span>CoreEngineStudio</span>
-          <p>Digitale Auftritte. Smarte Systeme. Klare Engine.</p>
-        </div>
-        <div>
-          <span>{BUILD_ID}</span>
-          <p>coreenginestudio.de</p>
-        </div>
+      <footer className="site-footer full-bleed-section">
+        <span>CoreEngineStudio</span>
+        <span>{BUILD_ID}</span>
       </footer>
     </main>
   );

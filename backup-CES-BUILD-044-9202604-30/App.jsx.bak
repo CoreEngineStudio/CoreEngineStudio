@@ -36,7 +36,7 @@ import ShowcaseCube from "./components/showcase-cube/ShowcaseCube";
 import MatrixRain from "./components/matrix-rain/MatrixRain";
 import "./App.css";
 
-const BUILD_ID = "CES-BUILD-045 · Contact Card Grid Polish";
+const BUILD_ID = "CES-BUILD-043 · WebCube Panel Hierarchy Fix";
 
 const colorPhases = ["green", "cyan", "purple", "red"];
 
@@ -446,7 +446,7 @@ function App() {
         >
           <div className="eyebrow">
             <Sparkles size={16} />
-            Contact Grid · Build 045
+            WebCube Hierarchy Fix · Build 043
           </div>
 
           <div className="hero-brandline">
@@ -1047,7 +1047,7 @@ function App() {
             <ArrowRight size={17} />
           </a>
 
-          <div className="contact-card-grid contact-card-grid-polished">
+          <div className="contact-card-grid">
             <span>
               <Calendar size={14} />
               Erstkontakt kostenlos
@@ -1059,10 +1059,6 @@ function App() {
             <span>
               <Workflow size={14} />
               Website + System denkbar
-            </span>
-            <span>
-              <CheckCircle size={14} />
-              klare nächste Schritte
             </span>
           </div>
         </div>
