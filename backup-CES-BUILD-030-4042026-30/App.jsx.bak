@@ -27,7 +27,7 @@ import ShowcaseCube from "./components/showcase-cube/ShowcaseCube";
 import MatrixRain from "./components/matrix-rain/MatrixRain";
 import "./App.css";
 
-const BUILD_ID = "CES-BUILD-024 · Showroom Section Upgrade";
+const BUILD_ID = "CES-BUILD-029 · WebCube Title Clip Fix";
 
 const colorPhases = ["green", "cyan", "purple", "red"];
 
@@ -337,7 +337,7 @@ function App() {
         >
           <div className="eyebrow">
             <Sparkles size={16} />
-            Showroom Upgrade · Build 024
+            WebCube Clip Fix · Build 029
           </div>
 
           <div className="hero-brandline">

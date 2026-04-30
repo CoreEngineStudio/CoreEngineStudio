@@ -4125,3 +4125,485 @@
     background 4.5s ease,
     box-shadow 4.5s ease;
 }
+
+
+/* CES-BUILD-027: WebCube Theme Card Polish
+   Sehr enger Patch:
+   - Nur der Webseiten-Cube / sechs Richtungen Bereich wird optisch poliert.
+   - Keine Größen-/Layoutänderung an Hero, Services, CoreHub, MatrixRain, SmoothPulse oder ServiceFlow.
+   - Karten wirken mehr wie vorbereitete Cube-Faces / spätere Template-Slots.
+*/
+
+/* Theme-Karten bekommen mehr Tiefe, ohne Grid/Größe zu ändern. */
+.theme-grid .theme-card {
+  position: relative;
+  overflow: hidden;
+  border-color: rgba(var(--pulse-rgb), 0.18) !important;
+  background:
+    radial-gradient(circle at 9% 0%, rgba(var(--pulse-rgb), 0.13), transparent 9rem),
+    radial-gradient(circle at 90% 100%, rgba(var(--pulse-next-rgb), 0.08), transparent 10rem),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.038), transparent 58%),
+    rgba(7, 15, 8, 0.58) !important;
+  box-shadow:
+    inset 0 0 34px rgba(var(--pulse-rgb), 0.025),
+    0 20px 70px rgba(0, 0, 0, 0.18);
+  transition:
+    transform 180ms ease,
+    border-color 4.5s ease,
+    background 4.5s ease,
+    box-shadow 4.5s ease;
+}
+
+.theme-grid .theme-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.16;
+  background-image:
+    linear-gradient(rgba(var(--pulse-rgb), 0.09) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--pulse-rgb), 0.09) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: linear-gradient(135deg, #000 0%, transparent 68%);
+  pointer-events: none;
+  transition: background-image 4.5s ease, opacity 180ms ease;
+}
+
+.theme-grid .theme-card::after {
+  content: "CUBE FACE";
+  position: absolute;
+  right: 1rem;
+  bottom: 0.88rem;
+  color: rgba(230, 244, 224, 0.16);
+  font-size: 0.66rem;
+  font-weight: 950;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  pointer-events: none;
+  transition: color 4.5s ease;
+}
+
+.theme-grid .theme-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(var(--pulse-rgb), 0.32) !important;
+  box-shadow:
+    inset 0 0 38px rgba(var(--pulse-rgb), 0.04),
+    0 24px 75px rgba(var(--pulse-rgb), 0.075);
+}
+
+.theme-grid .theme-card:hover::before {
+  opacity: 0.22;
+}
+
+.theme-grid .theme-card:hover::after {
+  color: rgba(var(--pulse-rgb), 0.32);
+}
+
+/* Icon-Kachel passend zum aktiven Puls. */
+.theme-grid .theme-icon {
+  border-color: rgba(var(--pulse-rgb), 0.24) !important;
+  color: var(--pulse-main) !important;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(var(--pulse-next-rgb), 0.14), transparent 55%),
+    rgba(var(--pulse-rgb), 0.08) !important;
+  box-shadow:
+    0 0 18px rgba(var(--pulse-rgb), 0.12),
+    inset 0 0 16px rgba(var(--pulse-next-rgb), 0.055);
+  transition:
+    color 4.5s ease,
+    border-color 4.5s ease,
+    background 4.5s ease,
+    box-shadow 4.5s ease;
+}
+
+/* Rechte Ton-Zeile oben bleibt klein, bekommt aber den aktiven Farbkontext. */
+.theme-grid .theme-head span {
+  display: inline-block;
+  width: fit-content;
+  margin-left: auto;
+  background:
+    linear-gradient(
+      90deg,
+      var(--pulse-main) 0%,
+      var(--pulse-next-main) 100%
+    ) !important;
+  background-size: 100% 100% !important;
+  background-position: 0 50% !important;
+  background-repeat: no-repeat !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+  filter:
+    drop-shadow(0 0 7px rgba(var(--pulse-rgb), 0.12))
+    drop-shadow(0 0 10px rgba(var(--pulse-next-rgb), 0.055));
+  transition:
+    background 4.5s ease,
+    filter 4.5s ease;
+}
+
+/* Haupttitel der sechs Richtungen: gleicher Current/Next-Verlauf wie oben bei Services/CoreHub. */
+.theme-grid .theme-card h3 {
+  display: inline-block !important;
+  width: fit-content !important;
+  max-width: 100% !important;
+  background:
+    linear-gradient(
+      90deg,
+      var(--pulse-main) 0%,
+      var(--pulse-main) 30%,
+      var(--pulse-next-main) 74%,
+      var(--pulse-next-main) 100%
+    ) !important;
+  background-size: 100% 100% !important;
+  background-position: 0 50% !important;
+  background-repeat: no-repeat !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+  filter:
+    drop-shadow(0 0 8px rgba(var(--pulse-rgb), 0.14))
+    drop-shadow(0 0 13px rgba(var(--pulse-next-rgb), 0.075)) !important;
+  line-height: 1.14 !important;
+  padding-bottom: 0.08em !important;
+  overflow: visible !important;
+  transition:
+    background 4.5s ease,
+    filter 4.5s ease;
+}
+
+/* Label unter dem Titel ebenfalls aktivieren, aber etwas ruhiger. */
+.theme-grid .theme-card strong {
+  display: inline-block !important;
+  width: fit-content !important;
+  max-width: 100% !important;
+  background:
+    linear-gradient(
+      90deg,
+      var(--pulse-main) 0%,
+      var(--pulse-next-main) 100%
+    ) !important;
+  background-size: 100% 100% !important;
+  background-position: 0 50% !important;
+  background-repeat: no-repeat !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+  filter:
+    drop-shadow(0 0 7px rgba(var(--pulse-rgb), 0.14))
+    drop-shadow(0 0 10px rgba(var(--pulse-next-rgb), 0.055)) !important;
+  line-height: 1.18 !important;
+  padding-bottom: 0.04em !important;
+  transition:
+    background 4.5s ease,
+    filter 4.5s ease;
+}
+
+/* Text bleibt ruhig lesbar. */
+.theme-grid .theme-card p {
+  position: relative;
+  z-index: 2;
+}
+
+/* Inhalt über Grid-Overlay halten. */
+.theme-grid .theme-head,
+.theme-grid .theme-card h3,
+.theme-grid .theme-card strong,
+.theme-grid .theme-card p {
+  position: relative;
+  z-index: 2;
+}
+
+
+/* CES-BUILD-028: WebCube Gradient Sweep Refinement
+   Ziel:
+   - Nur Webseiten-Cube-Karten werden verfeinert.
+   - Titel und Label kleben nicht mehr zusammen.
+   - Kein doppelter Current/Next-Verlauf direkt nebeneinander.
+   - Verlauf wirkt länger, ruhiger und mehr wie ein Sweep von rechts nach links.
+   - Keine Größen-/Layoutänderung.
+*/
+
+/* Titel und Untertitel sauber trennen. */
+.theme-grid .theme-card h3 {
+  display: block !important;
+  width: fit-content !important;
+  max-width: 100% !important;
+  margin: 0.62rem 0 0.18rem !important;
+  line-height: 1.14 !important;
+  padding-bottom: 0.08em !important;
+  overflow: visible !important;
+
+  background:
+    linear-gradient(
+      105deg,
+      var(--pulse-main) 0%,
+      var(--pulse-main) 38%,
+      var(--pulse-next-main) 68%,
+      var(--pulse-next-main) 100%
+    ) !important;
+  background-size: 230% 100% !important;
+  background-position: 105% 50% !important;
+  background-repeat: no-repeat !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+
+  animation: webcube-title-sweep 12s ease-in-out infinite;
+  filter:
+    drop-shadow(0 0 8px rgba(var(--pulse-rgb), 0.14))
+    drop-shadow(0 0 13px rgba(var(--pulse-next-rgb), 0.075)) !important;
+  transition:
+    background 4.5s ease,
+    filter 4.5s ease;
+}
+
+/* Label nicht nochmal voll als zweiter Verlauf direkt hinter den Titel setzen.
+   Es bleibt farbig/lebendig, aber ruhiger und auf eigener Zeile. */
+.theme-grid .theme-card strong {
+  display: block !important;
+  width: fit-content !important;
+  max-width: 100% !important;
+  margin: 0 0 0.62rem !important;
+  line-height: 1.18 !important;
+  padding-bottom: 0.04em !important;
+  overflow: visible !important;
+
+  background:
+    linear-gradient(
+      100deg,
+      var(--pulse-main) 0%,
+      var(--pulse-main) 62%,
+      var(--pulse-next-main) 100%
+    ) !important;
+  background-size: 180% 100% !important;
+  background-position: 100% 50% !important;
+  background-repeat: no-repeat !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+
+  animation: webcube-label-sweep 14s ease-in-out infinite;
+  filter:
+    drop-shadow(0 0 7px rgba(var(--pulse-rgb), 0.13))
+    drop-shadow(0 0 10px rgba(var(--pulse-next-rgb), 0.045)) !important;
+  transition:
+    background 4.5s ease,
+    filter 4.5s ease;
+}
+
+/* Top-Label rechts bewusst ruhig halten, damit nicht drei Verläufe gegeneinander laufen. */
+.theme-grid .theme-head span {
+  background: none !important;
+  background-image: none !important;
+  -webkit-background-clip: initial !important;
+  background-clip: initial !important;
+  color: var(--pulse-main) !important;
+  -webkit-text-fill-color: var(--pulse-main) !important;
+  filter: drop-shadow(0 0 7px rgba(var(--pulse-rgb), 0.12)) !important;
+  transition:
+    color 4.5s ease,
+    -webkit-text-fill-color 4.5s ease,
+    filter 4.5s ease;
+}
+
+/* Der Bewegungseindruck: kommende Farbe läuft langsam in die aktuelle Schrift hinein. */
+@keyframes webcube-title-sweep {
+  0% {
+    background-position: 112% 50%;
+  }
+  48% {
+    background-position: 18% 50%;
+  }
+  100% {
+    background-position: -72% 50%;
+  }
+}
+
+@keyframes webcube-label-sweep {
+  0% {
+    background-position: 105% 50%;
+  }
+  50% {
+    background-position: 35% 50%;
+  }
+  100% {
+    background-position: -45% 50%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-grid .theme-card h3,
+  .theme-grid .theme-card strong {
+    animation: none !important;
+    background-position: 50% 50% !important;
+  }
+}
+
+
+/* CES-BUILD-029: WebCube Title Clip Fix
+   Fix:
+   - Bei WebCube-Kartentiteln wurden letzte Buchstaben abgeschnitten
+     z. B. Business Clean, Gaming Matrix, Shopflow, Booking / Rental.
+   - Ursache: Gradient/Text-Clip war zu knapp.
+   - Nur Webseiten-Cube-Karten betroffen.
+   - Keine Größen-/Layoutänderung.
+*/
+
+.theme-grid .theme-card h3 {
+  display: inline-block !important;
+  width: auto !important;
+  max-width: calc(100% - 0.2rem) !important;
+  min-width: 0 !important;
+  padding-right: 0.42em !important;
+  padding-left: 0.01em !important;
+  padding-bottom: 0.1em !important;
+  margin-right: -0.18em !important;
+  overflow: visible !important;
+  white-space: nowrap !important;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  contain: none !important;
+}
+
+/* Untertitel ebenfalls mit minimaler Sicherheitsluft, damit keine Endbuchstaben wegbrechen. */
+.theme-grid .theme-card strong {
+  display: inline-block !important;
+  width: auto !important;
+  max-width: calc(100% - 0.2rem) !important;
+  padding-right: 0.34em !important;
+  padding-left: 0.01em !important;
+  margin-right: -0.14em !important;
+  overflow: visible !important;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  contain: none !important;
+}
+
+/* Parent-Inhalte dürfen den Gradient-Text nicht abschneiden. */
+.theme-grid .theme-card,
+.theme-grid .theme-card *,
+.theme-grid .theme-head {
+  overflow: visible;
+}
+
+/* Aber die Karte selbst behält ihren sauberen Rahmen und versteckt nur große Dekoflächen nicht mehr aggressiv. */
+.theme-grid .theme-card {
+  overflow: hidden !important;
+}
+
+/* Text bleibt über Deko, mit sicherem Renderbereich. */
+.theme-grid .theme-card h3,
+.theme-grid .theme-card strong {
+  position: relative;
+  z-index: 3;
+}
+
+
+/* CES-BUILD-030: WebCube Gradient Sequence Fix
+   Fix:
+   - In den WebCube-Karten gab es optisch A -> B -> A -> B,
+     weil Titel und Untertitel jeweils eigene Current/Next-Verläufe hatten.
+   - Jetzt:
+     Titel = Current -> Next
+     Untertitel = kommende Akzentfarbe / Next-Bereich
+   - Dadurch wirkt die Zeile wie ein zusammenhängender Verlauf.
+   - Keine Größen-/Layoutänderung.
+   - Keine Änderung an MatrixRain, SmoothPulse, Hero, Services, CoreHub oder ServiceFlow.
+*/
+
+/* Haupttitel bleibt Current -> Next, aber nicht mehr als eigener laufender Sweep. */
+.theme-grid .theme-card h3 {
+  display: inline-block !important;
+  width: auto !important;
+  max-width: calc(100% - 0.25rem) !important;
+  margin: 0.62rem 0.34rem 0.18rem 0 !important;
+  padding-left: 0.01em !important;
+  padding-right: 0.42em !important;
+  padding-bottom: 0.1em !important;
+  line-height: 1.14 !important;
+  white-space: nowrap !important;
+  overflow: visible !important;
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--pulse-main) 0%,
+      var(--pulse-main) 42%,
+      var(--pulse-next-main) 100%
+    ) !important;
+  background-size: 100% 100% !important;
+  background-position: 0 50% !important;
+  background-repeat: no-repeat !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+
+  animation: none !important;
+  filter:
+    drop-shadow(0 0 8px rgba(var(--pulse-rgb), 0.13))
+    drop-shadow(0 0 12px rgba(var(--pulse-next-rgb), 0.075)) !important;
+  transition:
+    background 4.5s ease,
+    filter 4.5s ease;
+}
+
+/* Untertitel startet NICHT nochmal bei Current.
+   Er bleibt bewusst in der kommenden Akzentfarbe, damit kein A -> B -> A entsteht. */
+.theme-grid .theme-card strong {
+  display: inline-block !important;
+  width: auto !important;
+  max-width: calc(100% - 0.25rem) !important;
+  margin: 0 0 0.62rem 0 !important;
+  padding-left: 0.01em !important;
+  padding-right: 0.34em !important;
+  padding-bottom: 0.06em !important;
+  line-height: 1.18 !important;
+  white-space: nowrap !important;
+  overflow: visible !important;
+
+  background: none !important;
+  background-image: none !important;
+  -webkit-background-clip: initial !important;
+  background-clip: initial !important;
+  color: var(--pulse-next-main) !important;
+  -webkit-text-fill-color: var(--pulse-next-main) !important;
+
+  animation: none !important;
+  filter:
+    drop-shadow(0 0 7px rgba(var(--pulse-next-rgb), 0.18))
+    drop-shadow(0 0 11px rgba(var(--pulse-next-rgb), 0.08)) !important;
+  transition:
+    color 4.5s ease,
+    -webkit-text-fill-color 4.5s ease,
+    filter 4.5s ease;
+}
+
+/* Lange Kombinationen dürfen sauber umbrechen, falls ein Viewport kleiner wird.
+   Auf großen Screens bleiben sie in einer ruhigen Zeile. */
+@media (max-width: 1050px) {
+  .theme-grid .theme-card h3,
+  .theme-grid .theme-card strong {
+    white-space: normal !important;
+  }
+}
+
+/* Rechte Ton-Zeile oben bleibt smooth einfarbig, nicht als zweiter Verlauf. */
+.theme-grid .theme-head span {
+  background: none !important;
+  background-image: none !important;
+  -webkit-background-clip: initial !important;
+  background-clip: initial !important;
+  color: var(--pulse-main) !important;
+  -webkit-text-fill-color: var(--pulse-main) !important;
+  animation: none !important;
+  filter: drop-shadow(0 0 7px rgba(var(--pulse-rgb), 0.12)) !important;
+  transition:
+    color 4.5s ease,
+    -webkit-text-fill-color 4.5s ease,
+    filter 4.5s ease;
+}
