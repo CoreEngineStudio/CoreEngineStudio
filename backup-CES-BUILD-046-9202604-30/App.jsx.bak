@@ -1,19 +1,3 @@
-// =====================================================
-// CoreEngineStudio Landingpage
-// Datei: src/App.jsx
-//
-// Zweck dieser Datei:
-// - Inhalte und Datenlisten der Landingpage pflegen
-// - Seitenbereiche zusammensetzen
-// - aktive Farbstimmung / Pulse-Farbwechsel steuern
-// - Referenz-CaseViewer und Bildergalerie steuern
-//
-// Orientierung:
-// - Texte/Karten/Referenzen werden oben in Datenlisten gepflegt.
-// - Sichtbare Seitenbereiche stehen unten im return().
-// - Das Styling zu diesen Bereichen liegt in src/App.css.
-// =====================================================
-
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import {
@@ -52,23 +36,8 @@ import ShowcaseCube from "./components/showcase-cube/ShowcaseCube";
 import MatrixRain from "./components/matrix-rain/MatrixRain";
 import "./App.css";
 
-// =====================================================
-// BUILD-KENNUNG
-// Hier steht die sichtbare Versionskennung der aktuellen Website.
-// Diese Kennung erscheint unten im Footer und hilft beim Prüfen,
-// ob die richtige Version lokal/live geladen ist.
-// =====================================================
-const BUILD_ID = "CES-BUILD-046 · Source Structure Map";
+const BUILD_ID = "CES-BUILD-045 · Contact Card Grid Polish";
 
-// =====================================================
-// FARB-/PULSE-SYSTEM
-// Hier wird die automatische Akzentfarb-Reihenfolge gepflegt.
-// Die Farben laufen smooth durch die Seite:
-// green -> cyan -> purple -> red -> green
-//
-// Diese Werte treiben CSS-Variablen wie:
-// --pulse-main, --pulse-next-main, --pulse-rgb.
-// =====================================================
 const colorPhases = ["green", "cyan", "purple", "red"];
 
 const colorValues = {
@@ -99,22 +68,6 @@ function colorToRgb(value) {
 }
 
 
-// =====================================================
-// LEISTUNGEN / CORE ENGINE PANELS
-// Hier werden die Karten im Bereich "Leistungen" gepflegt.
-//
-// Ändern hier wirkt auf:
-// Bereich: "Leistungen"
-// Karten: Sichtbarer Auftritt, Smarte Engine,
-// Weniger Handarbeit, Look & Marke, Weiterentwicklung.
-//
-// Felder:
-// - icon: Icon-Komponente
-// - title: große Überschrift der Karte
-// - kicker: kleine Akzentzeile über der Überschrift
-// - text: Beschreibung
-// - points: Liste mit Hakenpunkten
-// =====================================================
 const services = [
   {
     icon: Globe2,
@@ -153,25 +106,6 @@ const services = [
   },
 ];
 
-// =====================================================
-// WEBCUBE / SECHS WEBSITE-RICHTUNGEN
-// Hier werden die sechs Karten im Bereich
-// "Webseiten-Cube · Version 1" gepflegt.
-//
-// Ändern hier wirkt auf:
-// - Business Clean
-// - Dark Premium
-// - Gaming Matrix
-// - Shopflow
-// - Booking / Rental
-// - Smart Systems
-//
-// Felder:
-// - title: große Kartenüberschrift
-// - label: kleine Zeile über der großen Überschrift
-// - text: Beschreibung der Richtung
-// - tone: rechte Ton-/Stilzeile oben in der Karte
-// =====================================================
 const cubeThemes = [
   {
     icon: Briefcase,
@@ -217,16 +151,6 @@ const cubeThemes = [
   },
 ];
 
-// =====================================================
-// HERO-/SHOWCASE-KNOTEN
-// Diese Daten beschreiben die inhaltlichen Core-Themen,
-// die um den Hero-/Showcase-Gedanken liegen.
-// Je nach aktuellem Stand werden sie als visuelle
-// Begleitinformationen/Showcase-Knoten verwendet.
-//
-// Wenn spätere Hero-/CoreCube-Elemente erweitert werden,
-// ist das einer der ersten Datenbereiche zum Prüfen.
-// =====================================================
 const orbitNodes = [
   {
     icon: Globe2,
@@ -272,17 +196,6 @@ const orbitNodes = [
   },
 ];
 
-// =====================================================
-// COREHUB / SHOWROOM ROUTING
-// Hier werden die Karten im Bereich "CoreHub Vision" gepflegt.
-//
-// Ändern hier wirkt auf:
-// Bereich: "Der Showroom wird zur Beratung"
-// Rechte CoreHub-Karten: Webseiten, Systeme, Portale,
-// Tools, Automation, Design.
-//
-// active: true markiert den aktuell aktiven/ersten Cube.
-// =====================================================
 const hubCubes = [
   {
     icon: Globe2,
@@ -323,28 +236,6 @@ const hubCubes = [
   },
 ];
 
-// =====================================================
-// REFERENZEN / CASECUBE / CASE VIEWER
-// Hier werden Portfolio-Referenzen gepflegt.
-//
-// Ändern hier wirkt auf:
-// - CaseCube-Flächen
-// - Referenz-Auswahlbuttons
-// - Detailkarte rechts
-// - Großansicht / Case Viewer
-//
-// Bilder liegen unter:
-// src/assets/references/
-//
-// Felder:
-// - title: Projektname
-// - short: Kurzlabel auf der Cube-Fläche
-// - type/status: Anzeige in Detailkarte und Großansicht
-// - image: Hauptbild
-// - gallery: Bilder für die Großansicht
-// - url: optionaler Live-Link
-// - meta: kleine Tag-Pills
-// =====================================================
 const referenceCases = [
   {
     title: "Hammer Modding",
@@ -390,18 +281,6 @@ const referenceCases = [
   },
 ];
 
-// =====================================================
-// ABLAUF / PROJEKT-STEPS
-// Hier werden die sechs Schritte im Bereich
-// "Vom ersten Gespräch bis zur fertigen Engine" gepflegt.
-//
-// Ändern hier wirkt auf die linken Ablaufkarten.
-//
-// Felder:
-// - tag: kleine Akzentzeile
-// - title: große Überschrift
-// - text: Beschreibung im Step
-// =====================================================
 const steps = [
   {
     title: "Kostenloser Erstkontakt",
@@ -435,18 +314,7 @@ const steps = [
   },
 ];
 
-// =====================================================
-// HAUPTKOMPONENTE
-// Hier werden State, Farblogik, CaseViewer-Steuerung
-// und alle sichtbaren Seitenbereiche zusammengesetzt.
-// =====================================================
 function App() {
-  // -----------------------------------------------------
-  // STATE / INTERAKTION
-  // toneIndex: aktive Website-Akzentfarbe
-  // activeCaseIndex: aktive Referenz im CaseCube
-  // previewCaseIndex/previewImageIndex: Großansicht + Galerie
-  // -----------------------------------------------------
   const [toneIndex, setToneIndex] = useState(0);
   const [activeCaseIndex, setActiveCaseIndex] = useState(0);
   const [previewCaseIndex, setPreviewCaseIndex] = useState(null);
@@ -457,11 +325,6 @@ function App() {
   const previewImages = previewReference?.gallery?.length ? previewReference.gallery : previewReference ? [previewReference.image] : [];
   const previewImage = previewImages[previewImageIndex] ?? previewReference?.image;
 
-  // -----------------------------------------------------
-  // CASE VIEWER FUNKTIONEN
-  // Diese Funktionen öffnen/schließen die Referenz-Großansicht
-  // und steuern die Bildergalerie per Pfeilnavigation.
-  // -----------------------------------------------------
   const openCasePreview = (index) => {
     setPreviewCaseIndex(index);
     setPreviewImageIndex(0);
@@ -488,20 +351,10 @@ function App() {
   const shellRef = useRef(null);
   const activeToneRef = useRef(activeTone);
 
-  // -----------------------------------------------------
-  // AKTIVE FARBE IM REF HALTEN
-  // Wird benötigt, damit der requestAnimationFrame-Loop immer
-  // mit der aktuellen Farbphase arbeitet.
-  // -----------------------------------------------------
   useEffect(() => {
     activeToneRef.current = activeTone;
   }, [activeTone]);
 
-  // -----------------------------------------------------
-  // AUTOMATISCHER FARBWECHSEL
-  // Alle 12 Sekunden wird zur nächsten Akzentfarbe gewechselt.
-  // Der eigentliche smooth Verlauf passiert im nächsten Effect.
-  // -----------------------------------------------------
   useEffect(() => {
     const timer = window.setInterval(() => {
       setToneIndex((current) => (current + 1) % colorPhases.length);
@@ -510,12 +363,6 @@ function App() {
     return () => window.clearInterval(timer);
   }, []);
 
-  // -----------------------------------------------------
-  // SMOOTH PULSE / CSS-VARIABLEN
-  // Hier werden aktuelle und kommende Akzentfarbe weich
-  // interpoliert und als CSS-Variablen auf .app-shell gesetzt.
-  // Diese Variablen steuern Header, Karten, Verläufe und Glows.
-  // -----------------------------------------------------
   useEffect(() => {
     const element = shellRef.current;
     if (!element) return undefined;
@@ -565,11 +412,6 @@ function App() {
 
   return (
     <main ref={shellRef} className="app-shell">
-      {/* =====================================================
-          GLOBALER HINTERGRUND
-          MatrixRain, Grid, Scanlines und Ambient-Glows.
-          Styling: App.css -> "GLOBAL / BACKGROUND"
-      ===================================================== */}
       <MatrixRain tone={activeTone} />
       <div className="engine-grid" />
       <div className="soft-scanlines" />
@@ -577,11 +419,6 @@ function App() {
       <div className="ambient ambient-red" />
       <div className="ambient ambient-cyan" />
 
-      {/* =====================================================
-          HEADER / NAVIGATION
-          Logo links, Navigation rechts.
-          Styling: App.css -> "HEADER / NAVIGATION"
-      ===================================================== */}
       <header className="site-header">
         <a className="brand" href="#start" aria-label="CoreEngineStudio Start">
           <img src={logoIcon} alt="" />
@@ -600,12 +437,6 @@ function App() {
         </nav>
       </header>
 
-      {/* =====================================================
-          START / HERO
-          Hauptheadline, CTA-Buttons, Modulstreifen und CoreCube.
-          Inhalte: direkt in diesem Abschnitt.
-          Styling: App.css -> "HERO / CORE CUBE"
-      ===================================================== */}
       <section id="start" className="hero-section full-bleed-section">
         <motion.div
           className="hero-copy premium-hero-copy"
@@ -615,7 +446,7 @@ function App() {
         >
           <div className="eyebrow">
             <Sparkles size={16} />
-            Source Map · Build 046
+            Contact Grid · Build 045
           </div>
 
           <div className="hero-brandline">
@@ -684,12 +515,6 @@ function App() {
         </motion.div>
       </section>
 
-      {/* =====================================================
-          LEISTUNGEN / CORE ENGINE
-          Linke Lead-Karte mit Service Engine Flow.
-          Rechte Karten kommen aus der Datenliste "services".
-          Styling: App.css -> "LEISTUNGEN / SERVICE CARDS"
-      ===================================================== */}
       <section id="leistungen" className="section-block services-section full-bleed-section">
         <div className="section-heading wide-heading services-heading">
           <span>Leistungen</span>
@@ -805,12 +630,6 @@ function App() {
         </div>
       </section>
 
-      {/* =====================================================
-          SHOWROOM / COREHUB
-          CoreHub-Erklärung, Routing-Visual und sechs Hub-Karten.
-          Karten kommen aus der Datenliste "hubCubes".
-          Styling: App.css -> "COREHUB / SHOWROOM"
-      ===================================================== */}
       <section id="showroom" className="showroom-section showroom-upgrade full-bleed-section">
         <div className="showroom-copy showroom-copy-upgrade">
           <span>CoreHub Vision</span>
@@ -885,13 +704,6 @@ function App() {
         </div>
       </section>
 
-      {/* =====================================================
-          WEBCUBE / SECHS RICHTUNGEN
-          Die sechs Website-Richtungen kommen aus "cubeThemes".
-          Kleine Zeile oben = theme.label.
-          Große Zeile darunter = theme.title.
-          Styling: App.css -> "WEBCUBE / THEME CARDS"
-      ===================================================== */}
       <section className="section-block full-bleed-section">
         <div className="section-heading wide-heading">
           <span>Webseiten-Cube · Version 1</span>
@@ -932,12 +744,6 @@ function App() {
         </div>
       </section>
 
-      {/* =====================================================
-          REFERENZEN / CASECUBE
-          Auswahlbuttons, drehender CaseCube und Detailkarte.
-          Inhalte/Bilder kommen aus "referenceCases".
-          Styling: App.css -> "REFERENZEN / CASECUBE"
-      ===================================================== */}
       <section id="referenzen" className="reference-section reference-case-section full-bleed-section">
         <div className="reference-copy">
           <span>Referenzen</span>
@@ -1014,12 +820,6 @@ function App() {
         </div>
       </section>
 
-      {/* =====================================================
-          CASE VIEWER / GROSSANSICHT
-          Overlay für Referenzbilder und Galerie-Pfeile.
-          Bilder kommen aus referenceCases.gallery.
-          Styling: App.css -> "CASE VIEWER / MODAL"
-      ===================================================== */}
       {previewReference && (
         <div className="case-preview-overlay" role="dialog" aria-modal="true" aria-label={`${previewReference.title} Großansicht`}>
           <button
@@ -1101,12 +901,6 @@ function App() {
         </div>
       )}
 
-      {/* =====================================================
-          ABLAUF / BUILDER VISUAL
-          Linke Step-Karten kommen aus "steps".
-          Rechtes Builder-Visual zeigt Idee -> Projekt -> Engine.
-          Styling: App.css -> "ABLAUF / BUILDER VISUAL"
-      ===================================================== */}
       <section id="ablauf" className="section-block compact flow-section final-flow-section full-bleed-section">
         <div className="section-heading wide-heading flow-heading">
           <span>Ablauf</span>
@@ -1226,11 +1020,6 @@ function App() {
         </div>
       </section>
 
-      {/* =====================================================
-          KONTAKT / PROJEKTANFRAGE
-          Abschluss-CTA, E-Mail-Link und Kontakt-Hinweise.
-          Styling: App.css -> "KONTAKT / PROJEKTANFRAGE"
-      ===================================================== */}
       <section id="kontakt" className="contact-section final-contact-section full-bleed-section">
         <div className="contact-copy">
           <span>Projekt anfragen</span>
@@ -1279,11 +1068,6 @@ function App() {
         </div>
       </section>
 
-      {/* =====================================================
-          FOOTER
-          Branding, Claim und sichtbare Build-Kennung.
-          Styling: App.css -> "FOOTER"
-      ===================================================== */}
       <footer className="site-footer final-site-footer full-bleed-section">
         <div>
           <span>CoreEngineStudio</span>

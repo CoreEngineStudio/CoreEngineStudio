@@ -1,26 +1,3 @@
-/* =====================================================
-   CoreEngineStudio Landingpage
-   Datei: src/App.css
-
-   Zweck dieser Datei:
-   - komplettes Styling der Landingpage
-   - Layout, Karten, Animationen, Farbverläufe und Responsive-Regeln
-
-   Arbeitsweise:
-   - Suche nach "SECTION:" für große Bereiche.
-   - Suche nach "EDIT:" für Hinweise, was dort typischerweise angepasst wird.
-   - Viele spätere BUILD-Blöcke überschreiben frühere Regeln bewusst.
-     Das ist normal bei diesem Projektstand und in CODEMAP.md erklärt.
-===================================================== */
-
-/* =====================================================
-   SECTION: GLOBAL / DESIGN-TOKENS / BACKGROUND
-   EDIT:
-   - Grundfarben
-   - Layoutbreite / Seitenabstände
-   - Matrix-/Grid-/Ambient-Hintergrund
-   - globale App-Shell
-===================================================== */
 #root {
   min-height: 100vh;
 }
@@ -55,13 +32,6 @@
 }
 
 .full-bleed-section,
-/* =====================================================
-   SECTION: HEADER / NAVIGATION
-   EDIT:
-   - Logo/Branding-Größe
-   - Sticky Header
-   - Navigation Pills
-===================================================== */
 .site-header {
   width: 100%;
   padding-left: clamp(1rem, 3.3vw, 4rem);
@@ -195,15 +165,6 @@
   background: rgba(118, 255, 22, 0.1);
 }
 
-/* =====================================================
-   SECTION: HERO / START / CORE CUBE
-   EDIT:
-   - Hero-Layout
-   - Headline-Größe
-   - CTA-Buttons
-   - Modulstreifen
-   - CoreCube-Bühne
-===================================================== */
 .hero-section {
   position: relative;
   z-index: 2;
@@ -1964,14 +1925,6 @@
   align-items: stretch;
 }
 
-/* =====================================================
-   SECTION: LEISTUNGEN / SERVICE CARDS / SERVICE ENGINE FLOW
-   EDIT:
-   - Lead-Karte links
-   - rechte Leistungs-Karten
-   - Service Engine Flow Visual
-   - kleine Kicker + große Titel
-===================================================== */
 .service-lead-card {
   position: relative;
   min-height: 100%;
@@ -3434,13 +3387,6 @@
    Wichtig: Keine Änderungen an den globalen Gradient-Regeln aus BUILD-023.
    Dieser Block betrifft nur den CoreHub-/Showroom-Bereich.
 */
-/* =====================================================
-   SECTION: COREHUB / SHOWROOM
-   EDIT:
-   - CoreHub Vision Text
-   - CoreHub Routing Panel
-   - Hub-Karten Webseiten/Systeme/Portale/Tools/Automation/Design
-===================================================== */
 .showroom-upgrade {
   align-items: stretch;
   gap: clamp(2rem, 4vw, 5rem);
@@ -4189,15 +4135,6 @@
 */
 
 /* Theme-Karten bekommen mehr Tiefe, ohne Grid/Größe zu ändern. */
-/* =====================================================
-   SECTION: WEBCUBE / THEME CARDS
-   EDIT:
-   - sechs Website-Richtungen
-   - Kartenhintergrund
-   - Icon-Kachel
-   - kleine Zeile oben: theme-title-label
-   - große Zeile darunter: theme-title-main
-===================================================== */
 .theme-grid .theme-card {
   position: relative;
   overflow: hidden;
@@ -4678,14 +4615,6 @@
    - Hero, WebCube, ServiceFlow, MatrixRain und globale Gradient-Logik bleiben unangetastet.
    - Nur Referenzen-Bereich wird erweitert.
 */
-/* =====================================================
-   SECTION: REFERENZEN / CASECUBE
-   EDIT:
-   - Referenzbereich
-   - Auswahlbuttons
-   - drehender CaseCube
-   - Detailkarte rechts
-===================================================== */
 .reference-case-section {
   align-items: center;
   gap: clamp(1.8rem, 3vw, 3.2rem);
@@ -5076,14 +5005,6 @@
     background 4.5s ease;
 }
 
-/* =====================================================
-   SECTION: CASE VIEWER / MODAL / BILDERGALERIE
-   EDIT:
-   - Großansicht Overlay
-   - Pfeilnavigation
-   - Bildzähler
-   - Referenzbild-Darstellung
-===================================================== */
 .case-preview-overlay {
   position: fixed;
   inset: 0;
@@ -5680,13 +5601,6 @@
 */
 
 /* Ablaufbereich */
-/* =====================================================
-   SECTION: ABLAUF / STEP CARDS / BUILDER VISUAL
-   EDIT:
-   - Ablaufkarten links
-   - Step-Tags und Step-Titel
-   - Builder-Visual rechts: Idee/Ziel/Design/Daten -> Projekt -> Engine
-===================================================== */
 .final-flow-section {
   position: relative;
   padding-top: clamp(3rem, 4.8vw, 5.8rem) !important;
@@ -6007,14 +5921,6 @@
 }
 
 /* Kontaktabschluss */
-/* =====================================================
-   SECTION: KONTAKT / PROJEKTANFRAGE
-   EDIT:
-   - Kontakt-CTA
-   - E-Mail-Karte
-   - 2x2 Hinweisraster
-   - Projektanfrage-Abschluss
-===================================================== */
 .final-contact-section {
   position: relative;
   align-items: stretch !important;
@@ -6164,13 +6070,6 @@
 }
 
 /* Footer */
-/* =====================================================
-   SECTION: FOOTER
-   EDIT:
-   - Footer-Branding
-   - Claim
-   - sichtbare Build-Kennung
-===================================================== */
 .final-site-footer {
   align-items: flex-start !important;
   border-top-color: rgba(var(--pulse-rgb), 0.12) !important;
@@ -8050,57 +7949,3 @@
     grid-template-columns: 1fr !important;
   }
 }
-
-
-/* =====================================================
-   SECTION: QUICK SEARCH MAP / AKTUELL WICHTIGE KLASSEN
-   Diese Liste ist nur Orientierung für spätere Bearbeitung.
-
-   HERO:
-   - .hero-section
-   - .premium-hero-copy
-   - .hero-engine-stage
-   - .hero-showcase-cube
-
-   LEISTUNGEN:
-   - .service-lead-card
-   - .premium-service-card
-   - .service-engine-visual
-   - .refined-flow-core
-   - .flow-node
-
-   COREHUB:
-   - .showroom-upgrade
-   - .corehub-panel
-   - .hub-preview-upgrade
-   - .hub-card
-
-   WEBCUBE:
-   - .theme-grid
-   - .theme-card
-   - .theme-title-stack
-   - .theme-title-label
-   - .theme-title-main
-
-   REFERENZEN:
-   - .reference-case-section
-   - .reference-case-cube
-   - .reference-detail-card
-   - .case-preview-overlay
-   - .case-preview-modal
-   - .case-preview-arrow
-
-   ABLAUF:
-   - .final-flow-section
-   - .final-step-card
-   - .chaos-builder-visual
-   - .builder-chip
-   - .merge-project-chip
-   - .chaos-output
-
-   KONTAKT:
-   - .final-contact-section
-   - .contact-card
-   - .contact-mail-link
-   - .contact-card-grid-polished
-===================================================== */
