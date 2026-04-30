@@ -12,8 +12,6 @@ import {
   Globe2,
   Layers,
   Mail,
-  ExternalLink,
-  MonitorSmartphone,
   Palette,
   Settings,
   ShoppingBag,
@@ -25,18 +23,11 @@ import {
   Rocket,
 } from "lucide-react";
 import logoIcon from "./assets/ces-logo-icon.png";
-import refHammer from "./assets/references/reference-hammer.webp";
-import refAll4You from "./assets/references/reference-all4you.webp";
-import refCopLink from "./assets/references/reference-coplink.webp";
-import refInselleben from "./assets/references/reference-inselleben.webp";
-import refInselleben2 from "./assets/references/reference-inselleben-2.webp";
-import refInselleben3 from "./assets/references/reference-inselleben-3.webp";
-import refInselleben4 from "./assets/references/reference-inselleben-4.webp";
 import ShowcaseCube from "./components/showcase-cube/ShowcaseCube";
 import MatrixRain from "./components/matrix-rain/MatrixRain";
 import "./App.css";
 
-const BUILD_ID = "CES-BUILD-036 · Case Gallery Arrows Only";
+const BUILD_ID = "CES-BUILD-030 · WebCube Gradient Sequence Fix";
 
 const colorPhases = ["green", "cyan", "purple", "red"];
 
@@ -236,51 +227,6 @@ const hubCubes = [
   },
 ];
 
-const referenceCases = [
-  {
-    title: "Hammer Modding",
-    short: "HM",
-    type: "Storefront / Modding-Shop",
-    status: "Live",
-    image: refHammer,
-    gallery: [refHammer],
-    url: "https://hammer-modding.de/",
-    text: "Dark Storefront mit Produktkatalog, Warenkorb-Logik, Admin-/Discord-Konzept und starker Gaming-Markenwirkung.",
-    meta: ["Shop / Katalog", "Dark UI", "Discord / Tebex-Konzept"],
-  },
-  {
-    title: "All4You Service München",
-    short: "A4Y",
-    type: "Service-Website / Anfrage-System",
-    status: "Live",
-    image: refAll4You,
-    gallery: [refAll4You],
-    url: "https://all4you-muenchen.de/",
-    text: "Helle Dienstleister-Website mit Leistungsstruktur, Anfrage-Wizards, YouBot-Konzept und Portal-/Statuslogik.",
-    meta: ["Anfrageflows", "Service-Seiten", "Portal-Konzept"],
-  },
-  {
-    title: "Hammer Modding CopLink",
-    short: "CL",
-    type: "UnityLink / internes System",
-    status: "Demo Preview",
-    image: refCopLink,
-    gallery: [refCopLink],
-    text: "Desktop-artiges RP-System mit Modulen, Akten, Registern, Strafanzeigen und dunkler Behörden-/Terminal-Oberfläche.",
-    meta: ["Dashboard", "Module", "RP-System"],
-  },
-  {
-    title: "Inselleben RP",
-    short: "IRP",
-    type: "Community-/Server-Website",
-    status: "Beta Preview",
-    image: refInselleben,
-    gallery: [refInselleben, refInselleben2, refInselleben3, refInselleben4],
-    text: "Atmosphärische Community-Website mit Serverstatus, Discord-Fokus, Storytelling und tropischem Glassmorphism-Look.",
-    meta: ["Community", "Serverstatus", "Branding"],
-  },
-];
-
 const steps = [
   "Kostenloser Erstkontakt",
   "Ziel und Richtung klären",
@@ -292,38 +238,7 @@ const steps = [
 
 function App() {
   const [toneIndex, setToneIndex] = useState(0);
-  const [activeCaseIndex, setActiveCaseIndex] = useState(0);
-  const [previewCaseIndex, setPreviewCaseIndex] = useState(null);
-  const [previewImageIndex, setPreviewImageIndex] = useState(0);
   const activeTone = colorPhases[toneIndex];
-  const activeReference = referenceCases[activeCaseIndex];
-  const previewReference = previewCaseIndex !== null ? referenceCases[previewCaseIndex] : null;
-  const previewImages = previewReference?.gallery?.length ? previewReference.gallery : previewReference ? [previewReference.image] : [];
-  const previewImage = previewImages[previewImageIndex] ?? previewReference?.image;
-
-  const openCasePreview = (index) => {
-    setPreviewCaseIndex(index);
-    setPreviewImageIndex(0);
-  };
-
-  const closeCasePreview = () => {
-    setPreviewCaseIndex(null);
-    setPreviewImageIndex(0);
-  };
-
-  const showPreviousPreviewImage = () => {
-    if (!previewImages.length) return;
-    setPreviewImageIndex((current) =>
-      current === 0 ? previewImages.length - 1 : current - 1
-    );
-  };
-
-  const showNextPreviewImage = () => {
-    if (!previewImages.length) return;
-    setPreviewImageIndex((current) =>
-      current === previewImages.length - 1 ? 0 : current + 1
-    );
-  };
   const shellRef = useRef(null);
   const activeToneRef = useRef(activeTone);
 
@@ -422,7 +337,7 @@ function App() {
         >
           <div className="eyebrow">
             <Sparkles size={16} />
-            Gallery Arrows Only · Build 036
+            WebCube Sequence · Build 030
           </div>
 
           <div className="hero-brandline">
@@ -718,162 +633,29 @@ function App() {
         </div>
       </section>
 
-      <section id="referenzen" className="reference-section reference-case-section full-bleed-section">
-        <div className="reference-copy">
+      <section id="referenzen" className="reference-section full-bleed-section">
+        <div>
           <span>Referenzen</span>
-          <h2>CaseCube: echte Projektbasis statt leere Versprechen.</h2>
-          <p>
-            Der Referenzbereich zeigt nicht nur Namen, sondern echte Oberflächen:
-            Websites, Systeme und Projektstände, die als sichtbare Case-Flächen
-            im Portfolio-Cube funktionieren.
-          </p>
-
-          <div className="reference-case-tabs" aria-label="Referenz auswählen">
-            {referenceCases.map((item, index) => (
-              <button
-                type="button"
-                className={index === activeCaseIndex ? "active" : ""}
-                key={item.title}
-                onClick={() => setActiveCaseIndex(index)}
-              >
-                <span>{String(index + 1).padStart(2, "0")}</span>
-                <strong>{item.title}</strong>
-              </button>
-            ))}
-          </div>
+          <h2>Erste echte Projektbasis ist vorhanden.</h2>
         </div>
 
-        <div className="reference-showcase-panel">
-          <div className="reference-cube-stage" aria-label="Animierter Referenz CaseCube">
-            <div
-              className="reference-case-cube"
-              style={{ "--case-rotation": `rotateY(${-activeCaseIndex * 90}deg)` }}
-            >
-              {referenceCases.map((item, index) => (
-                <figure className={`case-face case-face-${index}`} key={item.title}>
-                  <img src={item.image} alt={`${item.title} Vorschau`} />
-                  <figcaption>
-                    <span>{item.short}</span>
-                    <strong>{item.title}</strong>
-                  </figcaption>
-                </figure>
-              ))}
-            </div>
-          </div>
-
-          <article className="reference-detail-card">
-            <div className="reference-detail-kicker">
-              <MonitorSmartphone size={17} />
-              <span>{activeReference.type}</span>
-            </div>
-            <h3>{activeReference.title}</h3>
-            <p>{activeReference.text}</p>
-
-            <div className="reference-meta-row">
-              {activeReference.meta.map((item) => (
-                <span key={item}>{item}</span>
-              ))}
-            </div>
-
-            <div className="reference-actions">
-              <button type="button" onClick={() => openCasePreview(activeCaseIndex)}>
-                Großansicht öffnen
-              </button>
-              {activeReference.url ? (
-                <a href={activeReference.url} target="_blank" rel="noreferrer">
-                  Live öffnen
-                  <ExternalLink size={16} />
-                </a>
-              ) : (
-                <button type="button" onClick={() => openCasePreview(activeCaseIndex)}>
-                  Preview ansehen
-                </button>
-              )}
-            </div>
+        <div className="reference-grid">
+          <article>
+            <h3>All4You Service München</h3>
+            <p>
+              Dienstleister-Website mit Anfrage-Wizards, Supabase-Anfragen,
+              Ticketnummern, Statuslogik und Portal-/Dashboard-Konzept.
+            </p>
+          </article>
+          <article>
+            <h3>Hammer Modding</h3>
+            <p>
+              Produktseiten, Shop-/Katalogstruktur, Admin-Ideen,
+              Discord-/Tebex-Konzept und modernes Dark-Design.
+            </p>
           </article>
         </div>
       </section>
-
-      {previewReference && (
-        <div className="case-preview-overlay" role="dialog" aria-modal="true" aria-label={`${previewReference.title} Großansicht`}>
-          <button
-            className="case-preview-backdrop"
-            type="button"
-            aria-label="Vorschau schließen"
-            onClick={closeCasePreview}
-          />
-          <article className="case-preview-modal">
-            <div className="case-preview-head">
-              <div>
-                <span>{previewReference.status}</span>
-                <h3>{previewReference.title}</h3>
-                <p>{previewReference.type}</p>
-              </div>
-              <button
-                className="case-preview-close"
-                type="button"
-                aria-label="Vorschau schließen"
-                onClick={closeCasePreview}
-              >
-                ×
-              </button>
-            </div>
-
-            <div className="case-preview-image-wrap">
-              <img src={previewImage} alt={`${previewReference.title} große Vorschau`} />
-
-              {previewImages.length > 1 && (
-                <>
-                  <button
-                    className="case-preview-arrow case-preview-arrow-left"
-                    type="button"
-                    aria-label="Vorheriges Bild anzeigen"
-                    onClick={showPreviousPreviewImage}
-                  >
-                    ‹
-                  </button>
-                  <button
-                    className="case-preview-arrow case-preview-arrow-right"
-                    type="button"
-                    aria-label="Nächstes Bild anzeigen"
-                    onClick={showNextPreviewImage}
-                  >
-                    ›
-                  </button>
-
-                  <div className="case-preview-counter">
-                    {String(previewImageIndex + 1).padStart(2, "0")} / {String(previewImages.length).padStart(2, "0")}
-                  </div>
-
-                  
-
-                </>
-              )}
-            </div>
-
-            <div className="case-preview-footer">
-              <p>{previewReference.text}</p>
-              <div className="reference-meta-row">
-                {previewReference.meta.map((item) => (
-                  <span key={item}>{item}</span>
-                ))}
-              </div>
-              <div className="reference-actions">
-                {previewReference.url ? (
-                  <a href={previewReference.url} target="_blank" rel="noreferrer">
-                    Live öffnen
-                    <ExternalLink size={16} />
-                  </a>
-                ) : (
-                  <button type="button" disabled>
-                    Demo-Link folgt später
-                  </button>
-                )}
-              </div>
-            </div>
-          </article>
-        </div>
-      )}
 
       <section id="ablauf" className="section-block compact full-bleed-section">
         <div className="section-heading wide-heading">

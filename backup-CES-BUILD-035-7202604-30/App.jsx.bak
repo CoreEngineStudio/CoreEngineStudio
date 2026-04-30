@@ -36,7 +36,7 @@ import ShowcaseCube from "./components/showcase-cube/ShowcaseCube";
 import MatrixRain from "./components/matrix-rain/MatrixRain";
 import "./App.css";
 
-const BUILD_ID = "CES-BUILD-036 · Case Gallery Arrows Only";
+const BUILD_ID = "CES-BUILD-034 · Case Gallery Controls";
 
 const colorPhases = ["green", "cyan", "purple", "red"];
 
@@ -422,7 +422,7 @@ function App() {
         >
           <div className="eyebrow">
             <Sparkles size={16} />
-            Gallery Arrows Only · Build 036
+            Gallery Controls · Build 034
           </div>
 
           <div className="hero-brandline">
@@ -845,8 +845,23 @@ function App() {
                     {String(previewImageIndex + 1).padStart(2, "0")} / {String(previewImages.length).padStart(2, "0")}
                   </div>
 
-                  
-
+                  <div className="case-preview-gallery case-preview-gallery-dock" aria-label={`${previewReference.title} weitere Ansichten`}>
+                    <span className="case-gallery-handle">Weitere Ansichten</span>
+                    <div className="case-gallery-track">
+                      {previewImages.map((image, index) => (
+                        <button
+                          type="button"
+                          className={index === previewImageIndex ? "active" : ""}
+                          key={image}
+                          onClick={() => setPreviewImageIndex(index)}
+                          aria-label={`Ansicht ${index + 1} anzeigen`}
+                        >
+                          <img src={image} alt="" />
+                          <span>{String(index + 1).padStart(2, "0")}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
                 </>
               )}
             </div>
