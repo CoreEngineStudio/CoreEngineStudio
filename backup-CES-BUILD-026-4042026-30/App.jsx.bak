@@ -27,7 +27,7 @@ import ShowcaseCube from "./components/showcase-cube/ShowcaseCube";
 import MatrixRain from "./components/matrix-rain/MatrixRain";
 import "./App.css";
 
-const BUILD_ID = "CES-BUILD-026 · CoreHub Card Gradient Match";
+const BUILD_ID = "CES-BUILD-025 · Compact Layout Polish";
 
 const colorPhases = ["green", "cyan", "purple", "red"];
 
@@ -337,7 +337,7 @@ function App() {
         >
           <div className="eyebrow">
             <Sparkles size={16} />
-            CoreHub Gradient · Build 026
+            Compact Polish · Build 025
           </div>
 
           <div className="hero-brandline">

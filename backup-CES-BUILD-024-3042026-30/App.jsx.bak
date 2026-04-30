@@ -27,7 +27,7 @@ import ShowcaseCube from "./components/showcase-cube/ShowcaseCube";
 import MatrixRain from "./components/matrix-rain/MatrixRain";
 import "./App.css";
 
-const BUILD_ID = "CES-BUILD-026 · CoreHub Card Gradient Match";
+const BUILD_ID = "CES-BUILD-023 · Gradient Descender Final Fix";
 
 const colorPhases = ["green", "cyan", "purple", "red"];
 
@@ -189,41 +189,29 @@ const orbitNodes = [
 
 const hubCubes = [
   {
-    icon: Globe2,
     title: "Webseiten",
-    text: "Firmenauftritt, Landingpages & Showcases",
-    detail: "Version 1 aktiv",
+    text: "Version 1 aktiv",
     active: true,
   },
   {
-    icon: Database,
     title: "Systeme",
-    text: "Dashboards, Daten & Verwaltungslogik",
-    detail: "späterer Cube",
+    text: "Dashboards & Daten",
   },
   {
-    icon: PanelTop,
     title: "Portale",
-    text: "Login, Rollen, Kunden- oder Teamzugang",
-    detail: "Portal-Flow",
+    text: "Login & Rollen",
   },
   {
-    icon: Code2,
     title: "Tools",
-    text: "Rechner, Generatoren & kleine Business-Helfer",
-    detail: "Tool-Cube",
+    text: "Rechner & Generatoren",
   },
   {
-    icon: Workflow,
     title: "Automation",
-    text: "Formulare, Statusmails & smarte Abläufe",
-    detail: "Flow-Engine",
+    text: "Flows & Mails",
   },
   {
-    icon: Palette,
     title: "Design",
-    text: "Branding, Assets & visuelle Systeme",
-    detail: "Look & Marke",
+    text: "Branding & Assets",
   },
 ];
 
@@ -337,7 +325,7 @@ function App() {
         >
           <div className="eyebrow">
             <Sparkles size={16} />
-            CoreHub Gradient · Build 026
+            Gradient Final · Build 023
           </div>
 
           <div className="hero-brandline">
@@ -521,77 +509,29 @@ function App() {
         </div>
       </section>
 
-      <section id="showroom" className="showroom-section showroom-upgrade full-bleed-section">
-        <div className="showroom-copy showroom-copy-upgrade">
+      <section id="showroom" className="showroom-section full-bleed-section">
+        <div className="showroom-copy">
           <span>CoreHub Vision</span>
           <h2>Der Showroom wird zur Beratung.</h2>
           <p>
-            Besucher sollen nicht nur lesen, was möglich ist. Sie sollen digitale
-            Richtungen erleben, vergleichen und Schritt für Schritt zur passenden
-            Lösung geführt werden.
+            Langfristig zeigt der CoreHub mehrere Cubes für Webseiten, Systeme,
+            Portale, Tools, Automatisierung und Design. Version 1 fokussiert
+            den Webseiten-Cube.
           </p>
-
-          <div className="showroom-proof-list" aria-label="Showroom Prinzipien">
-            <article>
-              <strong>Geführte Auswahl</strong>
-              <p>Der Besucher startet über Fragen statt über Fachbegriffe.</p>
-            </article>
-            <article>
-              <strong>Demo-Welten</strong>
-              <p>Jede Richtung zeigt Look, Aufbau und mögliche Funktionen.</p>
-            </article>
-            <article>
-              <strong>Individuell anpassbar</strong>
-              <p>Farben, Inhalte und Features werden später projektbezogen gebaut.</p>
-            </article>
-          </div>
-        </div>
-
-        <div className="corehub-panel" aria-label="CoreHub Vorschau">
-          <div className="corehub-panel-head">
-            <div>
-              <span>CoreHub Routing</span>
-              <strong>Was brauchst du?</strong>
-            </div>
-            <p>Version 1 startet mit dem Webseiten-Cube.</p>
-          </div>
-
-          <div className="corehub-map" aria-hidden="true">
-            <div className="corehub-core">
-              <span>CORE</span>
-              <strong>HUB</strong>
-            </div>
-            <i className="hub-line hub-line-one" />
-            <i className="hub-line hub-line-two" />
-            <i className="hub-line hub-line-three" />
-            <i className="hub-pulse hub-pulse-one" />
-            <i className="hub-pulse hub-pulse-two" />
-            <i className="hub-pulse hub-pulse-three" />
-          </div>
-
-          <div className="hub-preview hub-preview-upgrade">
-            {hubCubes.map((cube, index) => {
-              const Icon = cube.icon;
-              return (
-                <article className={`hub-card ${cube.active ? "active" : ""}`} key={cube.title}>
-                  <div className="hub-card-top">
-                    <div className="hub-card-icon">
-                      <Icon size={18} />
-                    </div>
-                    <span>{String(index + 1).padStart(2, "0")}</span>
-                  </div>
-                  <h3>{cube.title}</h3>
-                  <p>{cube.text}</p>
-                  <small>{cube.detail}</small>
-                </article>
-              );
-            })}
-          </div>
-
-          <p className="showroom-note showroom-note-upgrade">
+          <p className="showroom-note">
             Die Demo-Welten sind Showcases. Farben, Aufbau, Inhalte und
             Funktionen werden später individuell an jedes Projekt angepasst.
           </p>
+        </div>
+
+        <div className="hub-preview" aria-label="CoreHub Vorschau">
+          {hubCubes.map((cube, index) => (
+            <article className={`hub-card ${cube.active ? "active" : ""}`} key={cube.title}>
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <h3>{cube.title}</h3>
+              <p>{cube.text}</p>
+            </article>
+          ))}
         </div>
       </section>
 
