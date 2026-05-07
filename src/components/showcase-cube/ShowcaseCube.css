@@ -253,3 +253,318 @@
     animation: none;
   }
 }
+
+/* =====================================================
+   CES-BUILD-066 / CORECUBE ACCENT SYNC
+   Zweck:
+   - Hero-Cube und CoreHub-Launch-Cube nutzen dieselbe Akzentfarbe.
+   - feste grüne Linien/Glows werden über --pulse-* Variablen gesteuert.
+   - kein Layoutwechsel, keine neue Animation, nur Cube-Farb-/Glow-Sync.
+
+   Pflege:
+   - Hauptfarbe kommt aus App.css/App.jsx über --pulse-main und --pulse-rgb.
+   - nächste Akzentfarbe kommt über --pulse-next-main und --pulse-next-rgb.
+   - Cube-Linie unten: .showcase-cube-face::after
+   - Cube-Rahmen: .showcase-cube-face--...
+===================================================== */
+
+.showcase-cube-stage {
+  --cube-accent: var(--pulse-main, #76ff16);
+  --cube-accent-soft: var(--pulse-soft, #b8ff7a);
+  --cube-accent-next: var(--pulse-next-main, #41d9ff);
+  --cube-accent-rgb: var(--pulse-rgb, 118, 255, 22);
+  --cube-accent-next-rgb: var(--pulse-next-rgb, 65, 217, 255);
+
+  --edge: rgba(var(--cube-accent-rgb), 0.62);
+  --green: var(--cube-accent);
+  --red: var(--cube-accent);
+  --blue: var(--cube-accent-next);
+}
+
+.showcase-cube-glow {
+  background:
+    radial-gradient(circle, rgba(var(--cube-accent-rgb), 0.22), transparent 56%),
+    conic-gradient(
+      from 210deg,
+      rgba(var(--cube-accent-rgb), 0.22),
+      rgba(var(--cube-accent-next-rgb), 0.16),
+      rgba(var(--cube-accent-rgb), 0.08),
+      rgba(var(--cube-accent-rgb), 0.22)
+    ) !important;
+  transition: background 4.5s ease, filter 4.5s ease, opacity 4.5s ease;
+}
+
+.showcase-cube-shadow {
+  background:
+    radial-gradient(
+      ellipse,
+      rgba(0, 0, 0, 0.62),
+      rgba(var(--cube-accent-rgb), 0.16),
+      transparent 70%
+    ) !important;
+  transition: background 4.5s ease, filter 4.5s ease, opacity 4.5s ease;
+}
+
+.showcase-cube-face {
+  border-color: rgba(var(--cube-accent-rgb), 0.58) !important;
+  background:
+    linear-gradient(145deg, rgba(255,255,255,0.16), transparent 28%),
+    radial-gradient(circle at 45% 42%, rgba(var(--cube-accent-rgb), 0.2), transparent 34%),
+    linear-gradient(135deg, rgba(16, 20, 19, 0.96), rgba(6, 8, 9, 0.98)) !important;
+  box-shadow:
+    inset 0 0 38px rgba(var(--cube-accent-rgb), 0.13),
+    inset 0 0 0 1px rgba(255,255,255,0.08),
+    0 0 26px rgba(var(--cube-accent-rgb), 0.16) !important;
+  transition:
+    border-color 4.5s ease,
+    background 4.5s ease,
+    box-shadow 4.5s ease;
+}
+
+.showcase-cube-face::before {
+  border-color: rgba(var(--cube-accent-rgb), 0.16) !important;
+  background:
+    linear-gradient(90deg, rgba(var(--cube-accent-rgb), 0.055) 1px, transparent 1px) 0 0 / 30px 30px,
+    linear-gradient(0deg, rgba(var(--cube-accent-next-rgb), 0.045) 1px, transparent 1px) 0 0 / 30px 30px !important;
+  transition: border-color 4.5s ease, background 4.5s ease, opacity 4.5s ease;
+}
+
+.showcase-cube-face::after {
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      var(--cube-accent),
+      var(--cube-accent-next),
+      transparent
+    ) !important;
+  box-shadow:
+    0 0 18px rgba(var(--cube-accent-rgb), 0.72),
+    0 0 30px rgba(var(--cube-accent-next-rgb), 0.24) !important;
+  transition: background 4.5s ease, box-shadow 4.5s ease;
+}
+
+.showcase-cube-face--front {
+  border-color: rgba(var(--cube-accent-rgb), 0.72) !important;
+}
+
+.showcase-cube-face--right {
+  border-color: rgba(var(--cube-accent-next-rgb), 0.68) !important;
+}
+
+.showcase-cube-face--left {
+  border-color: rgba(var(--cube-accent-rgb), 0.58) !important;
+}
+
+.showcase-cube-face--top {
+  border-color: rgba(var(--cube-accent-next-rgb), 0.54) !important;
+}
+
+.showcase-cube-face--back {
+  border-color: rgba(var(--cube-accent-rgb), 0.5) !important;
+}
+
+.showcase-cube-face--bottom {
+  border-color: rgba(var(--cube-accent-next-rgb), 0.48) !important;
+}
+
+.face-screen {
+  border-color: rgba(var(--cube-accent-rgb), 0.14) !important;
+  box-shadow:
+    inset 0 0 30px rgba(0,0,0,0.45),
+    inset 0 0 24px rgba(var(--cube-accent-rgb), 0.045) !important;
+  transition: border-color 4.5s ease, box-shadow 4.5s ease, background 4.5s ease;
+}
+
+.face-topbar span:first-child {
+  background: rgba(var(--cube-accent-rgb), 0.48) !important;
+  box-shadow: 0 0 10px rgba(var(--cube-accent-rgb), 0.22) !important;
+}
+
+.face-topbar span:nth-child(2) {
+  background: rgba(var(--cube-accent-next-rgb), 0.52) !important;
+  box-shadow: 0 0 10px rgba(var(--cube-accent-next-rgb), 0.22) !important;
+}
+
+.face-topbar span:nth-child(3) {
+  background: rgba(var(--cube-accent-rgb), 0.82) !important;
+  box-shadow: 0 0 12px rgba(var(--cube-accent-rgb), 0.36) !important;
+}
+
+.face-orb {
+  background:
+    radial-gradient(
+      circle at 35% 30%,
+      #f3fff1,
+      var(--cube-accent-soft) 28%,
+      var(--cube-accent) 42%,
+      rgba(var(--cube-accent-rgb), 0.16) 72%
+    ) !important;
+  box-shadow:
+    0 0 24px rgba(var(--cube-accent-rgb), 0.74),
+    0 0 44px rgba(var(--cube-accent-next-rgb), 0.16) !important;
+  transition: background 4.5s ease, box-shadow 4.5s ease;
+}
+
+.face-hero h3 {
+  text-shadow:
+    0 0 18px rgba(var(--cube-accent-rgb), 0.34),
+    0 0 28px rgba(var(--cube-accent-next-rgb), 0.12) !important;
+  transition: text-shadow 4.5s ease;
+}
+
+.face-layout span {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255,255,255,0.12),
+      rgba(var(--cube-accent-rgb), 0.13),
+      rgba(var(--cube-accent-next-rgb), 0.08)
+    ) !important;
+  border-color: rgba(var(--cube-accent-rgb), 0.11) !important;
+  transition: background 4.5s ease, border-color 4.5s ease;
+}
+
+/* =====================================================
+   CES-BUILD-067 / CORECUBE PERFORMANCE TRIM
+   Zweck:
+   - Accent-Sync aus 066 bleibt optisch erhalten.
+   - ÃœbergÃ¤nge/Glow-Ketten werden im Performance-/Launch-Modus leichter.
+   - Keine neue Cube-Animation, kein Layoutwechsel.
+
+   Pflege:
+   - Normale Cube-Optik: weiter oben bzw. 066 Accent Sync.
+   - Runtime-Drosselung: diese Klasse greift nur, wenn App.jsx
+     .runtime-performance-guard oder .corehub-launch-runtime auf .app-shell setzt.
+===================================================== */
+
+.app-shell.runtime-performance-guard .showcase-cube-stage,
+.app-shell.corehub-launch-runtime .showcase-cube-stage {
+  --cube-performance-glow: 0.62;
+}
+
+.app-shell.runtime-performance-guard .showcase-cube-face,
+.app-shell.runtime-performance-guard .face-screen,
+.app-shell.runtime-performance-guard .face-orb,
+.app-shell.runtime-performance-guard .face-layout span,
+.app-shell.corehub-launch-runtime .showcase-cube-face,
+.app-shell.corehub-launch-runtime .face-screen,
+.app-shell.corehub-launch-runtime .face-orb,
+.app-shell.corehub-launch-runtime .face-layout span {
+  transition-duration: 1.2s !important;
+}
+
+.app-shell.runtime-performance-guard .face-orb,
+.app-shell.corehub-launch-runtime .face-orb {
+  box-shadow:
+    0 0 16px rgba(var(--pulse-rgb), 0.48),
+    0 0 28px rgba(var(--pulse-next-rgb), 0.10) !important;
+}
+
+.app-shell.runtime-performance-guard .face-hero h3,
+.app-shell.corehub-launch-runtime .face-hero h3 {
+  text-shadow:
+    0 0 12px rgba(var(--pulse-rgb), 0.24),
+    0 0 18px rgba(var(--pulse-next-rgb), 0.08) !important;
+}
+
+/* =====================================================
+   CES-BUILD-068 / CORECUBE DEMO FACE PREVIEW
+   Zweck:
+   - einzelne Cube-Flächen können optimierte lokale Screenshots zeigen.
+   - kein iframe, keine externe Website im Cube.
+   - genutzt vom CoreHub-Launch für Demo-/Case-Ziele wie All4You.
+===================================================== */
+
+.showcase-cube-face.has-preview-image {
+  background:
+    linear-gradient(145deg, rgba(255,255,255,0.12), transparent 28%),
+    radial-gradient(circle at 45% 42%, rgba(var(--cube-accent-rgb), 0.16), transparent 34%),
+    linear-gradient(135deg, rgba(8, 12, 11, 0.96), rgba(4, 6, 7, 0.98)) !important;
+}
+
+.face-preview-screen {
+  position: relative;
+  z-index: 2;
+  width: 84%;
+  height: 76%;
+  border: 1px solid rgba(var(--cube-accent-rgb), 0.22);
+  border-radius: 18px;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.52);
+  box-shadow:
+    inset 0 0 28px rgba(0, 0, 0, 0.48),
+    0 0 24px rgba(var(--cube-accent-rgb), 0.14);
+  transform: translateZ(1px);
+}
+
+.face-preview-screen img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: saturate(1.02) contrast(1.04) brightness(0.72);
+  transform: scale(1.02);
+}
+
+.face-preview-overlay {
+  position: absolute;
+  inset: auto 0 0;
+  display: grid;
+  gap: 0.18rem;
+  padding: 0.72rem;
+  background:
+    linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.84) 42%, rgba(0, 0, 0, 0.94)),
+    linear-gradient(90deg, rgba(var(--cube-accent-rgb), 0.18), rgba(var(--cube-accent-next-rgb), 0.1));
+}
+
+.face-preview-overlay p,
+.face-preview-overlay h3,
+.face-preview-overlay small {
+  margin: 0;
+}
+
+.face-preview-overlay p {
+  color: var(--cube-accent);
+  font-size: 0.62rem;
+  font-weight: 950;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-shadow: 0 0 10px rgba(var(--cube-accent-rgb), 0.36);
+}
+
+.face-preview-overlay h3 {
+  color: rgba(245, 255, 248, 0.94);
+  font-size: clamp(0.92rem, calc(var(--cube-size) / 15), 1.42rem);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  text-shadow:
+    0 0 16px rgba(var(--cube-accent-rgb), 0.28),
+    0 0 24px rgba(var(--cube-accent-next-rgb), 0.1);
+}
+
+.face-preview-overlay small {
+  color: rgba(224, 255, 232, 0.72);
+  font-size: 0.58rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+@media (hover: none) and (pointer: coarse), (max-width: 900px) {
+  .face-preview-screen {
+    width: 82%;
+    height: 72%;
+  }
+
+  .face-preview-overlay {
+    padding: 0.58rem;
+  }
+}
+
+/* =====================================================
+   CES-BUILD-079 / SHARED PREVIEW POLISH NOTE
+   Die konkrete All4You-Helligkeit/Lesbarkeit wird bewusst in App.css
+   im Block "CORECUBE DEMO SYNC POLISH" überschrieben, damit der
+   ShowcaseCube als wiederverwendbare Grundkomponente neutral bleibt.
+===================================================== */

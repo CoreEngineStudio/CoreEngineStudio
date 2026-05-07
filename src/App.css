@@ -730,6 +730,7 @@
   border-top: 1px solid rgba(118, 255, 22, 0.08);
 }
 
+
 @media (max-width: 1180px) {
   .hero-section,
   .showroom-section,
@@ -3715,11 +3716,26 @@
   background:
     radial-gradient(circle at 0% 0%, rgba(var(--pulse-rgb), 0.12), transparent 7.5rem),
     rgba(255, 255, 255, 0.026);
+  width: 100%;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  appearance: none;
   transition:
     transform 180ms ease,
     border-color 4.5s ease,
     background 4.5s ease,
     box-shadow 4.5s ease;
+}
+
+.hub-preview-upgrade .hub-card:focus-visible {
+  outline: 2px solid rgba(var(--pulse-rgb), 0.62);
+  outline-offset: 3px;
+}
+
+.hub-preview-upgrade .hub-card.is-planned {
+  cursor: pointer;
 }
 
 .hub-preview-upgrade .hub-card:hover {
@@ -3736,7 +3752,7 @@
 }
 
 .hub-preview-upgrade .hub-card.active::after {
-  content: "aktiv";
+  content: attr(data-badge);
   position: absolute;
   right: 0.8rem;
   bottom: 0.72rem;
@@ -8104,3 +8120,6134 @@
    - .contact-mail-link
    - .contact-card-grid-polished
 ===================================================== */
+
+
+/* =====================================================
+   SECTION: CES-BUILD-049 / MOBILE RENDER STABILITY
+   Ziel:
+   - Handy-Flackern in Service Engine Flow und CoreHub Routing reduzieren
+   - schwere GPU-/Blur-/Glow-Layer mobil entschärfen
+   - Desktop-Look unverändert lassen
+===================================================== */
+@media (max-width: 820px) {
+  .service-lead-card,
+  .service-engine-visual,
+  .corehub-panel,
+  .corehub-map,
+  .hub-preview-upgrade,
+  .premium-service-card,
+  .hub-card {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+  }
+
+  .service-lead-card,
+  .corehub-panel {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background:
+      radial-gradient(circle at 50% 0%, rgba(var(--pulse-rgb), 0.11), transparent 17rem),
+      linear-gradient(145deg, rgba(255, 255, 255, 0.04), transparent 58%),
+      rgba(7, 15, 8, 0.82) !important;
+    box-shadow: 0 18px 54px rgba(0, 0, 0, 0.28) !important;
+    transition:
+      border-color 4.5s ease,
+      background-color 4.5s ease !important;
+  }
+
+  .service-lead-card::after {
+    opacity: 0.34 !important;
+    filter: blur(18px) !important;
+  }
+
+  .service-engine-visual,
+  .corehub-map {
+    background:
+      radial-gradient(circle at 50% 50%, rgba(var(--pulse-rgb), 0.09), transparent 11rem),
+      rgba(0, 0, 0, 0.18) !important;
+    box-shadow: inset 0 0 24px rgba(var(--pulse-rgb), 0.035) !important;
+    transition:
+      border-color 4.5s ease,
+      background-color 4.5s ease !important;
+  }
+
+  .flow-grid-bg,
+  .corehub-panel::before {
+    opacity: 0.14 !important;
+    background-size: 46px 46px !important;
+    transition: opacity 0.2s ease !important;
+  }
+
+  .flow-core,
+  .flow-core::before,
+  .flow-core::after,
+  .refined-flow-core,
+  .corehub-core,
+  .data-pulse,
+  .hub-pulse {
+    animation: none !important;
+  }
+
+  .flow-core::before,
+  .flow-core::after {
+    opacity: 0.36 !important;
+  }
+
+  .flow-node,
+  .hub-card,
+  .premium-service-card {
+    box-shadow: 0 12px 34px rgba(0, 0, 0, 0.22) !important;
+    transition:
+      border-color 4.5s ease,
+      background-color 4.5s ease,
+      box-shadow 0.25s ease !important;
+  }
+
+  .flow-node::after,
+  .hub-pulse {
+    box-shadow: 0 0 10px rgba(var(--pulse-rgb), 0.34) !important;
+  }
+
+  .hub-line {
+    opacity: 0.46 !important;
+    box-shadow: none !important;
+  }
+
+  .corehub-core {
+    box-shadow:
+      0 0 20px rgba(var(--pulse-rgb), 0.16),
+      inset -8px -10px 16px rgba(0, 0, 0, 0.28) !important;
+  }
+}
+
+@media (max-width: 620px) {
+  .service-engine-visual {
+    min-height: 25rem !important;
+  }
+
+  .corehub-panel {
+    min-height: auto !important;
+  }
+
+  .corehub-map {
+    min-height: 10rem !important;
+  }
+
+  .hub-preview-upgrade {
+    gap: 0.62rem !important;
+  }
+}
+
+/* =====================================================
+   SECTION: CES-BUILD-050 / MOBILE LITE PERFORMANCE
+   Ziel:
+   - Desktop-Premium-Look unverändert lassen
+   - Touch-/Handy-/Tablet-Geräte deutlich leichter rendern
+   - weniger GPU-Layer, weniger Repaints beim Scrollen, weniger Flackern
+
+   Wichtig:
+   Dieser Block greift nur auf Touch-Geräten oder kleinen Viewports.
+   Desktop ab normaler Breite bleibt optisch unverändert.
+===================================================== */
+@media (hover: none) and (pointer: coarse), (max-width: 900px) {
+  .app-shell {
+    overflow-x: clip;
+  }
+
+  .engine-grid {
+    opacity: 0.08 !important;
+    background-size: 78px 78px !important;
+    mask-image: none !important;
+    -webkit-mask-image: none !important;
+  }
+
+  .soft-scanlines {
+    opacity: 0.045 !important;
+  }
+
+  .ambient {
+    opacity: 0.2 !important;
+    filter: blur(24px) !important;
+    -webkit-filter: blur(24px) !important;
+    animation: none !important;
+    transform: none !important;
+  }
+
+  .site-header {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(2, 4, 2, 0.94) !important;
+  }
+
+  .service-lead-card,
+  .premium-service-card,
+  .showroom-proof-list article,
+  .corehub-panel,
+  .hub-card,
+  .theme-card,
+  .reference-detail-card,
+  .final-step-card,
+  .chaos-builder-visual,
+  .contact-card,
+  .case-preview-shell,
+  .case-preview-counter,
+  .case-preview-arrow,
+  .hero-module-strip article,
+  .service-lead-flow span,
+  .flow-node,
+  .hub-card-icon,
+  .builder-chip,
+  .merge-project-chip,
+  .chaos-output,
+  .contact-card-grid-polished span {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  .service-lead-card,
+  .corehub-panel,
+  .premium-service-card,
+  .hub-card,
+  .theme-card,
+  .reference-detail-card,
+  .final-step-card,
+  .chaos-builder-visual,
+  .contact-card {
+    box-shadow: 0 14px 38px rgba(0, 0, 0, 0.24) !important;
+  }
+
+  .service-engine-visual,
+  .corehub-map,
+  .chaos-builder-visual,
+  .hero-engine-stage,
+  .hero-showcase-cube {
+    contain: layout paint;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+  }
+
+  .service-lead-card::before,
+  .service-lead-card::after,
+  .premium-service-card::before,
+  .premium-service-card::after,
+  .corehub-panel::before,
+  .corehub-panel::after,
+  .hub-card::before,
+  .hub-card::after,
+  .theme-card::before,
+  .theme-card::after,
+  .final-step-card::before,
+  .final-step-card::after,
+  .contact-card::before,
+  .contact-card::after,
+  .flow-core::before,
+  .flow-core::after,
+  .corehub-core::before,
+  .corehub-core::after {
+    animation: none !important;
+    filter: none !important;
+    -webkit-filter: none !important;
+    opacity: 0.18 !important;
+  }
+
+  .hero-orbit,
+  .flow-path,
+  .data-pulse,
+  .hub-line,
+  .hub-pulse,
+  .builder-sort-beam,
+  .builder-sort-beam::before,
+  .builder-sort-beam span,
+  .builder-scan,
+  .builder-scanline,
+  .merge-line,
+  .merge-top,
+  .merge-mid,
+  .merge-bottom,
+  .merge-out {
+    animation: none !important;
+  }
+
+  .data-pulse,
+  .hub-pulse {
+    display: none !important;
+  }
+
+  .flow-path,
+  .hub-line,
+  .merge-line,
+  .merge-top,
+  .merge-mid,
+  .merge-bottom,
+  .merge-out {
+    opacity: 0.18 !important;
+    box-shadow: none !important;
+  }
+
+  .flow-core,
+  .refined-flow-core,
+  .corehub-core {
+    animation: none !important;
+    box-shadow:
+      0 0 18px rgba(var(--pulse-rgb), 0.14),
+      inset -8px -10px 16px rgba(0, 0, 0, 0.28) !important;
+  }
+
+  .service-engine-visual,
+  .corehub-map {
+    background:
+      radial-gradient(circle at 50% 50%, rgba(var(--pulse-rgb), 0.07), transparent 10rem),
+      rgba(0, 0, 0, 0.2) !important;
+  }
+
+  .flow-grid-bg {
+    opacity: 0.08 !important;
+    background-size: 58px 58px !important;
+  }
+
+  .premium-service-card:hover,
+  .hub-card:hover,
+  .theme-card:hover,
+  .final-step-card:hover,
+  .contact-card:hover,
+  .main-nav a:hover {
+    transform: none !important;
+  }
+
+  .hero-showcase-cube .showcase-cube-glow,
+  .hero-showcase-cube .showcase-cube-shadow {
+    opacity: 0.35 !important;
+    filter: blur(18px) !important;
+    -webkit-filter: blur(18px) !important;
+  }
+
+  .case-preview-backdrop {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+}
+
+@media (hover: none) and (pointer: coarse) and (max-width: 760px) {
+  .showcase-cube.is-touring,
+  .showcase-cube.is-orbiting {
+    animation: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .engine-grid,
+  .soft-scanlines,
+  .ambient,
+  .hero-orbit,
+  .flow-path,
+  .data-pulse,
+  .hub-line,
+  .hub-pulse,
+  .builder-sort-beam,
+  .builder-sort-beam::before,
+  .builder-sort-beam span {
+    animation: none !important;
+  }
+}
+
+/* =====================================================
+   SECTION: CES-BUILD-051 / MOBILE SHADOW GUARD
+   Ziel:
+   - gelegentlichen schwarzen rechten Schatten-/Kasten-Pop auf Mobile stoppen
+   - feste Smooth-Pulse-/Ambient-Overlay-Layer auf Touch-Geräten entschärfen
+   - Desktop-Premium-Look unverändert lassen
+
+   Hintergrund:
+   Einige mobile Browser können fixed Background-Overlays, Mix-Blend-Layer,
+   große Offscreen-Glows und translateZ-Compositing beim Scrollen kurz falsch
+   zusammensetzen. Das zeigt sich als schwarzer Kasten/Schatten am rechten Rand.
+===================================================== */
+@media (hover: none) and (pointer: coarse), (max-width: 900px) {
+  html,
+  body,
+  #root,
+  .app-shell {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden !important;
+  }
+
+  .app-shell {
+    isolation: isolate;
+    background:
+      radial-gradient(circle at 50% 8%, rgba(var(--pulse-rgb), 0.08), transparent 24rem),
+      linear-gradient(135deg, #050706 0%, #090d0a 42%, #030403 100%) !important;
+  }
+
+  .app-shell::before,
+  .app-shell::after,
+  .ambient,
+  .ambient-green,
+  .ambient-red,
+  .ambient-cyan {
+    display: none !important;
+    content: none !important;
+    opacity: 0 !important;
+    animation: none !important;
+    filter: none !important;
+    -webkit-filter: none !important;
+    mix-blend-mode: normal !important;
+    transform: none !important;
+    -webkit-transform: none !important;
+  }
+
+  .full-bleed-section,
+  .services-section,
+  .showroom-section,
+  .webcube-section,
+  .reference-case-section,
+  .final-flow-section,
+  .final-contact-section {
+    overflow-x: hidden !important;
+    isolation: isolate;
+  }
+
+  .service-lead-card,
+  .service-engine-visual,
+  .corehub-panel,
+  .corehub-map,
+  .chaos-builder-visual,
+  .case-preview-modal,
+  .case-preview-shell {
+    overflow: hidden !important;
+    isolation: isolate;
+  }
+
+  .service-lead-card,
+  .service-engine-visual,
+  .corehub-panel,
+  .corehub-map,
+  .chaos-builder-visual,
+  .hero-engine-stage,
+  .hero-showcase-cube {
+    transform: none !important;
+    -webkit-transform: none !important;
+    backface-visibility: visible !important;
+    -webkit-backface-visibility: visible !important;
+  }
+
+  .service-lead-card::before,
+  .service-lead-card::after,
+  .corehub-panel::before,
+  .corehub-panel::after,
+  .service-engine-visual::before,
+  .service-engine-visual::after,
+  .corehub-map::before,
+  .corehub-map::after,
+  .flow-core::before,
+  .flow-core::after,
+  .corehub-core::before,
+  .corehub-core::after {
+    display: none !important;
+    content: none !important;
+  }
+
+  .service-lead-card,
+  .corehub-panel,
+  .premium-service-card,
+  .hub-card,
+  .theme-card,
+  .reference-detail-card,
+  .final-step-card,
+  .chaos-builder-visual,
+  .contact-card {
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22) !important;
+  }
+
+  .service-engine-visual,
+  .corehub-map {
+    box-shadow: inset 0 0 18px rgba(var(--pulse-rgb), 0.035) !important;
+    contain: paint;
+  }
+
+  .engine-grid {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    max-width: 100vw;
+    overflow: hidden;
+    opacity: 0.055 !important;
+    mask-image: none !important;
+    -webkit-mask-image: none !important;
+    transform: none !important;
+    -webkit-transform: none !important;
+  }
+}
+
+/* =====================================================
+   SECTION: CES-BUILD-052 / CORECUBE START FLOW
+   Ziel:
+   - Hero-CTA "CoreCube starten" führt sauber in den CoreHub
+   - CoreHub bekommt einen aktiven Startzustand
+   - Desktop-Premium-Look bleibt grundsätzlich unverändert
+   - Mobile bleibt leicht und stabil
+===================================================== */
+#showroom {
+  scroll-margin-top: 5.6rem;
+}
+
+.primary-action.is-flow-active {
+  border-color: rgba(var(--pulse-rgb), 0.5);
+  box-shadow:
+    0 0 0 1px rgba(var(--pulse-rgb), 0.1),
+    0 18px 54px rgba(var(--pulse-rgb), 0.18);
+}
+
+.showroom-upgrade.corecube-started .showroom-copy-upgrade > span {
+  color: var(--pulse-main);
+  text-shadow: 0 0 18px rgba(var(--pulse-rgb), 0.22);
+}
+
+.corehub-panel.is-flow-started {
+  border-color: rgba(var(--pulse-rgb), 0.34);
+  box-shadow:
+    inset 0 0 54px rgba(var(--pulse-rgb), 0.05),
+    0 30px 100px rgba(0, 0, 0, 0.32),
+    0 0 44px rgba(var(--pulse-rgb), 0.065);
+}
+
+.corehub-start-banner {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  gap: 0.34rem;
+  margin: -0.25rem 0 1rem;
+  border: 1px solid rgba(var(--pulse-rgb), 0.22);
+  border-radius: 1.15rem;
+  padding: 0.82rem 0.95rem;
+  overflow: hidden;
+  background:
+    linear-gradient(135deg, rgba(var(--pulse-rgb), 0.12), rgba(var(--pulse-next-rgb), 0.055)),
+    rgba(0, 0, 0, 0.18);
+  box-shadow:
+    inset 0 0 24px rgba(var(--pulse-rgb), 0.035),
+    0 16px 46px rgba(0, 0, 0, 0.18);
+  animation: corecube-start-flow-in 420ms ease both;
+  transition:
+    border-color 4.5s ease,
+    background 4.5s ease,
+    box-shadow 4.5s ease;
+}
+
+.corehub-start-banner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(var(--pulse-rgb), 0.18), transparent);
+  transform: translateX(-120%);
+  animation: corecube-start-flow-sweep 980ms ease 120ms both;
+}
+
+.corehub-start-banner span {
+  color: var(--pulse-main);
+  font-size: 0.72rem;
+  font-weight: 950;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  transition: color 4.5s ease;
+}
+
+.corehub-start-banner strong {
+  color: rgba(245, 255, 240, 0.96);
+  font-size: clamp(1rem, 1.15vw, 1.2rem);
+  letter-spacing: -0.035em;
+}
+
+.corehub-start-banner p {
+  max-width: 32rem;
+  margin: 0;
+  color: rgba(230, 244, 224, 0.68);
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.corehub-panel.is-flow-started .corehub-map {
+  border-color: rgba(var(--pulse-rgb), 0.2);
+  background:
+    radial-gradient(circle at 50% 50%, rgba(var(--pulse-rgb), 0.18), transparent 12rem),
+    radial-gradient(circle at 50% 50%, rgba(var(--pulse-next-rgb), 0.08), transparent 15rem),
+    rgba(0, 0, 0, 0.14);
+}
+
+.corehub-panel.is-flow-started .corehub-core {
+  border-color: rgba(var(--pulse-rgb), 0.44);
+  box-shadow:
+    0 0 36px rgba(var(--pulse-rgb), 0.25),
+    0 0 58px rgba(var(--pulse-next-rgb), 0.11),
+    inset -10px -12px 20px rgba(0, 0, 0, 0.32);
+}
+
+.corehub-panel.is-flow-started .hub-preview-upgrade .hub-card.active {
+  border-color: rgba(var(--pulse-rgb), 0.52);
+  background:
+    radial-gradient(circle at 0% 0%, rgba(var(--pulse-rgb), 0.16), transparent 7.5rem),
+    rgba(var(--pulse-rgb), 0.034);
+  box-shadow:
+    0 0 0 1px rgba(var(--pulse-rgb), 0.06),
+    0 22px 64px rgba(var(--pulse-rgb), 0.095);
+}
+
+.corehub-panel.is-flow-started .hub-preview-upgrade .hub-card.active.is-planned {
+  background:
+    radial-gradient(circle at 0% 0%, rgba(var(--pulse-next-rgb), 0.11), transparent 7.5rem),
+    rgba(255, 255, 255, 0.028);
+}
+
+.corehub-panel.is-flow-started .hub-preview-upgrade .hub-card.active::after {
+  content: attr(data-badge);
+}
+
+@keyframes corecube-start-flow-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes corecube-start-flow-sweep {
+  from {
+    transform: translateX(-120%);
+    opacity: 0;
+  }
+  35% {
+    opacity: 1;
+  }
+  to {
+    transform: translateX(120%);
+    opacity: 0;
+  }
+}
+
+@media (hover: none) and (pointer: coarse), (max-width: 900px) {
+  #showroom {
+    scroll-margin-top: 4.4rem;
+  }
+
+  .primary-action.is-flow-active {
+    box-shadow: 0 12px 32px rgba(var(--pulse-rgb), 0.11) !important;
+  }
+
+  .corehub-panel.is-flow-started {
+    box-shadow: 0 12px 34px rgba(0, 0, 0, 0.24) !important;
+  }
+
+  .corehub-start-banner {
+    margin: -0.1rem 0 0.85rem;
+    border-color: rgba(var(--pulse-rgb), 0.2);
+    background: rgba(var(--pulse-rgb), 0.06) !important;
+    box-shadow: none !important;
+    animation: none !important;
+  }
+
+  .corehub-start-banner::before {
+    display: none !important;
+    content: none !important;
+  }
+
+  .corehub-panel.is-flow-started .corehub-map,
+  .corehub-panel.is-flow-started .corehub-core,
+  .corehub-panel.is-flow-started .hub-preview-upgrade .hub-card.active {
+    box-shadow: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .corehub-start-banner,
+  .corehub-start-banner::before {
+    animation: none !important;
+  }
+}
+
+
+/* =====================================================
+   CES-BUILD-057 / WEBCUBE DIRECTION SELECTION
+   Ziel:
+   - Webseiten-Cube wird als zweite Auswahl-Ebene nutzbar
+   - Karten bleiben optisch im bestehenden Design
+   - aktive Richtung wird sichtbar markiert
+   - Desktop-Premium-Look und Mobile-Guards bleiben geschützt
+===================================================== */
+.webcube-section {
+  scroll-margin-top: 2.5rem;
+}
+
+.webcube-selection-banner {
+  width: min(100%, 74rem);
+  margin: -0.45rem auto 1.25rem;
+  border: 1px solid rgba(var(--pulse-rgb), 0.2);
+  border-radius: 1.35rem;
+  padding: 0.85rem 1rem;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(var(--pulse-rgb), 0.13), transparent 12rem),
+    rgba(255, 255, 255, 0.028);
+  box-shadow: inset 0 0 28px rgba(var(--pulse-rgb), 0.03);
+  transition:
+    border-color 4.5s ease,
+    background 4.5s ease,
+    box-shadow 4.5s ease;
+}
+
+.webcube-selection-banner span,
+.webcube-active-panel span {
+  display: block;
+  color: var(--pulse-main);
+  font-size: 0.72rem;
+  font-weight: 950;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: color 4.5s ease;
+}
+
+.webcube-selection-banner strong,
+.webcube-active-panel strong {
+  display: block;
+  margin-top: 0.12rem;
+  color: rgba(245, 255, 240, 0.96);
+  font-size: clamp(1.25rem, 2vw, 1.9rem);
+  letter-spacing: -0.055em;
+}
+
+.webcube-selection-banner p {
+  margin: 0.28rem 0 0;
+  color: rgba(230, 244, 224, 0.66);
+  font-size: 0.9rem;
+}
+
+.theme-card-button {
+  display: block;
+  width: 100%;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  appearance: none;
+  cursor: pointer;
+}
+
+.theme-card-button:focus-visible {
+  outline: 2px solid rgba(var(--pulse-rgb), 0.62);
+  outline-offset: 4px;
+}
+
+.theme-grid .theme-card.is-selected {
+  border-color: rgba(var(--pulse-rgb), 0.48) !important;
+  box-shadow:
+    inset 0 0 42px rgba(var(--pulse-rgb), 0.06),
+    0 24px 82px rgba(var(--pulse-rgb), 0.095),
+    0 0 0 1px rgba(var(--pulse-rgb), 0.035);
+}
+
+.theme-grid .theme-card.is-selected::before {
+  opacity: 0.24;
+}
+
+.theme-grid .theme-card::after {
+  content: attr(data-state);
+}
+
+.theme-grid .theme-card.is-selected::after {
+  color: rgba(var(--pulse-rgb), 0.48);
+}
+
+.webcube-active-panel {
+  width: min(100%, 74rem);
+  margin: 1.25rem auto 0;
+  border: 1px solid rgba(var(--pulse-rgb), 0.18);
+  border-radius: 1.45rem;
+  padding: 1.05rem 1.1rem;
+  background:
+    linear-gradient(135deg, rgba(var(--pulse-rgb), 0.075), transparent 58%),
+    rgba(255, 255, 255, 0.025);
+  box-shadow: 0 18px 62px rgba(0, 0, 0, 0.16);
+  transition:
+    border-color 4.5s ease,
+    background 4.5s ease,
+    box-shadow 4.5s ease;
+}
+
+.webcube-active-panel p {
+  max-width: 58rem;
+  margin: 0.55rem 0 0;
+  color: rgba(230, 244, 224, 0.72);
+  line-height: 1.65;
+}
+
+.webcube-active-panel small {
+  display: inline-flex;
+  margin-top: 0.75rem;
+  color: rgba(230, 244, 224, 0.52);
+  font-size: 0.78rem;
+}
+
+.corehub-next-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  width: fit-content;
+  margin-top: 0.82rem;
+  border: 1px solid rgba(var(--pulse-rgb), 0.24);
+  border-radius: 999px;
+  padding: 0.52rem 0.76rem;
+  color: rgba(245, 255, 240, 0.9);
+  background: rgba(var(--pulse-rgb), 0.08);
+  font: inherit;
+  font-size: 0.76rem;
+  font-weight: 850;
+  cursor: pointer;
+  transition:
+    transform 180ms ease,
+    color 4.5s ease,
+    border-color 4.5s ease,
+    background 4.5s ease;
+}
+
+.corehub-next-action:hover {
+  transform: translateY(-1px);
+  border-color: rgba(var(--pulse-rgb), 0.38);
+  color: var(--pulse-main);
+}
+
+.corehub-next-action:focus-visible {
+  outline: 2px solid rgba(var(--pulse-rgb), 0.62);
+  outline-offset: 3px;
+}
+
+@media (max-width: 760px) {
+  .webcube-selection-banner,
+  .webcube-active-panel {
+    border-radius: 1.15rem;
+    padding: 0.88rem;
+  }
+
+  .webcube-selection-banner strong,
+  .webcube-active-panel strong {
+    font-size: 1.25rem;
+  }
+
+  .corehub-next-action {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* =====================================================
+   CES-BUILD-058 / COREHUB ROUTE TERMINAL
+   Ziel:
+   - alte CoreHub-Kreisanimation im Routingbereich durch horizontalen
+     CoreHub://Route Terminalpfad ersetzen
+   - sechs Panels bleiben als Antwortflächen bestehen
+   - Klick auf einen Hauptbereich tauscht die Antwortmöglichkeiten aus
+   - Desktop bekommt kurze Terminal-/Glitch-Bewegung
+   - Mobile bleibt leicht und stabil
+===================================================== */
+.corehub-route-terminal {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.85rem;
+  min-height: 5.2rem;
+  margin: -0.15rem 0 1.05rem;
+  border: 1px solid rgba(var(--pulse-rgb), 0.22);
+  border-radius: 1.15rem;
+  padding: 0.78rem 0.9rem;
+  overflow: hidden;
+  background:
+    linear-gradient(90deg, rgba(var(--pulse-rgb), 0.09), rgba(var(--pulse-next-rgb), 0.035), transparent),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.018) 0 1px, transparent 1px 4px),
+    rgba(0, 0, 0, 0.24);
+  box-shadow:
+    inset 0 0 30px rgba(var(--pulse-rgb), 0.035),
+    0 16px 46px rgba(0, 0, 0, 0.18);
+  transition:
+    border-color 4.5s ease,
+    background 4.5s ease,
+    box-shadow 4.5s ease;
+}
+
+.corehub-route-terminal::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(var(--pulse-rgb), 0.18), transparent);
+  opacity: 0;
+  transform: translateX(-115%);
+  animation: corehub-terminal-scan 3.8s ease-in-out infinite;
+}
+
+.corehub-terminal-head {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  min-width: 10rem;
+  font-family: "Courier New", "Lucida Console", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  text-transform: uppercase;
+}
+
+.corehub-terminal-head span {
+  color: var(--pulse-main);
+  font-size: 0.74rem;
+  font-weight: 950;
+  letter-spacing: 0.12em;
+  text-shadow: 0 0 14px rgba(var(--pulse-rgb), 0.26);
+  transition: color 4.5s ease, text-shadow 4.5s ease;
+}
+
+.corehub-terminal-head i {
+  display: block;
+  width: 5.2rem;
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--pulse-main), transparent);
+  opacity: 0.72;
+  box-shadow: 0 0 16px rgba(var(--pulse-rgb), 0.24);
+}
+
+.corehub-route-line {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(var(--pulse-rgb), 0.28) transparent;
+  font-family: "Courier New", "Lucida Console", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.corehub-route-line::-webkit-scrollbar {
+  height: 5px;
+}
+
+.corehub-route-line::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.corehub-route-line::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: rgba(var(--pulse-rgb), 0.24);
+}
+
+.corehub-route-segment {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgba(230, 244, 224, 0.68);
+  font-size: clamp(0.78rem, 1vw, 0.92rem);
+  font-weight: 850;
+  letter-spacing: 0.04em;
+}
+
+.corehub-route-segment:not(:first-child)::before {
+  content: "/";
+  color: rgba(var(--pulse-rgb), 0.5);
+  text-shadow: 0 0 10px rgba(var(--pulse-rgb), 0.18);
+}
+
+.corehub-route-segment.is-current {
+  color: var(--pulse-main);
+  text-shadow: 0 0 14px rgba(var(--pulse-rgb), 0.22);
+  transition: color 4.5s ease, text-shadow 4.5s ease;
+}
+
+.corehub-route-actions {
+  display: inline-flex;
+  justify-content: flex-end;
+  gap: 0.4rem;
+}
+
+.corehub-route-actions button {
+  border: 1px solid rgba(var(--pulse-rgb), 0.22);
+  border-radius: 999px;
+  padding: 0.48rem 0.66rem;
+  color: rgba(245, 255, 240, 0.86);
+  background: rgba(var(--pulse-rgb), 0.065);
+  font: inherit;
+  font-size: 0.72rem;
+  font-weight: 850;
+  cursor: pointer;
+  transition:
+    transform 180ms ease,
+    color 4.5s ease,
+    border-color 4.5s ease,
+    background 4.5s ease;
+}
+
+.corehub-route-actions button:hover {
+  transform: translateY(-1px);
+  color: var(--pulse-main);
+  border-color: rgba(var(--pulse-rgb), 0.38);
+}
+
+.corehub-route-actions button:focus-visible {
+  outline: 2px solid rgba(var(--pulse-rgb), 0.62);
+  outline-offset: 3px;
+}
+
+.corehub-option-grid {
+  animation: corehub-panel-text-switch 460ms steps(2, end) both;
+}
+
+.corehub-option-grid .hub-card {
+  animation: corehub-card-terminal-in 420ms ease both;
+}
+
+.corehub-option-grid .hub-card:nth-child(2) { animation-delay: 35ms; }
+.corehub-option-grid .hub-card:nth-child(3) { animation-delay: 70ms; }
+.corehub-option-grid .hub-card:nth-child(4) { animation-delay: 105ms; }
+.corehub-option-grid .hub-card:nth-child(5) { animation-delay: 140ms; }
+.corehub-option-grid .hub-card:nth-child(6) { animation-delay: 175ms; }
+
+.corehub-option-grid.is-step-mode .hub-card {
+  min-height: 10.1rem;
+}
+
+.corehub-option-grid .hub-card.active {
+  border-color: rgba(var(--pulse-rgb), 0.54) !important;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(var(--pulse-rgb), 0.17), transparent 7.5rem),
+    rgba(var(--pulse-rgb), 0.04) !important;
+  box-shadow:
+    inset 0 0 34px rgba(var(--pulse-rgb), 0.04),
+    0 20px 58px rgba(var(--pulse-rgb), 0.09) !important;
+}
+
+.corehub-route-note {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.85rem;
+}
+
+.corehub-route-note p {
+  margin: 0;
+}
+
+@keyframes corehub-terminal-scan {
+  0%, 72% {
+    opacity: 0;
+    transform: translateX(-115%);
+  }
+  82% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(115%);
+  }
+}
+
+@keyframes corehub-panel-text-switch {
+  0% {
+    opacity: 0.52;
+    filter: blur(1.5px);
+    transform: translateY(3px);
+  }
+  28% {
+    opacity: 0.2;
+    filter: blur(2px);
+    transform: translateY(1px) skewX(-1.4deg);
+  }
+  55% {
+    opacity: 0.82;
+    filter: blur(0.7px);
+    transform: translateY(0) skewX(0.8deg);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+
+@keyframes corehub-card-terminal-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 1060px) {
+  .corehub-route-terminal {
+    grid-template-columns: 1fr;
+    align-items: stretch;
+  }
+
+  .corehub-terminal-head {
+    min-width: 0;
+  }
+
+  .corehub-route-actions {
+    justify-content: flex-start;
+  }
+}
+
+@media (hover: none) and (pointer: coarse), (max-width: 900px) {
+  .corehub-route-terminal {
+    min-height: auto;
+    padding: 0.75rem;
+    background:
+      linear-gradient(90deg, rgba(var(--pulse-rgb), 0.06), transparent),
+      rgba(0, 0, 0, 0.22) !important;
+    box-shadow: none !important;
+  }
+
+  .corehub-route-terminal::before {
+    display: none !important;
+    content: none !important;
+    animation: none !important;
+  }
+
+  .corehub-option-grid,
+  .corehub-option-grid .hub-card {
+    animation: corehub-mobile-option-fade 220ms ease both !important;
+  }
+
+  .corehub-option-grid .hub-card:nth-child(n) {
+    animation-delay: 0ms !important;
+  }
+
+  .corehub-option-grid.is-step-mode .hub-card {
+    min-height: 9.2rem;
+  }
+
+  .corehub-route-note {
+    display: grid;
+  }
+}
+
+@media (max-width: 760px) {
+  .corehub-route-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .corehub-route-actions button {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .corehub-route-terminal::before,
+  .corehub-option-grid,
+  .corehub-option-grid .hub-card {
+    animation: none !important;
+  }
+}
+
+@keyframes corehub-mobile-option-fade {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =====================================================
+   CES-BUILD-059 / COREHUB DEEP ROUTING
+   Ziel:
+   - CoreHub-Panelwechsel langsamer und smoother lesbar machen
+   - tiefe WebCube-Routen sauber als dritte Auswahl-Ebene darstellen
+   - Daten/Styles bleiben klar beschriftet und später leicht pflegbar
+   - Mobile nutzt weiter eine reduzierte, stabile Fade-Variante
+===================================================== */
+.corehub-option-grid {
+  animation: corehub-panel-text-switch-smooth 760ms cubic-bezier(0.22, 0.72, 0.22, 1) both !important;
+}
+
+.corehub-option-grid .hub-card {
+  animation: corehub-card-terminal-in-smooth 680ms cubic-bezier(0.22, 0.72, 0.22, 1) both !important;
+}
+
+.corehub-option-grid .hub-card:nth-child(2) { animation-delay: 70ms !important; }
+.corehub-option-grid .hub-card:nth-child(3) { animation-delay: 120ms !important; }
+.corehub-option-grid .hub-card:nth-child(4) { animation-delay: 170ms !important; }
+.corehub-option-grid .hub-card:nth-child(5) { animation-delay: 220ms !important; }
+.corehub-option-grid .hub-card:nth-child(6) { animation-delay: 270ms !important; }
+
+.corehub-option-grid.is-step-mode .hub-card {
+  min-height: 10.45rem;
+}
+
+.corehub-panel.is-route-deep .corehub-route-terminal {
+  border-color: rgba(var(--pulse-rgb), 0.28);
+  background:
+    linear-gradient(90deg, rgba(var(--pulse-rgb), 0.11), rgba(var(--pulse-next-rgb), 0.045), transparent),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.02) 0 1px, transparent 1px 4px),
+    rgba(0, 0, 0, 0.26);
+}
+
+.corehub-panel.is-route-deep .corehub-panel-head strong {
+  text-shadow: 0 0 18px rgba(var(--pulse-rgb), 0.1);
+}
+
+@keyframes corehub-panel-text-switch-smooth {
+  0% {
+    opacity: 0.5;
+    filter: blur(2px);
+    transform: translateY(8px) skewX(-0.8deg);
+  }
+  22% {
+    opacity: 0.22;
+    filter: blur(3px);
+    transform: translateY(4px) skewX(1.25deg);
+  }
+  46% {
+    opacity: 0.58;
+    filter: blur(1.5px);
+    transform: translateY(2px) skewX(-0.55deg);
+  }
+  72% {
+    opacity: 0.9;
+    filter: blur(0.45px);
+    transform: translateY(0) skewX(0.15deg);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0) skewX(0);
+  }
+}
+
+@keyframes corehub-card-terminal-in-smooth {
+  0% {
+    opacity: 0;
+    transform: translateY(12px) scale(0.985);
+  }
+  55% {
+    opacity: 0.7;
+    transform: translateY(4px) scale(0.995);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (hover: none) and (pointer: coarse), (max-width: 900px) {
+  .corehub-option-grid,
+  .corehub-option-grid .hub-card {
+    animation: corehub-mobile-option-fade 260ms ease both !important;
+  }
+
+  .corehub-option-grid .hub-card:nth-child(n) {
+    animation-delay: 0ms !important;
+  }
+
+  .corehub-option-grid.is-step-mode .hub-card {
+    min-height: 9.45rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .corehub-option-grid,
+  .corehub-option-grid .hub-card {
+    animation: none !important;
+  }
+}
+
+/* =====================================================
+   CES-BUILD-060-065 / COREHUB CUBE LAUNCH SEQUENCE
+   Ziel:
+   - finale CoreHub-Auswahl startet eine Initialisierungs-Sequenz
+   - sechs Antwort-Panels verschwinden kontrolliert
+   - CoreCube wird über Particle-Merge aufgebaut und richtet sich aus
+   - Desktop bekommt den Wow-Moment, Mobile bleibt bewusst leichter/stabil
+
+   Wichtige Klassen:
+   - .corehub-panel.is-launching
+   - .corehub-route-terminal.is-launching
+   - .corehub-launch-loader
+   - .corehub-launch-stage
+   - .corehub-launch-cube
+   - .corehub-particle-field / .assembly-particle
+===================================================== */
+.corehub-route-terminal.is-launching {
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  border-color: rgba(var(--pulse-rgb), 0.42);
+  box-shadow:
+    inset 0 0 34px rgba(var(--pulse-rgb), 0.06),
+    0 18px 58px rgba(var(--pulse-rgb), 0.08),
+    0 22px 70px rgba(0, 0, 0, 0.22);
+}
+
+.corehub-launch-loader {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.58rem;
+  white-space: nowrap;
+  font-family: "Courier New", "Lucida Console", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  color: var(--pulse-main);
+  text-shadow: 0 0 14px rgba(var(--pulse-rgb), 0.28);
+}
+
+.corehub-launch-loader span {
+  font-size: 0.68rem;
+  font-weight: 950;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.corehub-launch-loader strong {
+  position: relative;
+  display: inline-grid;
+  width: 2.6rem;
+  height: 1.1rem;
+  overflow: hidden;
+  border-left: 1px solid rgba(var(--pulse-rgb), 0.32);
+  padding-left: 0.45rem;
+}
+
+.corehub-launch-loader i {
+  grid-area: 1 / 1;
+  font-style: normal;
+  font-size: 0.74rem;
+  font-weight: 950;
+  opacity: 0;
+  animation: corehub-launch-loader-step 1.45s steps(1, end) infinite;
+}
+
+.corehub-launch-loader i:nth-child(2) { animation-delay: 0.36s; }
+.corehub-launch-loader i:nth-child(3) { animation-delay: 0.72s; }
+.corehub-launch-loader i:nth-child(4) { animation-delay: 1.08s; }
+
+.corehub-launch-stage {
+  --launch-rot-x: -12deg;
+  --launch-rot-y: 18deg;
+  --launch-rot-z: 0deg;
+  position: relative;
+  z-index: 3;
+  min-height: 25rem;
+  border: 1px solid rgba(var(--pulse-rgb), 0.22);
+  border-radius: 1.35rem;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(16rem, 1.25fr) minmax(0, 0.75fr);
+  align-items: center;
+  gap: 1rem;
+  padding: 1.1rem;
+  background:
+    radial-gradient(circle at 50% 10%, rgba(var(--pulse-rgb), 0.18), transparent 18rem),
+    linear-gradient(135deg, rgba(var(--pulse-rgb), 0.08), rgba(0, 0, 0, 0.22) 45%, rgba(var(--pulse-next-rgb), 0.06)),
+    rgba(0, 0, 0, 0.28);
+  box-shadow:
+    inset 0 0 42px rgba(var(--pulse-rgb), 0.04),
+    0 26px 80px rgba(0, 0, 0, 0.26);
+  animation: corehub-launch-stage-in 880ms cubic-bezier(0.18, 0.84, 0.2, 1) both;
+  isolation: isolate;
+}
+
+.corehub-launch-stage::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.018) 0 1px, transparent 1px 5px),
+    linear-gradient(90deg, transparent, rgba(var(--pulse-rgb), 0.12), transparent);
+  opacity: 0.38;
+  transform: translateX(-110%);
+  animation: corehub-launch-scan 2.2s ease-in-out 260ms both;
+}
+
+.corehub-launch-stage::after {
+  content: "";
+  position: absolute;
+  inset: auto 12% 1.1rem;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(var(--pulse-rgb), 0.5), transparent);
+  opacity: 0.48;
+  box-shadow: 0 0 18px rgba(var(--pulse-rgb), 0.24);
+}
+
+.corehub-launch-copy,
+.corehub-launch-result {
+  position: relative;
+  z-index: 2;
+  border: 1px solid rgba(var(--pulse-rgb), 0.16);
+  border-radius: 1rem;
+  padding: 0.95rem;
+  background: rgba(0, 0, 0, 0.22);
+  box-shadow: inset 0 0 24px rgba(var(--pulse-rgb), 0.025);
+}
+
+.corehub-launch-copy span,
+.corehub-launch-result span {
+  display: inline-flex;
+  margin-bottom: 0.45rem;
+  color: var(--pulse-main);
+  font-family: "Courier New", "Lucida Console", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.68rem;
+  font-weight: 950;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-shadow: 0 0 14px rgba(var(--pulse-rgb), 0.24);
+}
+
+.corehub-launch-copy strong,
+.corehub-launch-result strong {
+  display: block;
+  color: rgba(245, 255, 240, 0.94);
+  font-size: clamp(1.05rem, 1.9vw, 1.42rem);
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+}
+
+.corehub-launch-copy p,
+.corehub-launch-result p {
+  margin: 0.55rem 0 0;
+  color: rgba(224, 238, 218, 0.68);
+  font-size: 0.86rem;
+  line-height: 1.55;
+}
+
+/* CES-BUILD-061 / COREHUB DEMO TARGET SYSTEM
+   Kleine Zielkarten im Launch-Ergebnis. Hier werden die geplanten
+   Demo-Bausteine und der nächste Ausbau-Schritt sichtbar gemacht. */
+.corehub-demo-target-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.38rem;
+  margin-top: 0.72rem;
+}
+
+.corehub-demo-target-meta em {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.65rem;
+  border: 1px solid rgba(var(--pulse-rgb), 0.2);
+  border-radius: 999px;
+  padding: 0.32rem 0.58rem;
+  background: rgba(var(--pulse-rgb), 0.055);
+  color: rgba(238, 255, 230, 0.82);
+  font-style: normal;
+  font-size: 0.72rem;
+  font-weight: 850;
+  letter-spacing: 0.02em;
+}
+
+.corehub-demo-target-next {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 0.78rem;
+  color: var(--pulse-main);
+  font-family: "Courier New", "Lucida Console", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.72rem;
+  font-weight: 950;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-shadow: 0 0 14px rgba(var(--pulse-rgb), 0.22);
+}
+
+/* CES-BUILD-065 / COREHUB PARTICLE MERGE ASSEMBLY
+   Herzstück der Launch-Sequenz:
+   - Partikel kreisen zur Mitte, verdichten sich dort und verblassen in den Ghost-Cube
+   - der echte CoreCube startet klein/transparent, kommt während des Merge-Vorgangs nach vorne,
+     pulsiert kontrolliert und wächst anschließend zur Präsentationsgröße
+   - 065 entfernt alte Outline-/Fragment-Reste aus 062/063 und hält nur den aktuellen Merge-Pfad
+
+   Wichtige Klassen:
+   - .corehub-assembly-cube-wrap
+   - .corehub-particle-field
+   - .assembly-particle
+   - .corehub-assembled-cube
+*/
+.corehub-assembly-cube-wrap {
+  position: relative;
+  z-index: 2;
+  justify-self: center;
+  width: min(20.5rem, 100%);
+  min-height: 19.6rem;
+  display: grid;
+  place-items: center;
+  perspective: 1050px;
+  isolation: isolate;
+}
+
+.corehub-assembly-field {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  transform-style: preserve-3d;
+}
+
+.corehub-particle-field {
+  transform: translateZ(0);
+}
+
+.assembly-particle {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--particle-size, 0.52rem);
+  height: var(--particle-size, 0.52rem);
+  border-radius: 0.16rem;
+  opacity: 0;
+  border: 1px solid rgba(var(--pulse-rgb), 0.44);
+  background:
+    linear-gradient(135deg, rgba(var(--pulse-rgb), 0.78), rgba(var(--pulse-next-rgb), 0.18)),
+    rgba(1, 12, 7, 0.92);
+  box-shadow:
+    0 0 12px rgba(var(--pulse-rgb), 0.45),
+    0 0 26px rgba(var(--pulse-rgb), 0.16),
+    inset 0 0 8px rgba(255, 255, 255, 0.08);
+  transform: translate3d(0, 0, 0) rotateZ(0deg) scale(0.12);
+  transform-style: preserve-3d;
+  animation-delay: var(--particle-delay, 0ms);
+}
+
+.assembly-particle::after {
+  content: "";
+  position: absolute;
+  inset: 28%;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.72);
+  opacity: 0.45;
+  filter: blur(0.5px);
+}
+
+
+.corehub-assembly-status {
+  position: absolute;
+  z-index: 4;
+  left: 50%;
+  bottom: 0.55rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.48rem;
+  border: 1px solid rgba(var(--pulse-rgb), 0.18);
+  border-radius: 999px;
+  padding: 0.34rem 0.62rem;
+  background: rgba(0, 0, 0, 0.36);
+  color: var(--pulse-main);
+  font-family: "Courier New", "Lucida Console", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  text-transform: uppercase;
+  text-shadow: 0 0 14px rgba(var(--pulse-rgb), 0.28);
+  transform: translateX(-50%);
+  opacity: 0;
+  animation: corehub-assembly-status 5.1s ease both;
+}
+
+.corehub-assembly-status span {
+  font-size: 0.58rem;
+  font-weight: 950;
+  letter-spacing: 0.12em;
+  opacity: 0.72;
+}
+
+.corehub-assembly-status strong {
+  font-size: 0.64rem;
+  font-weight: 950;
+  letter-spacing: 0.1em;
+}
+
+.corehub-assembled-cube {
+  z-index: 3;
+}
+
+.corehub-launch-cube {
+  position: relative;
+  z-index: 2;
+  justify-self: center;
+  width: min(20rem, 100%);
+  min-height: 19rem;
+  perspective: 950px;
+  animation: corehub-launch-cube-wrap 5.35s cubic-bezier(0.13, 0.86, 0.16, 1) both;
+  transform-origin: center;
+}
+
+.corehub-launch-stage.target-business-clean,
+.corehub-assembly-cube-wrap.target-business-clean,
+.corehub-launch-cube.target-business-clean { --launch-rot-x: -12deg; --launch-rot-y: 18deg; --launch-rot-z: 0deg; }
+.corehub-launch-stage.target-dark-premium,
+.corehub-assembly-cube-wrap.target-dark-premium,
+.corehub-launch-cube.target-dark-premium { --launch-rot-x: -11deg; --launch-rot-y: -74deg; --launch-rot-z: 0deg; }
+.corehub-launch-stage.target-gaming-matrix,
+.corehub-assembly-cube-wrap.target-gaming-matrix,
+.corehub-launch-cube.target-gaming-matrix { --launch-rot-x: 78deg; --launch-rot-y: 18deg; --launch-rot-z: 0deg; }
+.corehub-launch-stage.target-shopflow,
+.corehub-assembly-cube-wrap.target-shopflow,
+.corehub-launch-cube.target-shopflow { --launch-rot-x: -10deg; --launch-rot-y: 178deg; --launch-rot-z: 0deg; }
+.corehub-launch-stage.target-booking-rental,
+.corehub-assembly-cube-wrap.target-booking-rental,
+.corehub-launch-cube.target-booking-rental { --launch-rot-x: -12deg; --launch-rot-y: 92deg; --launch-rot-z: 0deg; }
+.corehub-launch-stage.target-smart-systems,
+.corehub-assembly-cube-wrap.target-smart-systems,
+.corehub-launch-cube.target-smart-systems { --launch-rot-x: -78deg; --launch-rot-y: 18deg; --launch-rot-z: 0deg; }
+
+.corehub-launch-cube .showcase-cube-glow {
+  opacity: 0.28;
+  filter: blur(18px);
+  animation: corehub-launch-glow-pulse 5.35s ease both;
+}
+
+.corehub-launch-cube .showcase-cube-shadow {
+  opacity: 0.28;
+}
+
+.corehub-launch-cube .showcase-cube {
+  animation: corehub-launch-cube-arrive 5.35s cubic-bezier(0.13, 0.86, 0.16, 1) both !important;
+  transform-style: preserve-3d;
+}
+
+.corehub-panel.is-launching .corehub-panel-head strong::after {
+  content: "";
+  display: inline-block;
+  width: 0.55em;
+  height: 0.16em;
+  margin-left: 0.28em;
+  border-radius: 999px;
+  background: var(--pulse-main);
+  box-shadow: 0 0 14px rgba(var(--pulse-rgb), 0.42);
+  vertical-align: 0.08em;
+  animation: corehub-launch-cursor 900ms steps(1, end) infinite;
+}
+
+@keyframes corehub-launch-loader-step {
+  0%, 24% { opacity: 1; transform: translateY(0); }
+  25%, 100% { opacity: 0; transform: translateY(-0.35rem); }
+}
+
+@keyframes corehub-launch-stage-in {
+  0% {
+    opacity: 0;
+    filter: blur(2px);
+    transform: translateY(10px) scale(0.99);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes corehub-launch-scan {
+  0% {
+    opacity: 0;
+    transform: translateX(-110%);
+  }
+  40% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(110%);
+  }
+}
+
+@keyframes corehub-launch-cube-arrive {
+  0%, 58% {
+    transform: rotateX(-46deg) rotateY(-38deg) rotateZ(-2deg);
+  }
+  70% {
+    transform: rotateX(-34deg) rotateY(42deg) rotateZ(1deg);
+  }
+  82% {
+    transform: rotateX(-22deg) rotateY(128deg) rotateZ(-1deg);
+  }
+  92% {
+    transform: rotateX(calc(var(--launch-rot-x) - 5deg)) rotateY(calc(var(--launch-rot-y) + 16deg)) rotateZ(var(--launch-rot-z));
+  }
+  100% {
+    transform: rotateX(var(--launch-rot-x)) rotateY(var(--launch-rot-y)) rotateZ(var(--launch-rot-z));
+  }
+}
+
+@keyframes corehub-assembly-status {
+  0%, 16% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(0.45rem);
+  }
+  30%, 76% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  100% {
+    opacity: 0.78;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@keyframes corehub-launch-cursor {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0.18; }
+}
+
+
+
+/* CES-BUILD-065 / COREHUB PARTICLE MERGE MAP
+   Zweck:
+   - aktueller, alleiniger Particle-Pfad für die CoreCube-Materialisierung
+   - keine alten Outline-Flächen und keine geometrische Punkt-/Linien-Silhouette mehr
+   - Partikel kreisen zur Mitte, verdichten sich dort und verblassen in den CoreCube
+   Pflege:
+   - Die Anzahl der Partikel kommt aus App.jsx: COREHUB_ASSEMBLY_PARTICLE_COUNT
+   - Für jedes particle-X muss hier eine passende Bewegungsregel existieren.
+*/
+.assembly-particle {
+  border-radius: 0.2rem;
+  transform-origin: center;
+  animation: corehub-particle-merge 5.45s cubic-bezier(0.12, 0.84, 0.16, 1) both !important;
+  animation-delay: var(--particle-delay, 0ms) !important;
+}
+
+.assembly-particle::after {
+  inset: 31%;
+  opacity: 0.55;
+}
+
+.assembly-particle.particle-1 { --particle-size: 0.39rem; --merge-ring-x: -3.52rem; --merge-ring-y: 2.20rem; --merge-orbit-x: -0.89rem; --merge-orbit-y: -2.03rem; --merge-orbit2-x: -0.39rem; --merge-orbit2-y: -1.22rem; --merge-cluster-x: -0.27rem; --merge-cluster-y: -0.27rem; --particle-delay: 0ms; }
+.assembly-particle.particle-2 { --particle-size: 0.44rem; --merge-ring-x: 0.46rem; --merge-ring-y: -3.56rem; --merge-orbit-x: 2.79rem; --merge-orbit-y: 1.16rem; --merge-orbit2-x: 1.63rem; --merge-orbit2-y: 0.78rem; --merge-cluster-x: -0.17rem; --merge-cluster-y: 0.40rem; --particle-delay: 34ms; }
+.assembly-particle.particle-3 { --particle-size: 0.49rem; --merge-ring-x: 3.49rem; --merge-ring-y: 3.10rem; --merge-orbit-x: -3.40rem; --merge-orbit-y: 0.54rem; --merge-orbit2-x: -2.14rem; --merge-orbit2-y: 0.18rem; --merge-cluster-x: 0.66rem; --merge-cluster-y: -0.16rem; --particle-delay: 68ms; }
+.assembly-particle.particle-4 { --particle-size: 0.34rem; --merge-ring-x: -6.12rem; --merge-ring-y: -0.74rem; --merge-orbit-x: 2.15rem; --merge-orbit-y: -2.20rem; --merge-orbit2-x: 1.50rem; --merge-orbit2-y: -1.20rem; --merge-cluster-x: -0.67rem; --merge-cluster-y: -0.34rem; --particle-delay: 102ms; }
+.assembly-particle.particle-5 { --particle-size: 0.39rem; --merge-ring-x: 3.63rem; --merge-ring-y: -1.57rem; --merge-orbit-x: 0.52rem; --merge-orbit-y: 2.86rem; --merge-orbit2-x: 0.09rem; --merge-orbit2-y: 1.68rem; --merge-cluster-x: 0.02rem; --merge-cluster-y: 0.68rem; --particle-delay: 136ms; }
+.assembly-particle.particle-6 { --particle-size: 0.44rem; --merge-ring-x: -1.24rem; --merge-ring-y: 3.14rem; --merge-orbit-x: -3.26rem; --merge-orbit-y: -1.97rem; --merge-orbit2-x: -1.86rem; --merge-orbit2-y: -1.27rem; --merge-cluster-x: 0.27rem; --merge-cluster-y: -0.15rem; --particle-delay: 170ms; }
+.assembly-particle.particle-7 { --particle-size: 0.49rem; --merge-ring-x: -2.42rem; --merge-ring-y: -3.17rem; --merge-orbit-x: 2.70rem; --merge-orbit-y: -0.08rem; --merge-orbit2-x: 1.67rem; --merge-orbit2-y: 0.06rem; --merge-cluster-x: -0.44rem; --merge-cluster-y: -0.09rem; --particle-delay: 204ms; }
+.assembly-particle.particle-8 { --particle-size: 0.34rem; --merge-ring-x: 5.39rem; --merge-ring-y: 1.34rem; --merge-orbit-x: -2.10rem; --merge-orbit-y: 1.51rem; --merge-orbit2-x: -1.41rem; --merge-orbit2-y: 0.79rem; --merge-cluster-x: 0.20rem; --merge-cluster-y: 0.39rem; --particle-delay: 238ms; }
+.assembly-particle.particle-9 { --particle-size: 0.39rem; --merge-ring-x: -5.75rem; --merge-ring-y: 1.61rem; --merge-orbit-x: 0.14rem; --merge-orbit-y: -2.32rem; --merge-orbit2-x: 0.27rem; --merge-orbit2-y: -1.34rem; --merge-cluster-x: 0.39rem; --merge-cluster-y: -0.42rem; --particle-delay: 272ms; }
+.assembly-particle.particle-10 { --particle-size: 0.44rem; --merge-ring-x: 1.82rem; --merge-ring-y: -2.65rem; --merge-orbit-x: 2.23rem; --merge-orbit-y: 1.92rem; --merge-orbit2-x: 1.23rem; --merge-orbit2-y: 1.20rem; --merge-cluster-x: -0.82rem; --merge-cluster-y: 0.02rem; --particle-delay: 306ms; }
+.assembly-particle.particle-11 { --particle-size: 0.49rem; --merge-ring-x: 1.43rem; --merge-ring-y: 3.10rem; --merge-orbit-x: -3.71rem; --merge-orbit-y: -0.36rem; --merge-orbit2-x: -2.26rem; --merge-orbit2-y: -0.35rem; --merge-cluster-x: 0.59rem; --merge-cluster-y: 0.53rem; --particle-delay: 340ms; }
+.assembly-particle.particle-12 { --particle-size: 0.34rem; --merge-ring-x: -4.55rem; --merge-ring-y: -1.79rem; --merge-orbit-x: 3.28rem; --merge-orbit-y: -1.65rem; --merge-orbit2-x: 2.16rem; --merge-orbit2-y: -0.83rem; --merge-cluster-x: 0.09rem; --merge-cluster-y: -0.24rem; --particle-delay: 374ms; }
+.assembly-particle.particle-13 { --particle-size: 0.39rem; --merge-ring-x: 5.61rem; --merge-ring-y: -0.84rem; --merge-orbit-x: -0.93rem; --merge-orbit-y: 2.99rem; --merge-orbit2-x: -0.81rem; --merge-orbit2-y: 1.70rem; --merge-cluster-x: -0.43rem; --merge-cluster-y: 0.12rem; --particle-delay: 408ms; }
+.assembly-particle.particle-14 { --particle-size: 0.44rem; --merge-ring-x: -3.58rem; --merge-ring-y: 3.46rem; --merge-orbit-x: -1.35rem; --merge-orbit-y: -1.69rem; --merge-orbit2-x: -0.70rem; --merge-orbit2-y: -1.03rem; --merge-cluster-x: 0.49rem; --merge-cluster-y: 0.23rem; --particle-delay: 442ms; }
+.assembly-particle.particle-15 { --particle-size: 0.49rem; --merge-ring-x: -0.55rem; --merge-ring-y: -2.90rem; --merge-orbit-x: 2.82rem; --merge-orbit-y: 0.65rem; --merge-orbit2-x: 1.69rem; --merge-orbit2-y: 0.48rem; --merge-cluster-x: -0.04rem; --merge-cluster-y: -0.50rem; --particle-delay: 476ms; }
+.assembly-particle.particle-16 { --particle-size: 0.34rem; --merge-ring-x: 3.65rem; --merge-ring-y: 2.09rem; --merge-orbit-x: -2.92rem; --merge-orbit-y: 0.98rem; --merge-orbit2-x: -1.88rem; --merge-orbit2-y: 0.45rem; --merge-cluster-x: -0.63rem; --merge-cluster-y: 0.38rem; --particle-delay: 510ms; }
+.assembly-particle.particle-17 { --particle-size: 0.39rem; --merge-ring-x: -5.26rem; --merge-ring-y: 0.15rem; --merge-orbit-x: 1.34rem; --merge-orbit-y: -2.31rem; --merge-orbit2-x: 1.01rem; --merge-orbit2-y: -1.29rem; --merge-cluster-x: 0.91rem; --merge-cluster-y: 0.16rem; --particle-delay: 544ms; }
+.assembly-particle.particle-18 { --particle-size: 0.44rem; --merge-ring-x: 4.07rem; --merge-ring-y: -2.75rem; --merge-orbit-x: 1.27rem; --merge-orbit-y: 2.53rem; --merge-orbit2-x: 0.58rem; --merge-orbit2-y: 1.52rem; --merge-cluster-x: -0.13rem; --merge-cluster-y: -0.23rem; --particle-delay: 578ms; }
+.assembly-particle.particle-19 { --particle-size: 0.49rem; --merge-ring-x: -0.29rem; --merge-ring-y: 4.23rem; --merge-orbit-x: -3.54rem; --merge-orbit-y: -1.34rem; --merge-orbit2-x: -2.08rem; --merge-orbit2-y: -0.91rem; --merge-cluster-x: -0.24rem; --merge-cluster-y: 0.28rem; --particle-delay: 612ms; }
+.assembly-particle.particle-20 { --particle-size: 0.34rem; --merge-ring-x: -2.75rem; --merge-ring-y: -2.25rem; --merge-orbit-x: 4.12rem; --merge-orbit-y: -0.79rem; --merge-orbit2-x: 2.60rem; --merge-orbit2-y: -0.30rem; --merge-cluster-x: 0.58rem; --merge-cluster-y: -0.03rem; --particle-delay: 646ms; }
+.assembly-particle.particle-21 { --particle-size: 0.39rem; --merge-ring-x: 4.74rem; --merge-ring-y: 0.43rem; --merge-orbit-x: -1.46rem; --merge-orbit-y: 1.64rem; --merge-orbit2-x: -1.03rem; --merge-orbit2-y: 0.89rem; --merge-cluster-x: -0.46rem; --merge-cluster-y: -0.38rem; --particle-delay: 680ms; }
+.assembly-particle.particle-22 { --particle-size: 0.44rem; --merge-ring-x: -4.32rem; --merge-ring-y: 2.04rem; --merge-orbit-x: -0.51rem; --merge-orbit-y: -2.10rem; --merge-orbit2-x: -0.14rem; --merge-orbit2-y: -1.24rem; --merge-cluster-x: -0.18rem; --merge-cluster-y: 0.58rem; --particle-delay: 714ms; }
+.assembly-particle.particle-23 { --particle-size: 0.49rem; --merge-ring-x: 1.26rem; --merge-ring-y: -3.81rem; --merge-orbit-x: 2.55rem; --merge-orbit-y: 1.42rem; --merge-orbit2-x: 1.46rem; --merge-orbit2-y: 0.92rem; --merge-cluster-x: 0.86rem; --merge-cluster-y: -0.27rem; --particle-delay: 748ms; }
+.assembly-particle.particle-24 { --particle-size: 0.34rem; --merge-ring-x: 3.09rem; --merge-ring-y: 3.67rem; --merge-orbit-x: -3.47rem; --merge-orbit-y: 0.21rem; --merge-orbit2-x: -2.16rem; --merge-orbit2-y: -0.01rem; --merge-cluster-x: -0.29rem; --merge-cluster-y: -0.12rem; --particle-delay: 782ms; }
+.assembly-particle.particle-25 { --particle-size: 0.39rem; --merge-ring-x: -4.10rem; --merge-ring-y: -0.89rem; --merge-orbit-x: 2.54rem; --merge-orbit-y: -1.98rem; --merge-orbit2-x: 1.72rem; --merge-orbit2-y: -1.05rem; --merge-cluster-x: 0.05rem; --merge-cluster-y: 0.33rem; --particle-delay: 816ms; }
+.assembly-particle.particle-26 { --particle-size: 0.44rem; --merge-ring-x: 4.34rem; --merge-ring-y: -1.36rem; --merge-orbit-x: -0.01rem; --merge-orbit-y: 2.88rem; --merge-orbit2-x: -0.24rem; --merge-orbit2-y: 1.67rem; --merge-cluster-x: 0.43rem; --merge-cluster-y: -0.28rem; --particle-delay: 850ms; }
+.assembly-particle.particle-27 { --particle-size: 0.49rem; --merge-ring-x: -2.03rem; --merge-ring-y: 3.30rem; --merge-orbit-x: -2.87rem; --merge-orbit-y: -2.27rem; --merge-orbit2-x: -1.59rem; --merge-orbit2-y: -1.43rem; --merge-cluster-x: -0.69rem; --merge-cluster-y: -0.10rem; --particle-delay: 884ms; }
+.assembly-particle.particle-28 { --particle-size: 0.34rem; --merge-ring-x: -1.94rem; --merge-ring-y: -3.67rem; --merge-orbit-x: 2.69rem; --merge-orbit-y: 0.18rem; --merge-orbit2-x: 1.65rem; --merge-orbit2-y: 0.21rem; --merge-cluster-x: 0.34rem; --merge-cluster-y: 0.54rem; --particle-delay: 918ms; }
+.assembly-particle.particle-29 { --particle-size: 0.39rem; --merge-ring-x: 5.51rem; --merge-ring-y: 1.97rem; --merge-orbit-x: -2.36rem; --merge-orbit-y: 1.29rem; --merge-orbit2-x: -1.56rem; --merge-orbit2-y: 0.66rem; --merge-cluster-x: 0.46rem; --merge-cluster-y: -0.59rem; --particle-delay: 952ms; }
+.assembly-particle.particle-30 { --particle-size: 0.44rem; --merge-ring-x: -4.16rem; --merge-ring-y: 0.74rem; --merge-orbit-x: 0.57rem; --merge-orbit-y: -2.28rem; --merge-orbit2-x: 0.54rem; --merge-orbit2-y: -1.30rem; --merge-cluster-x: -0.34rem; --merge-cluster-y: 0.03rem; --particle-delay: 986ms; }
+.assembly-particle.particle-31 { --particle-size: 0.49rem; --merge-ring-x: 2.59rem; --merge-ring-y: -2.73rem; --merge-orbit-x: 1.86rem; --merge-orbit-y: 2.12rem; --merge-orbit2-x: 0.98rem; --merge-orbit2-y: 1.30rem; --merge-cluster-x: 0.32rem; --merge-cluster-y: 0.24rem; --particle-delay: 1020ms; }
+.assembly-particle.particle-32 { --particle-size: 0.34rem; --merge-ring-x: 0.89rem; --merge-ring-y: 3.53rem; --merge-orbit-x: -3.61rem; --merge-orbit-y: -0.71rem; --merge-orbit2-x: -2.17rem; --merge-orbit2-y: -0.55rem; --merge-cluster-x: 0.11rem; --merge-cluster-y: -0.41rem; --particle-delay: 1054ms; }
+.assembly-particle.particle-33 { --particle-size: 0.39rem; --merge-ring-x: -4.54rem; --merge-ring-y: -2.39rem; --merge-orbit-x: 3.56rem; --merge-orbit-y: -1.32rem; --merge-orbit2-x: 2.30rem; --merge-orbit2-y: -0.63rem; --merge-cluster-x: -0.63rem; --merge-cluster-y: 0.22rem; --particle-delay: 1088ms; }
+.assembly-particle.particle-34 { --particle-size: 0.44rem; --merge-ring-x: 6.20rem; --merge-ring-y: -0.35rem; --merge-orbit-x: -1.48rem; --merge-orbit-y: 2.88rem; --merge-orbit2-x: -1.14rem; --merge-orbit2-y: 1.61rem; --merge-cluster-x: 0.72rem; --merge-cluster-y: 0.28rem; --particle-delay: 1122ms; }
+
+@keyframes corehub-particle-merge {
+  0% {
+    opacity: 0;
+    filter: blur(7px);
+    transform:
+      translate3d(var(--particle-from-x), var(--particle-from-y), var(--particle-from-z, 100px))
+      rotateZ(var(--particle-from-rot, 0deg))
+      scale(0.12);
+  }
+  14% {
+    opacity: 1;
+    filter: blur(1.5px);
+    transform:
+      translate3d(calc(var(--particle-from-x) * 0.52), calc(var(--particle-from-y) * 0.52), 74px)
+      rotateZ(72deg)
+      scale(0.46);
+  }
+  32% {
+    opacity: 1;
+    filter: blur(0.35px);
+    transform:
+      translate3d(var(--merge-ring-x), var(--merge-ring-y), 42px)
+      rotateZ(175deg)
+      scale(0.92);
+  }
+  48% {
+    opacity: 1;
+    filter: blur(0.1px);
+    transform:
+      translate3d(var(--merge-orbit-x), var(--merge-orbit-y), 30px)
+      rotateZ(310deg)
+      scale(1.08);
+  }
+  61% {
+    opacity: 0.96;
+    filter: blur(0.2px);
+    transform:
+      translate3d(var(--merge-orbit2-x), var(--merge-orbit2-y), 20px)
+      rotateZ(455deg)
+      scale(0.9);
+  }
+  71% {
+    opacity: 1;
+    filter: blur(0);
+    transform:
+      translate3d(var(--merge-cluster-x), var(--merge-cluster-y), 12px)
+      rotateZ(520deg)
+      scale(1.42);
+  }
+  80% {
+    opacity: 0.7;
+    filter: blur(0.65px);
+    transform:
+      translate3d(calc(var(--merge-cluster-x) * 0.36), calc(var(--merge-cluster-y) * 0.36), 6px)
+      rotateZ(575deg)
+      scale(0.82);
+  }
+  100% {
+    opacity: 0;
+    filter: blur(5px);
+    transform:
+      translate3d(0, 0, 0)
+      rotateZ(620deg)
+      scale(0.1);
+  }
+}
+
+@keyframes corehub-launch-cube-wrap {
+  0% {
+    opacity: 0.02;
+    filter: blur(8px);
+    transform: translateY(-7px) scale(0.075);
+  }
+  30% {
+    opacity: 0.08;
+    filter: blur(6px);
+    transform: translateY(-4px) scale(0.095);
+  }
+  48% {
+    opacity: 0.18;
+    filter: blur(3.4px);
+    transform: translateY(0) scale(0.14);
+  }
+  62% {
+    opacity: 0.44;
+    filter: blur(1.8px);
+    transform: translateY(0) scale(0.22);
+  }
+  72% {
+    opacity: 0.84;
+    filter: blur(0.7px);
+    transform: translateY(0) scale(0.32);
+  }
+  77% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0) scale(0.26);
+  }
+  82% {
+    transform: translateY(0) scale(0.48);
+  }
+  87% {
+    transform: translateY(0) scale(0.38);
+  }
+  92% {
+    transform: translateY(0) scale(0.68);
+  }
+  96% {
+    transform: translateY(0) scale(1.04);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes corehub-launch-glow-pulse {
+  0%, 45% { opacity: 0.04; filter: blur(26px); }
+  64% { opacity: 0.14; filter: blur(24px); }
+  78% { opacity: 0.3; filter: blur(19px); }
+  88% { opacity: 0.48; filter: blur(15px); }
+  100% { opacity: 0.32; filter: blur(18px); }
+}
+
+@media (max-width: 1180px) {
+  .corehub-launch-stage {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+
+  .corehub-launch-copy,
+  .corehub-launch-result {
+    max-width: none;
+  }
+}
+
+@media (max-width: 1060px) {
+  .corehub-route-terminal.is-launching {
+    grid-template-columns: 1fr;
+  }
+
+  .corehub-launch-loader {
+    justify-content: flex-start;
+  }
+}
+
+@media (hover: none) and (pointer: coarse), (max-width: 900px) {
+  .corehub-launch-stage {
+    min-height: auto;
+    padding: 0.85rem;
+    background:
+      linear-gradient(135deg, rgba(var(--pulse-rgb), 0.075), rgba(0, 0, 0, 0.2)),
+      rgba(0, 0, 0, 0.24) !important;
+    box-shadow: none !important;
+  }
+
+  .corehub-launch-stage::before,
+  .corehub-launch-stage::after {
+    display: none !important;
+    content: none !important;
+    animation: none !important;
+  }
+
+  .corehub-assembly-cube-wrap {
+    width: min(15.5rem, 100%);
+    min-height: 15rem;
+  }
+
+  .corehub-assembly-field,
+  .corehub-assembly-status {
+    display: none !important;
+    content: none !important;
+    animation: none !important;
+  }
+
+  .corehub-launch-cube {
+    width: min(15.5rem, 100%);
+    min-height: 15rem;
+    transform: scale(0.88);
+    transform-origin: center;
+    animation: corehub-mobile-launch-cube-soft 520ms ease both !important;
+  }
+
+  .corehub-launch-cube .showcase-cube-glow,
+  .corehub-launch-cube .showcase-cube-shadow {
+    display: none !important;
+  }
+
+  .corehub-launch-cube .showcase-cube {
+    animation: none !important;
+    transform: rotateX(var(--launch-rot-x)) rotateY(var(--launch-rot-y)) rotateZ(var(--launch-rot-z));
+  }
+
+  .corehub-launch-loader strong {
+    width: 2.25rem;
+  }
+}
+
+@media (max-width: 620px) {
+  .corehub-launch-copy,
+  .corehub-launch-result {
+    padding: 0.82rem;
+  }
+
+  .corehub-launch-copy p,
+  .corehub-launch-result p {
+    font-size: 0.8rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .corehub-launch-loader i,
+  .corehub-launch-stage,
+  .corehub-launch-stage::before,
+  .corehub-assembly-field,
+  .assembly-particle,
+  .assembly-particle,
+  .corehub-assembly-status,
+  .corehub-launch-cube,
+  .corehub-launch-cube .showcase-cube,
+  .corehub-panel.is-launching .corehub-panel-head strong::after {
+    animation: none !important;
+  }
+}
+
+@keyframes corehub-mobile-launch-cube-soft {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.82);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(0.88);
+  }
+}
+
+/* =====================================================
+   CES-BUILD-066 / HERO + COREHUB CUBE ACCENT BRIDGE
+   Zweck:
+   - beide sichtbaren CoreCube-Einsätze wirken wie derselbe Cube:
+     1) Hero-Cube oben
+     2) CoreHub-Launch-Cube unten
+   - zusätzliche Drop-Shadows folgen der aktuellen Akzentfarbe.
+   - keine Layout-/Flow-/Animationsänderung.
+===================================================== */
+
+.hero-showcase-cube,
+.corehub-launch-cube {
+  filter:
+    drop-shadow(0 0 30px rgba(var(--pulse-rgb), 0.22))
+    drop-shadow(0 0 70px rgba(var(--pulse-next-rgb), 0.12)) !important;
+  transition: filter 4.5s ease;
+}
+
+.hero-showcase-cube .showcase-cube-glow,
+.corehub-launch-cube .showcase-cube-glow {
+  opacity: 0.92;
+}
+
+.corehub-launch-cube .showcase-cube-stage,
+.hero-showcase-cube.showcase-cube-stage {
+  --cube-accent: var(--pulse-main);
+  --cube-accent-soft: var(--pulse-soft);
+  --cube-accent-next: var(--pulse-next-main);
+  --cube-accent-rgb: var(--pulse-rgb);
+  --cube-accent-next-rgb: var(--pulse-next-rgb);
+}
+
+@media (hover: none) and (pointer: coarse), (max-width: 900px) {
+  .hero-showcase-cube,
+  .corehub-launch-cube {
+    filter:
+      drop-shadow(0 0 18px rgba(var(--pulse-rgb), 0.16))
+      drop-shadow(0 0 34px rgba(var(--pulse-next-rgb), 0.08)) !important;
+  }
+
+  .hero-showcase-cube .showcase-cube-glow,
+  .corehub-launch-cube .showcase-cube-glow {
+    opacity: 0.42 !important;
+  }
+}
+
+/* =====================================================
+   SECTION: CES-BUILD-067 / RUNTIME PERFORMANCE GUARD
+   Ziel:
+   - Premium-Look behalten, aber laufende Dauerlast reduzieren.
+   - CoreHub-Launch priorisieren: wÃ¤hrend der Cube materialisiert,
+     werden Hintergrund-/Offscreen-Animationen gedrosselt.
+   - Mobile/Touch und schwÃ¤chere GerÃ¤te behalten die leichtere Runtime.
+   - Kein Layoutwechsel, kein CoreHub-Flow-Umbau, keine neue Animation.
+
+   Pflege:
+   - App.jsx setzt .runtime-performance-guard bei schwÃ¤cheren Bedingungen.
+   - App.jsx setzt .corehub-launch-runtime wÃ¤hrend aktiver Cube-Launch-Sequenz.
+   - MatrixRain wird im Guard/Launch in App.jsx nicht gerendert.
+===================================================== */
+
+.app-shell.runtime-performance-guard::before,
+.app-shell.runtime-performance-guard::after,
+.app-shell.corehub-launch-runtime::before,
+.app-shell.corehub-launch-runtime::after {
+  opacity: 0.08 !important;
+  filter: none !important;
+  -webkit-filter: none !important;
+  mix-blend-mode: normal !important;
+  transition-duration: 1.2s !important;
+}
+
+.app-shell.runtime-performance-guard .engine-grid,
+.app-shell.corehub-launch-runtime .engine-grid {
+  opacity: 0.08 !important;
+  background-size: 86px 86px !important;
+  mask-image: none !important;
+  -webkit-mask-image: none !important;
+}
+
+.app-shell.runtime-performance-guard .soft-scanlines,
+.app-shell.corehub-launch-runtime .soft-scanlines {
+  opacity: 0.035 !important;
+}
+
+.app-shell.runtime-performance-guard .ambient,
+.app-shell.corehub-launch-runtime .ambient {
+  opacity: 0.14 !important;
+  filter: blur(20px) !important;
+  -webkit-filter: blur(20px) !important;
+  transform: none !important;
+}
+
+.app-shell.corehub-launch-runtime .hero-showcase-cube .showcase-cube,
+.app-shell.corehub-launch-runtime .reference-case-cube,
+.app-shell.corehub-launch-runtime .flow-core,
+.app-shell.corehub-launch-runtime .flow-core::before,
+.app-shell.corehub-launch-runtime .flow-core::after,
+.app-shell.corehub-launch-runtime .data-pulse,
+.app-shell.corehub-launch-runtime .corehub-core,
+.app-shell.corehub-launch-runtime .hub-pulse,
+.app-shell.corehub-launch-runtime .builder-sort-beam,
+.app-shell.corehub-launch-runtime .builder-sort-beam::before,
+.app-shell.corehub-launch-runtime .builder-sort-beam span {
+  animation-play-state: paused !important;
+}
+
+.app-shell.runtime-performance-guard:not(.corehub-launch-runtime) .hero-showcase-cube .showcase-cube.is-touring,
+.app-shell.runtime-performance-guard:not(.corehub-launch-runtime) .hero-showcase-cube .showcase-cube.is-orbiting {
+  animation: none !important;
+  transform: rotateX(-18deg) rotateY(36deg) rotateZ(0deg) !important;
+}
+
+.app-shell.runtime-performance-guard .hero-showcase-cube,
+.app-shell.runtime-performance-guard .corehub-launch-cube,
+.app-shell.corehub-launch-runtime .hero-showcase-cube,
+.app-shell.corehub-launch-runtime .corehub-launch-cube {
+  filter:
+    drop-shadow(0 0 18px rgba(var(--pulse-rgb), 0.15))
+    drop-shadow(0 0 34px rgba(var(--pulse-next-rgb), 0.07)) !important;
+  transition-duration: 1.2s !important;
+}
+
+.app-shell.runtime-performance-guard .showcase-cube-glow,
+.app-shell.corehub-launch-runtime .showcase-cube-glow {
+  opacity: 0.45 !important;
+  filter: blur(22px) !important;
+  -webkit-filter: blur(22px) !important;
+}
+
+.app-shell.runtime-performance-guard .showcase-cube-shadow,
+.app-shell.corehub-launch-runtime .showcase-cube-shadow {
+  opacity: 0.55 !important;
+  filter: blur(5px) !important;
+  -webkit-filter: blur(5px) !important;
+}
+
+.app-shell.runtime-performance-guard .showcase-cube-face,
+.app-shell.corehub-launch-runtime .showcase-cube-face {
+  box-shadow:
+    inset 0 0 24px rgba(var(--pulse-rgb), 0.09),
+    inset 0 0 0 1px rgba(255,255,255,0.06),
+    0 0 16px rgba(var(--pulse-rgb), 0.10) !important;
+}
+
+.app-shell.runtime-performance-guard .showcase-cube-face::before,
+.app-shell.corehub-launch-runtime .showcase-cube-face::before {
+  opacity: 0.42 !important;
+}
+
+.app-shell.runtime-performance-guard .showcase-cube-face::after,
+.app-shell.corehub-launch-runtime .showcase-cube-face::after {
+  box-shadow:
+    0 0 12px rgba(var(--pulse-rgb), 0.46),
+    0 0 18px rgba(var(--pulse-next-rgb), 0.12) !important;
+}
+
+.app-shell.runtime-performance-guard .service-lead-card,
+.app-shell.runtime-performance-guard .service-card,
+.app-shell.runtime-performance-guard .premium-service-card,
+.app-shell.runtime-performance-guard .corehub-panel,
+.app-shell.runtime-performance-guard .hub-card,
+.app-shell.runtime-performance-guard .theme-card,
+.app-shell.runtime-performance-guard .reference-showcase-panel,
+.app-shell.runtime-performance-guard .reference-detail-card,
+.app-shell.runtime-performance-guard .flow-summary-card,
+.app-shell.corehub-launch-runtime .service-lead-card,
+.app-shell.corehub-launch-runtime .service-card,
+.app-shell.corehub-launch-runtime .premium-service-card,
+.app-shell.corehub-launch-runtime .corehub-panel,
+.app-shell.corehub-launch-runtime .hub-card,
+.app-shell.corehub-launch-runtime .theme-card,
+.app-shell.corehub-launch-runtime .reference-showcase-panel,
+.app-shell.corehub-launch-runtime .reference-detail-card,
+.app-shell.corehub-launch-runtime .flow-summary-card {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow:
+    0 18px 54px rgba(0, 0, 0, 0.24),
+    inset 0 0 24px rgba(var(--pulse-rgb), 0.025) !important;
+}
+
+.app-shell.corehub-launch-runtime .corehub-launch-stage {
+  box-shadow:
+    inset 0 0 34px rgba(var(--pulse-rgb), 0.04),
+    0 18px 60px rgba(0, 0, 0, 0.28) !important;
+}
+
+.app-shell.corehub-launch-runtime .corehub-particle-field {
+  filter: none !important;
+  -webkit-filter: none !important;
+}
+
+.app-shell.corehub-launch-runtime .assembly-particle {
+  box-shadow:
+    0 0 10px rgba(var(--pulse-rgb), 0.36),
+    0 0 18px rgba(var(--pulse-next-rgb), 0.12) !important;
+}
+
+.app-shell.runtime-performance-guard .premium-service-card:hover,
+.app-shell.runtime-performance-guard .hub-card:hover,
+.app-shell.runtime-performance-guard .theme-card:hover,
+.app-shell.runtime-performance-guard .reference-case-tabs button:hover,
+.app-shell.runtime-performance-guard .final-step-card:hover,
+.app-shell.corehub-launch-runtime .premium-service-card:hover,
+.app-shell.corehub-launch-runtime .hub-card:hover,
+.app-shell.corehub-launch-runtime .theme-card:hover,
+.app-shell.corehub-launch-runtime .reference-case-tabs button:hover,
+.app-shell.corehub-launch-runtime .final-step-card:hover {
+  transform: none !important;
+}
+
+@media (hover: none) and (pointer: coarse), (max-width: 900px) {
+  .app-shell.runtime-performance-guard .showcase-cube.is-touring,
+  .app-shell.runtime-performance-guard .showcase-cube.is-orbiting {
+    animation: none !important;
+  }
+
+  .app-shell.corehub-launch-runtime .corehub-launch-cube .showcase-cube {
+    animation-play-state: running !important;
+  }
+
+  .app-shell.runtime-performance-guard .corehub-launch-stage,
+  .app-shell.corehub-launch-runtime .corehub-launch-stage {
+    background:
+      radial-gradient(circle at 50% 44%, rgba(var(--pulse-rgb), 0.075), transparent 12rem),
+      rgba(0, 0, 0, 0.2) !important;
+  }
+}
+
+/* =====================================================
+   SECTION: CES-BUILD-068 / COREHUB DEMO TARGET ACTIONS
+   Zweck:
+   - Launch-Ergebnis zeigt bei echten Demo-Zielen zusätzliche Infos.
+   - Live-Projekt-Link bleibt CTA, aber kein iframe im Cube.
+   - Performance Guard aus 067 bleibt unangetastet.
+===================================================== */
+
+.corehub-launch-result small {
+  display: inline-flex;
+  width: fit-content;
+  margin: 0.18rem 0 0.35rem;
+  color: rgba(230, 244, 224, 0.62);
+  font-size: 0.74rem;
+  font-weight: 850;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.corehub-demo-target-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  align-items: center;
+  margin-top: 0.95rem;
+}
+
+.corehub-demo-target-actions a,
+.corehub-demo-target-actions span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.42rem;
+  min-height: 2.35rem;
+  border-radius: 999px;
+  padding: 0 0.76rem;
+  font-size: 0.74rem;
+  font-weight: 950;
+  text-decoration: none;
+}
+
+.corehub-demo-target-actions a {
+  border: 1px solid rgba(var(--pulse-rgb), 0.3);
+  color: rgba(5, 9, 6, 0.96);
+  background: linear-gradient(135deg, var(--pulse-main), var(--pulse-next-main));
+  box-shadow: 0 14px 36px rgba(var(--pulse-rgb), 0.12);
+  transition: box-shadow 4.5s ease, border-color 4.5s ease, background 4.5s ease, transform 180ms ease;
+}
+
+.corehub-demo-target-actions a:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 46px rgba(var(--pulse-rgb), 0.18);
+}
+
+.corehub-demo-target-actions span {
+  border: 1px solid rgba(var(--pulse-rgb), 0.15);
+  color: var(--pulse-main);
+  background: rgba(var(--pulse-rgb), 0.065);
+  transition: color 4.5s ease, border-color 4.5s ease, background 4.5s ease;
+}
+
+.corehub-launch-cube.has-demo-preview-face {
+  filter:
+    drop-shadow(0 0 24px rgba(var(--pulse-rgb), 0.2))
+    drop-shadow(0 0 58px rgba(var(--pulse-next-rgb), 0.14)) !important;
+}
+
+/* =====================================================
+   SECTION: CES-BUILD-069 / COREHUB DEMO ZOOM TRANSITION
+   Ziel:
+   - Nach dem CoreCube-Launch kann der Nutzer erstmals in eine
+     interne Demo-/Case-Shell hineinzoomen.
+   - Kein iframe und keine externe Website im Cube: Preview-Bild +
+     strukturierte Demo-Shell + optionaler Live-Link.
+   - CoreHub-Flow, Particle-Merge und Performance Guard bleiben erhalten.
+
+   Pflege:
+   - Button im Launch-Ergebnis: .corehub-demo-target-actions button
+   - Zoom-Animation: .corehub-launch-stage.is-demo-zooming
+   - Zielansicht: .corehub-demo-shell
+===================================================== */
+
+.corehub-launch-stage.is-demo-zooming {
+  pointer-events: none;
+  animation: corehub-demo-zoom-stage 1.12s cubic-bezier(0.16, 0.86, 0.2, 1) both !important;
+}
+
+.corehub-launch-stage.is-demo-zooming .corehub-launch-copy,
+.corehub-launch-stage.is-demo-zooming .corehub-launch-result,
+.corehub-launch-stage.is-demo-zooming .corehub-assembly-status {
+  animation: corehub-demo-zoom-ui-out 680ms ease both;
+}
+
+.corehub-launch-stage.is-demo-zooming .corehub-assembly-cube-wrap {
+  z-index: 8;
+  animation: corehub-demo-zoom-cube-wrap 1.12s cubic-bezier(0.12, 0.88, 0.16, 1) both !important;
+}
+
+.corehub-launch-stage.is-demo-zooming .corehub-launch-cube .showcase-cube {
+  animation: corehub-demo-zoom-cube-face 1.12s cubic-bezier(0.12, 0.88, 0.16, 1) both !important;
+}
+
+.corehub-launch-stage.is-demo-zooming::before {
+  animation: corehub-demo-zoom-scan 1.05s ease both !important;
+}
+
+.corehub-demo-target-actions button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.42rem;
+  min-height: 2.35rem;
+  border: 1px solid rgba(var(--pulse-rgb), 0.3);
+  border-radius: 999px;
+  padding: 0 0.78rem;
+  color: rgba(5, 9, 6, 0.96);
+  background: linear-gradient(135deg, var(--pulse-main), var(--pulse-next-main));
+  box-shadow: 0 14px 36px rgba(var(--pulse-rgb), 0.12);
+  font: inherit;
+  font-size: 0.74rem;
+  font-weight: 950;
+  cursor: pointer;
+  transition:
+    transform 180ms ease,
+    box-shadow 4.5s ease,
+    border-color 4.5s ease,
+    background 4.5s ease,
+    opacity 180ms ease;
+}
+
+.corehub-demo-target-actions button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 46px rgba(var(--pulse-rgb), 0.18);
+}
+
+.corehub-demo-target-actions button:disabled {
+  opacity: 0.68;
+  cursor: wait;
+}
+
+.corehub-demo-shell {
+  position: relative;
+  z-index: 3;
+  min-height: 25rem;
+  display: grid;
+  grid-template-columns: minmax(18rem, 1.14fr) minmax(0, 0.86fr);
+  gap: 1rem;
+  align-items: stretch;
+  border: 1px solid rgba(var(--pulse-rgb), 0.24);
+  border-radius: 1.35rem;
+  padding: 1.05rem;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 35% 18%, rgba(var(--pulse-rgb), 0.15), transparent 18rem),
+    radial-gradient(circle at 90% 100%, rgba(var(--pulse-next-rgb), 0.09), transparent 20rem),
+    linear-gradient(135deg, rgba(var(--pulse-rgb), 0.07), rgba(0, 0, 0, 0.26) 52%, rgba(var(--pulse-next-rgb), 0.05)),
+    rgba(0, 0, 0, 0.3);
+  box-shadow:
+    inset 0 0 42px rgba(var(--pulse-rgb), 0.035),
+    0 26px 80px rgba(0, 0, 0, 0.26);
+  animation: corehub-demo-shell-in 760ms cubic-bezier(0.18, 0.84, 0.2, 1) both;
+  isolation: isolate;
+}
+
+.corehub-demo-shell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.17;
+  background-image:
+    linear-gradient(rgba(var(--pulse-rgb), 0.075) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--pulse-rgb), 0.075) 1px, transparent 1px);
+  background-size: 34px 34px;
+  mask-image: radial-gradient(circle at 40% 48%, #000 0%, transparent 72%);
+  pointer-events: none;
+}
+
+.corehub-demo-shell-preview,
+.corehub-demo-shell-content {
+  position: relative;
+  z-index: 2;
+  border: 1px solid rgba(var(--pulse-rgb), 0.16);
+  border-radius: 1.05rem;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.24);
+  box-shadow: inset 0 0 24px rgba(var(--pulse-rgb), 0.025);
+}
+
+.corehub-demo-shell-preview {
+  display: grid;
+  place-items: center;
+  min-height: 22rem;
+}
+
+.corehub-demo-shell-preview img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  filter: saturate(1.04) contrast(1.04) brightness(0.82);
+}
+
+.corehub-demo-shell-preview::after {
+  content: "DEMO PREVIEW";
+  position: absolute;
+  left: 1rem;
+  bottom: 0.9rem;
+  border: 1px solid rgba(var(--pulse-rgb), 0.22);
+  border-radius: 999px;
+  padding: 0.34rem 0.62rem;
+  color: var(--pulse-main);
+  background: rgba(0, 0, 0, 0.48);
+  font-family: "Courier New", "Lucida Console", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.64rem;
+  font-weight: 950;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-shadow: 0 0 14px rgba(var(--pulse-rgb), 0.24);
+}
+
+.corehub-demo-shell-placeholder {
+  display: grid;
+  place-items: center;
+  gap: 0.35rem;
+  min-height: 18rem;
+  padding: 1.2rem;
+  color: var(--pulse-main);
+  text-align: center;
+}
+
+.corehub-demo-shell-placeholder span {
+  font-family: "Courier New", "Lucida Console", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.72rem;
+  font-weight: 950;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.corehub-demo-shell-placeholder strong {
+  color: rgba(245, 255, 240, 0.94);
+  font-size: clamp(1.6rem, 3vw, 2.8rem);
+  letter-spacing: -0.06em;
+}
+
+.corehub-demo-shell-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(1rem, 1.6vw, 1.35rem);
+}
+
+.corehub-demo-shell-content > span {
+  color: var(--pulse-main);
+  font-family: "Courier New", "Lucida Console", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.7rem;
+  font-weight: 950;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.corehub-demo-shell-content strong {
+  display: block;
+  margin-top: 0.55rem;
+  color: rgba(245, 255, 240, 0.96);
+  font-size: clamp(1.75rem, 2.8vw, 3.25rem);
+  line-height: 1.02;
+  letter-spacing: -0.07em;
+}
+
+.corehub-demo-shell-content small {
+  display: block;
+  margin-top: 0.38rem;
+  color: rgba(230, 244, 224, 0.58);
+  font-size: 0.76rem;
+  font-weight: 850;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.corehub-demo-shell-content p {
+  margin: 0.9rem 0 0;
+  color: rgba(224, 238, 218, 0.72);
+  line-height: 1.65;
+  font-size: 0.9rem;
+}
+
+.corehub-demo-shell-modules {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.38rem;
+  margin-top: 1rem;
+}
+
+.corehub-demo-shell-modules em {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.65rem;
+  border: 1px solid rgba(var(--pulse-rgb), 0.2);
+  border-radius: 999px;
+  padding: 0.32rem 0.58rem;
+  background: rgba(var(--pulse-rgb), 0.055);
+  color: rgba(238, 255, 230, 0.82);
+  font-style: normal;
+  font-size: 0.72rem;
+  font-weight: 850;
+  letter-spacing: 0.02em;
+}
+
+.corehub-demo-shell-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-top: 1.2rem;
+}
+
+.corehub-demo-shell-actions button,
+.corehub-demo-shell-actions a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.42rem;
+  min-height: 2.42rem;
+  border-radius: 999px;
+  padding: 0 0.82rem;
+  font-size: 0.76rem;
+  font-weight: 950;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.corehub-demo-shell-actions button {
+  border: 1px solid rgba(var(--pulse-rgb), 0.18);
+  color: var(--pulse-main);
+  background: rgba(var(--pulse-rgb), 0.065);
+}
+
+.corehub-demo-shell-actions a {
+  border: 1px solid rgba(var(--pulse-rgb), 0.3);
+  color: rgba(5, 9, 6, 0.96);
+  background: linear-gradient(135deg, var(--pulse-main), var(--pulse-next-main));
+}
+
+@keyframes corehub-demo-zoom-stage {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+  54% {
+    opacity: 1;
+    transform: translateY(-0.35rem) scale(1.018);
+    filter: blur(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-0.75rem) scale(1.055);
+    filter: blur(5px);
+  }
+}
+
+@keyframes corehub-demo-zoom-ui-out {
+  0% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(0.45rem); }
+}
+
+@keyframes corehub-demo-zoom-cube-wrap {
+  0% { transform: translateY(0) scale(1); }
+  46% { transform: translateY(-0.25rem) scale(1.16); }
+  100% { transform: translateY(-0.5rem) scale(1.58); }
+}
+
+@keyframes corehub-demo-zoom-cube-face {
+  0% {
+    transform: rotateX(var(--launch-rot-x)) rotateY(var(--launch-rot-y)) rotateZ(var(--launch-rot-z));
+  }
+  60% {
+    transform: rotateX(calc(var(--launch-rot-x) * 0.62)) rotateY(calc(var(--launch-rot-y) * 0.62)) rotateZ(var(--launch-rot-z));
+  }
+  100% {
+    transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(1.28);
+  }
+}
+
+@keyframes corehub-demo-zoom-scan {
+  0% { opacity: 0; transform: translateX(-110%); }
+  35% { opacity: 0.65; }
+  100% { opacity: 0; transform: translateX(110%); }
+}
+
+@keyframes corehub-demo-shell-in {
+  0% {
+    opacity: 0;
+    transform: translateY(0.65rem) scale(0.985);
+    filter: blur(5px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@media (max-width: 1180px) {
+  .corehub-demo-shell {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (hover: none) and (pointer: coarse), (max-width: 900px) {
+  .corehub-launch-stage.is-demo-zooming {
+    animation-duration: 720ms !important;
+  }
+
+  .corehub-launch-stage.is-demo-zooming .corehub-assembly-cube-wrap {
+    animation: none !important;
+    transform: scale(1.04);
+  }
+
+  .corehub-demo-shell {
+    padding: 0.82rem;
+  }
+
+  .corehub-demo-shell-preview {
+    min-height: 16rem;
+  }
+}
+
+/* =====================================================
+   SECTION: CES-BUILD-070 / ALL4YOU DEMO GALLERY STORY
+   Ziel:
+   - interne Demo-Shell zeigt mehrere All4You-Screens statt nur ein Bild.
+   - Galerie bleibt lokal, performant und ohne iframe.
+   - Story-Panel erklärt: Website vorne, smarte Engine dahinter.
+
+   Pflege:
+   - Slides: App.jsx -> all4YouDemoGallery
+   - Bilder: src/assets/demos/all4you/
+   - Galerie-Navigation: .corehub-demo-gallery-controls / -dock
+===================================================== */
+
+.corehub-demo-gallery-wrap {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: 0.72rem;
+  min-width: 0;
+}
+
+.corehub-demo-gallery-wrap .corehub-demo-shell-preview {
+  min-height: clamp(21rem, 32vw, 32rem);
+}
+
+.corehub-demo-shell-preview.is-story-slide {
+  place-items: stretch;
+  background:
+    radial-gradient(circle at 18% 8%, rgba(var(--pulse-rgb), 0.16), transparent 17rem),
+    radial-gradient(circle at 100% 100%, rgba(var(--pulse-next-rgb), 0.1), transparent 18rem),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.045), transparent 58%),
+    rgba(0, 0, 0, 0.36);
+}
+
+.corehub-demo-story-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100%;
+  padding: clamp(1.1rem, 2vw, 1.7rem);
+}
+
+.corehub-demo-story-panel span {
+  width: fit-content;
+  border: 1px solid rgba(var(--pulse-rgb), 0.24);
+  border-radius: 999px;
+  padding: 0.32rem 0.62rem;
+  color: var(--pulse-main);
+  background: rgba(var(--pulse-rgb), 0.075);
+  font-family: "Courier New", "Lucida Console", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.68rem;
+  font-weight: 950;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.corehub-demo-story-panel strong {
+  display: block;
+  max-width: 42rem;
+  margin-top: 0.85rem;
+  color: rgba(245, 255, 240, 0.96);
+  font-size: clamp(1.9rem, 3.35vw, 4rem);
+  line-height: 0.98;
+  letter-spacing: -0.075em;
+}
+
+.corehub-demo-story-panel p {
+  max-width: 42rem;
+  margin: 0.95rem 0 0;
+  color: rgba(224, 238, 218, 0.74);
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+.corehub-demo-story-panel ul {
+  display: grid;
+  gap: 0.55rem;
+  margin: 1.2rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.corehub-demo-story-panel li {
+  position: relative;
+  border: 1px solid rgba(var(--pulse-rgb), 0.14);
+  border-radius: 0.9rem;
+  padding: 0.7rem 0.78rem 0.7rem 2.1rem;
+  color: rgba(238, 255, 230, 0.8);
+  background: rgba(var(--pulse-rgb), 0.055);
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.corehub-demo-story-panel li::before {
+  content: "✓";
+  position: absolute;
+  left: 0.78rem;
+  top: 0.68rem;
+  color: var(--pulse-main);
+  font-weight: 950;
+}
+
+.corehub-demo-gallery-controls {
+  position: absolute;
+  right: 1rem;
+  bottom: 0.9rem;
+  z-index: 4;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.46rem;
+  border: 1px solid rgba(var(--pulse-rgb), 0.22);
+  border-radius: 999px;
+  padding: 0.28rem;
+  background: rgba(0, 0, 0, 0.58);
+  box-shadow: 0 16px 42px rgba(0, 0, 0, 0.34);
+  backdrop-filter: blur(12px);
+}
+
+.corehub-demo-gallery-controls button {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid rgba(var(--pulse-rgb), 0.18);
+  border-radius: 999px;
+  color: var(--pulse-main);
+  background: rgba(var(--pulse-rgb), 0.08);
+  font: inherit;
+  font-size: 1.1rem;
+  font-weight: 950;
+  cursor: pointer;
+}
+
+.corehub-demo-gallery-controls span {
+  min-width: 4.3rem;
+  color: rgba(238, 255, 230, 0.82);
+  font-family: "Courier New", "Lucida Console", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.68rem;
+  font-weight: 950;
+  letter-spacing: 0.08em;
+  text-align: center;
+}
+
+.corehub-demo-gallery-dock {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.45rem;
+}
+
+.corehub-demo-gallery-dock button {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 2.32rem;
+  border: 1px solid rgba(var(--pulse-rgb), 0.13);
+  border-radius: 0.8rem;
+  padding: 0.38rem 0.48rem;
+  color: rgba(238, 255, 230, 0.68);
+  background: rgba(255, 255, 255, 0.032);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 220ms ease, background 220ms ease, color 220ms ease;
+}
+
+.corehub-demo-gallery-dock button.active {
+  border-color: rgba(var(--pulse-rgb), 0.36);
+  color: rgba(245, 255, 240, 0.94);
+  background: rgba(var(--pulse-rgb), 0.1);
+}
+
+.corehub-demo-gallery-dock span {
+  color: var(--pulse-main);
+  font-family: "Courier New", "Lucida Console", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.64rem;
+  font-weight: 950;
+}
+
+.corehub-demo-gallery-dock strong {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 0.72rem;
+  font-weight: 850;
+}
+
+.corehub-demo-shell-content {
+  justify-content: flex-start;
+}
+
+.corehub-demo-shell-content strong {
+  font-size: clamp(1.55rem, 2.35vw, 2.75rem);
+}
+
+@media (max-width: 1180px) {
+  .corehub-demo-gallery-dock {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (hover: none) and (pointer: coarse), (max-width: 900px) {
+  .corehub-demo-gallery-controls {
+    right: 0.65rem;
+    bottom: 0.65rem;
+    backdrop-filter: none;
+  }
+
+  .corehub-demo-gallery-dock {
+    grid-template-columns: 1fr;
+    max-height: 10rem;
+    overflow: auto;
+  }
+
+  .corehub-demo-story-panel strong {
+    font-size: clamp(1.65rem, 8vw, 2.6rem);
+  }
+}
+
+/* =====================================================
+   SECTION: CES-BUILD-077 / DEMO VIEWPORT FIT MANUAL COPY
+   Ziel:
+   - Saubere manuelle Datei-Version ohne alte Patch-Script-Mischung.
+   - Demo-Shell wird im Viewport gezielt ausgerichtet.
+   - Unterer Rahmen bleibt sichtbar.
+   - Bilder bleiben vollständig sichtbar und werden nicht gecroppt.
+   - CTA "Projekt anfangen" sitzt unten rechts, ohne Layout-Höhe zu erzeugen.
+
+   Pflege:
+   - Scroll-Fit: App.jsx -> DEMO VIEWPORT FIT
+   - CTA: App.jsx -> .corehub-demo-project-start
+===================================================== */
+
+.corehub-panel:has(.corehub-demo-shell) {
+  position: relative !important;
+  align-content: start !important;
+  padding-top: clamp(0.75rem, 1vw, 1rem) !important;
+  padding-bottom: clamp(1rem, 1.2vw, 1.25rem) !important;
+  overflow: visible !important;
+}
+
+.corehub-demo-shell {
+  width: min(100%, 72.5rem) !important;
+  max-width: min(72.5rem, calc(100vw - 6rem)) !important;
+  max-height: none !important;
+  transform: none !important;
+  grid-template-columns: minmax(0, 1.06fr) minmax(16.5rem, 0.58fr) !important;
+  gap: clamp(0.72rem, 0.95vw, 1rem) !important;
+  padding: clamp(0.78rem, 1vw, 0.95rem) !important;
+}
+
+.corehub-demo-gallery-wrap {
+  min-height: 0 !important;
+  display: grid !important;
+  grid-template-rows: minmax(0, auto) auto !important;
+  gap: 0.48rem !important;
+}
+
+.corehub-demo-gallery-wrap .corehub-demo-shell-preview,
+.corehub-demo-shell-preview {
+  height: clamp(17.5rem, 31.5vw, 27.75rem) !important;
+  max-height: min(49vh, 27.75rem) !important;
+  min-height: 17.5rem !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: hidden !important;
+}
+
+.corehub-demo-shell-preview:not(.is-story-slide) {
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.82), transparent 22rem),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(236, 249, 250, 0.96)) !important;
+}
+
+.corehub-demo-shell-preview::before,
+.corehub-demo-shell-preview::after,
+.corehub-demo-gallery-wrap::before,
+.corehub-demo-gallery-wrap::after {
+  opacity: 0.035 !important;
+  filter: none !important;
+  -webkit-filter: none !important;
+}
+
+.corehub-demo-shell-preview img,
+.corehub-demo-gallery-wrap img {
+  width: auto !important;
+  height: auto !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  opacity: 1 !important;
+  filter: none !important;
+  -webkit-filter: none !important;
+  flex: 0 0 auto !important;
+}
+
+.corehub-demo-gallery-controls {
+  right: 0.72rem !important;
+  bottom: 0.62rem !important;
+  transform: scale(0.86) !important;
+  transform-origin: right bottom !important;
+}
+
+.corehub-demo-gallery-dock {
+  display: grid !important;
+  grid-template-columns: repeat(9, minmax(4rem, 1fr)) !important;
+  max-height: 2.25rem !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  gap: 0.25rem !important;
+  padding-bottom: 0.08rem !important;
+  scrollbar-width: thin !important;
+}
+
+.corehub-demo-gallery-dock button {
+  min-height: 1.82rem !important;
+  padding: 0.2rem 0.32rem !important;
+  gap: 0.18rem !important;
+  white-space: nowrap !important;
+}
+
+.corehub-demo-gallery-dock button span {
+  font-size: 0.54rem !important;
+}
+
+.corehub-demo-gallery-dock button strong {
+  font-size: 0.52rem !important;
+  max-width: 6.2rem !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.corehub-demo-shell-content {
+  align-self: center !important;
+  padding: clamp(0.72rem, 0.95vw, 0.92rem) !important;
+}
+
+.corehub-demo-shell-content > span {
+  font-size: 0.62rem !important;
+  letter-spacing: 0.12em !important;
+}
+
+.corehub-demo-shell-content > strong {
+  font-size: clamp(1.08rem, 1.5vw, 1.68rem) !important;
+  line-height: 1.07 !important;
+  letter-spacing: -0.048em !important;
+}
+
+.corehub-demo-shell-content > small {
+  font-size: 0.64rem !important;
+  line-height: 1.4 !important;
+}
+
+.corehub-demo-shell-content > p {
+  font-size: 0.75rem !important;
+  line-height: 1.46 !important;
+}
+
+.corehub-demo-shell-modules {
+  gap: 0.3rem !important;
+}
+
+.corehub-demo-shell-modules em {
+  min-height: 1.62rem !important;
+  padding: 0 0.42rem !important;
+  font-size: 0.6rem !important;
+}
+
+.corehub-demo-shell-actions {
+  margin-top: 0.82rem !important;
+}
+
+/* Story-Slide: der Zustand aus dem Feinschliff bleibt kompakt. */
+.corehub-demo-shell:has(.corehub-demo-shell-preview.is-story-slide) {
+  max-width: min(60rem, calc(100vw - 6rem)) !important;
+  grid-template-columns: 1fr !important;
+}
+
+.corehub-demo-shell:has(.corehub-demo-shell-preview.is-story-slide) .corehub-demo-shell-content {
+  display: none !important;
+}
+
+.corehub-demo-shell-preview.is-story-slide {
+  height: auto !important;
+  min-height: clamp(17rem, 28vw, 23rem) !important;
+  max-height: min(50vh, 24rem) !important;
+  place-items: center !important;
+}
+
+.corehub-demo-story-panel {
+  width: min(100%, 54rem) !important;
+  max-width: 54rem !important;
+  padding: clamp(1.15rem, 1.65vw, 1.55rem) !important;
+  justify-content: center !important;
+  gap: 0.66rem !important;
+}
+
+.corehub-demo-story-panel strong {
+  display: none !important;
+}
+
+.corehub-demo-story-panel span {
+  margin-bottom: 0.15rem !important;
+  font-size: 0.62rem !important;
+  padding: 0.28rem 0.56rem !important;
+}
+
+.corehub-demo-story-panel p {
+  max-width: 50rem !important;
+  margin: 0 !important;
+  color: rgba(235, 248, 230, 0.78) !important;
+  font-size: clamp(0.82rem, 0.88vw, 0.94rem) !important;
+  line-height: 1.55 !important;
+}
+
+.corehub-demo-story-panel ul {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 0.45rem !important;
+  margin: 0.3rem 0 0 !important;
+}
+
+.corehub-demo-story-panel li {
+  min-height: 2.55rem !important;
+  display: flex !important;
+  align-items: center !important;
+  padding: 0.48rem 0.62rem 0.48rem 1.85rem !important;
+  color: rgba(238, 255, 230, 0.82) !important;
+  font-size: clamp(0.72rem, 0.76vw, 0.82rem) !important;
+  line-height: 1.34 !important;
+}
+
+.corehub-demo-story-panel li::before {
+  left: 0.68rem !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+}
+
+.corehub-demo-project-start {
+  position: absolute !important;
+  right: clamp(1rem, 2vw, 1.8rem) !important;
+  bottom: clamp(0.85rem, 1.25vw, 1.15rem) !important;
+  z-index: 8 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.45rem !important;
+  border: 1px solid rgba(var(--pulse-rgb), 0.26) !important;
+  border-radius: 999px !important;
+  padding: 0.72rem 0.98rem !important;
+  color: rgba(4, 9, 7, 0.96) !important;
+  background: linear-gradient(135deg, var(--pulse-main), var(--pulse-next-main)) !important;
+  font-size: 0.82rem !important;
+  font-weight: 950 !important;
+  text-decoration: none !important;
+  box-shadow:
+    0 0 24px rgba(var(--pulse-rgb), 0.18),
+    0 18px 45px rgba(0, 0, 0, 0.28) !important;
+  transition:
+    transform 180ms ease,
+    box-shadow 4.5s ease,
+    background 4.5s ease !important;
+}
+
+.corehub-demo-project-start:hover {
+  transform: translateY(-2px) !important;
+}
+
+@media (max-width: 1280px) {
+  .corehub-demo-shell {
+    max-width: min(71rem, calc(100vw - 2.8rem)) !important;
+  }
+
+  .corehub-demo-gallery-wrap .corehub-demo-shell-preview,
+  .corehub-demo-shell-preview {
+    height: clamp(16.5rem, 32vw, 25.5rem) !important;
+    max-height: min(47vh, 25.5rem) !important;
+  }
+
+  .corehub-demo-gallery-dock {
+    grid-template-columns: repeat(9, minmax(3.65rem, 1fr)) !important;
+  }
+}
+
+@media (max-width: 1180px) {
+  .corehub-demo-shell {
+    max-width: calc(100vw - 2.2rem) !important;
+    grid-template-columns: 1fr !important;
+  }
+
+  .corehub-demo-gallery-dock {
+    max-height: none !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+
+  .corehub-demo-project-start {
+    position: static !important;
+    justify-self: stretch !important;
+    margin-top: 0.8rem !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .corehub-demo-gallery-wrap .corehub-demo-shell-preview,
+  .corehub-demo-shell-preview {
+    height: clamp(15.5rem, 68vw, 22rem) !important;
+    max-height: none !important;
+  }
+
+  .corehub-demo-gallery-dock {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .corehub-demo-story-panel ul {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* =====================================================
+   SECTION: CES-BUILD-078 / SHARED DEMO CUBE FACES
+   Ziel:
+   - Der Hero-CoreCube oben kann dieselben All4You-Demo-Faces anzeigen
+     wie der CoreHub-/Showroom-Cube unten.
+   - Standardzustand bleibt CoreEngineStudio allgemein.
+   - Sobald die All4You-Demo-Route aktiv ist, wird der Hero-Cube
+     optisch mit der Demo-Welt synchronisiert.
+   - Kein iframe, keine externe Website im Cube.
+
+   Pflege:
+   - Face-Daten: App.jsx -> all4YouSharedCubeFaces
+   - Hero-Anbindung: App.jsx -> <ShowcaseCube faces={sharedDemoCubeFaces || undefined} />
+===================================================== */
+
+.hero-showcase-cube.is-demo-synced {
+  filter:
+    drop-shadow(0 0 34px rgba(var(--pulse-rgb), 0.24))
+    drop-shadow(0 0 82px rgba(var(--pulse-next-rgb), 0.12)) !important;
+}
+
+.hero-showcase-cube.is-demo-synced .showcase-cube-face.has-preview-image,
+.corehub-launch-cube.has-demo-preview-face .showcase-cube-face.has-preview-image {
+  background:
+    linear-gradient(145deg, rgba(255,255,255,0.12), transparent 24%),
+    radial-gradient(circle at 45% 42%, rgba(var(--pulse-rgb), 0.18), transparent 34%),
+    linear-gradient(135deg, rgba(8, 12, 11, 0.98), rgba(3, 5, 6, 0.99)) !important;
+}
+
+.hero-showcase-cube.is-demo-synced .face-preview-screen,
+.corehub-launch-cube.has-demo-preview-face .face-preview-screen {
+  width: 86%;
+  height: 76%;
+  background: rgba(246, 253, 253, 0.94) !important;
+  border-color: rgba(var(--pulse-rgb), 0.28) !important;
+  box-shadow:
+    inset 0 0 20px rgba(255, 255, 255, 0.24),
+    0 0 24px rgba(var(--pulse-rgb), 0.16) !important;
+}
+
+.hero-showcase-cube.is-demo-synced .face-preview-screen img,
+.corehub-launch-cube.has-demo-preview-face .face-preview-screen img {
+  object-fit: cover !important;
+  object-position: center top !important;
+  filter: saturate(1.04) contrast(1.02) brightness(0.94) !important;
+  transform: scale(1.01) !important;
+}
+
+.hero-showcase-cube.is-demo-synced .face-preview-overlay,
+.corehub-launch-cube.has-demo-preview-face .face-preview-overlay {
+  background:
+    linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.78) 46%, rgba(0, 0, 0, 0.92)),
+    linear-gradient(90deg, rgba(var(--pulse-rgb), 0.24), rgba(var(--pulse-next-rgb), 0.14)) !important;
+}
+
+@media (hover: none) and (pointer: coarse), (max-width: 900px) {
+  .hero-showcase-cube.is-demo-synced .face-preview-screen,
+  .corehub-launch-cube.has-demo-preview-face .face-preview-screen {
+    width: 82%;
+    height: 72%;
+  }
+}
+
+/* =====================================================
+   SECTION: CES-BUILD-079 / CORECUBE DEMO SYNC POLISH
+   Ziel:
+   - Hero-CoreCube oben und Showroom-Cube unten nutzen weiterhin dieselben
+     All4You-Demo-Faces aus App.jsx -> all4YouSharedCubeFaces.
+   - Die lokalen All4You-Screenshots im Cube wirken heller, lesbarer
+     und weniger abgedunkelt.
+   - Overlay-Texte bleiben kleiner, damit die hellen Website-Previews
+     mehr Fläche bekommen.
+   - Keine neue Logik, keine neue Animation, keine Änderung an Galerie,
+     Routing oder Demo-Zoom.
+===================================================== */
+
+.hero-showcase-cube.is-demo-synced,
+.corehub-launch-cube.has-demo-preview-face {
+  --demo-face-glow: rgba(var(--pulse-rgb), 0.22);
+  --demo-face-glow-soft: rgba(var(--pulse-next-rgb), 0.12);
+}
+
+.hero-showcase-cube.is-demo-synced .showcase-cube-face.has-preview-image,
+.corehub-launch-cube.has-demo-preview-face .showcase-cube-face.has-preview-image {
+  border-color: rgba(var(--pulse-rgb), 0.42) !important;
+  background:
+    linear-gradient(145deg, rgba(255,255,255,0.16), transparent 24%),
+    radial-gradient(circle at 50% 40%, rgba(var(--pulse-rgb), 0.18), transparent 34%),
+    linear-gradient(135deg, rgba(5, 10, 9, 0.98), rgba(2, 4, 5, 0.99)) !important;
+  box-shadow:
+    inset 0 0 34px rgba(var(--pulse-rgb), 0.13),
+    inset 0 0 0 1px rgba(255,255,255,0.08),
+    0 0 28px var(--demo-face-glow),
+    0 0 64px var(--demo-face-glow-soft) !important;
+}
+
+.hero-showcase-cube.is-demo-synced .face-preview-screen,
+.corehub-launch-cube.has-demo-preview-face .face-preview-screen {
+  width: 88% !important;
+  height: 78% !important;
+  background: rgba(245, 252, 253, 0.98) !important;
+  border-color: rgba(var(--pulse-rgb), 0.32) !important;
+  box-shadow:
+    inset 0 0 18px rgba(255, 255, 255, 0.26),
+    0 0 22px rgba(var(--pulse-rgb), 0.16) !important;
+}
+
+.hero-showcase-cube.is-demo-synced .face-preview-screen img,
+.corehub-launch-cube.has-demo-preview-face .face-preview-screen img {
+  object-fit: cover !important;
+  object-position: center top !important;
+  opacity: 1 !important;
+  filter: saturate(1.04) contrast(1.02) brightness(1) !important;
+  transform: scale(1.005) !important;
+}
+
+.hero-showcase-cube.is-demo-synced .face-preview-overlay,
+.corehub-launch-cube.has-demo-preview-face .face-preview-overlay {
+  gap: 0.12rem !important;
+  padding: clamp(0.42rem, calc(var(--cube-size) / 34), 0.68rem) !important;
+  background:
+    linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.72) 48%, rgba(0, 0, 0, 0.9) 100%),
+    linear-gradient(90deg, rgba(var(--pulse-rgb), 0.22), rgba(var(--pulse-next-rgb), 0.12)) !important;
+}
+
+.hero-showcase-cube.is-demo-synced .face-preview-overlay p,
+.corehub-launch-cube.has-demo-preview-face .face-preview-overlay p { font-size: clamp(0.44rem, calc(var(--cube-size) / 54), 0.58rem) !important; letter-spacing: 0.11em !important; }
+.hero-showcase-cube.is-demo-synced .face-preview-overlay h3,
+.corehub-launch-cube.has-demo-preview-face .face-preview-overlay h3 { font-size: clamp(0.82rem, calc(var(--cube-size) / 17), 1.25rem) !important; line-height: 0.98 !important; }
+.hero-showcase-cube.is-demo-synced .face-preview-overlay small,
+.corehub-launch-cube.has-demo-preview-face .face-preview-overlay small { font-size: clamp(0.42rem, calc(var(--cube-size) / 60), 0.54rem) !important; letter-spacing: 0.07em !important; }
+
+.hero-showcase-cube.is-demo-synced::after {
+  content: "DEMO SYNC";
+  position: absolute;
+  right: -0.4rem;
+  bottom: -1.15rem;
+  color: rgba(var(--pulse-rgb), 0.78);
+  font-size: 0.62rem;
+  font-weight: 950;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-shadow: 0 0 14px rgba(var(--pulse-rgb), 0.28);
+  pointer-events: none;
+}
+
+@media (hover: none) and (pointer: coarse), (max-width: 900px) {
+  .hero-showcase-cube.is-demo-synced .face-preview-screen,
+  .corehub-launch-cube.has-demo-preview-face .face-preview-screen { width: 84% !important; height: 74% !important; }
+  .hero-showcase-cube.is-demo-synced::after { display: none; }
+}
+
+/* =====================================================
+   SECTION: CES-BUILD-080 / PROJEKT ANFANGEN CTA FLOW
+   Ziel:
+   - Der Button "Projekt anfangen" aus der Demo springt zum Kontaktbereich.
+   - Dort erscheint eine sichtbare Kontextkarte zur aktuellen Demo-Route.
+   - Kein Formular-Backend, keine Datenbank, kein Mailversand.
+===================================================== */
+
+.project-request-context-card {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  gap: 0.54rem;
+  border: 1px solid rgba(var(--pulse-rgb), 0.22);
+  border-radius: 1.45rem;
+  padding: clamp(1rem, 1.4vw, 1.35rem);
+  background:
+    radial-gradient(circle at 0% 0%, rgba(var(--pulse-rgb), 0.16), transparent 16rem),
+    linear-gradient(135deg, rgba(255,255,255,0.075), rgba(255,255,255,0.025)),
+    rgba(2, 7, 6, 0.56);
+  box-shadow:
+    0 24px 70px rgba(0, 0, 0, 0.28),
+    inset 0 0 34px rgba(var(--pulse-rgb), 0.035);
+}
+
+.project-request-context-card span {
+  width: fit-content;
+  border: 1px solid rgba(var(--pulse-rgb), 0.22);
+  border-radius: 999px;
+  padding: 0.32rem 0.58rem;
+  color: var(--pulse-main);
+  background: rgba(var(--pulse-rgb), 0.075);
+  font-size: 0.66rem;
+  font-weight: 950;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.project-request-context-card strong {
+  color: rgba(246, 255, 242, 0.94);
+  font-size: clamp(1.25rem, 1.9vw, 2rem);
+  line-height: 1.04;
+  letter-spacing: -0.05em;
+}
+
+.project-request-context-card p {
+  margin: 0;
+  max-width: 48rem;
+  color: rgba(226, 242, 226, 0.78);
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.project-request-context-card b {
+  color: rgba(255,255,255,0.94);
+}
+
+.project-request-context-card small {
+  color: rgba(var(--pulse-rgb), 0.72);
+  font-size: 0.72rem;
+  font-weight: 850;
+  letter-spacing: 0.06em;
+}
+
+.project-request-context-card button {
+  width: fit-content;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 999px;
+  padding: 0.48rem 0.72rem;
+  color: rgba(232, 248, 232, 0.78);
+  background: rgba(255,255,255,0.045);
+  font-size: 0.72rem;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.project-request-context-card button:hover {
+  color: rgba(255,255,255,0.95);
+  border-color: rgba(var(--pulse-rgb), 0.24);
+}
+
+@media (max-width: 760px) {
+  .project-request-context-card {
+    border-radius: 1.1rem;
+  }
+}
+
+/* =====================================================
+   SECTION: CES-BUILD-081 / KONTAKT MAILTO CONTEXT
+   Ziel:
+   - Die Kontextkarte aus dem Button "Projekt anfangen" bekommt
+     einen direkten E-Mail-Start mit vorausgefülltem Betreff/Text.
+   - Kein Backend, kein Formularversand, keine Datenbank.
+   - Der Besucher kann direkt mit Kontext an info@coreenginestudio.de schreiben.
+
+   Pflege:
+   - Kontextdaten: App.jsx -> projectRequestContext
+   - Mailto-Aktion: .project-request-context-actions
+===================================================== */
+
+.project-request-context-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.58rem;
+  align-items: center;
+  margin-top: 0.18rem;
+}
+
+.project-request-context-actions a,
+.project-request-context-actions button {
+  min-height: 2.45rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.42rem;
+  border-radius: 999px;
+  padding: 0.54rem 0.82rem;
+  font-size: 0.74rem;
+  font-weight: 950;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.project-request-context-actions a {
+  border: 1px solid rgba(var(--pulse-rgb), 0.28);
+  color: rgba(4, 9, 7, 0.96);
+  background:
+    linear-gradient(135deg, var(--pulse-main), var(--pulse-next-main));
+  box-shadow:
+    0 0 22px rgba(var(--pulse-rgb), 0.18),
+    0 16px 42px rgba(0, 0, 0, 0.24);
+}
+
+.project-request-context-actions button {
+  border: 1px solid rgba(255,255,255,0.12);
+  color: rgba(232, 248, 232, 0.78);
+  background: rgba(255,255,255,0.045);
+}
+
+.project-request-context-actions a:hover,
+.project-request-context-actions button:hover {
+  transform: translateY(-1px);
+}
+
+.project-request-context-card > button {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  .project-request-context-actions {
+    align-items: stretch;
+  }
+
+  .project-request-context-actions a,
+  .project-request-context-actions button {
+    width: 100%;
+  }
+}
+
+/* =====================================================
+   SECTION: CES-BUILD-082 / KONTAKT CTA POLISH
+   Ziel:
+   - Die Kontextkarte aus "Projekt anfangen" wirkt kompakter und
+     besser mit dem rechten Kontaktblock verbunden.
+   - Der Button "Anfrage per E-Mail starten" wird klar als Haupt-CTA
+     geführt.
+   - Keine neue Logik, kein Backend, keine Datenbank, kein Formularversand.
+
+   Pflege:
+   - Kontextkarte: .project-request-context-card
+   - Aktionszeile: .project-request-context-actions
+===================================================== */
+
+.project-request-context-card {
+  min-height: 100%;
+  align-content: center;
+  gap: 0.48rem !important;
+  border-color: rgba(var(--pulse-rgb), 0.28) !important;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(var(--pulse-rgb), 0.18), transparent 14rem),
+    radial-gradient(circle at 100% 100%, rgba(var(--pulse-next-rgb), 0.10), transparent 16rem),
+    linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.025)),
+    rgba(2, 7, 6, 0.62) !important;
+}
+
+.project-request-context-card span {
+  margin-bottom: 0.08rem;
+}
+
+.project-request-context-card strong {
+  max-width: 24rem;
+  font-size: clamp(1.2rem, 1.72vw, 1.82rem) !important;
+}
+
+.project-request-context-card p {
+  max-width: 30rem !important;
+  font-size: 0.84rem !important;
+  line-height: 1.52 !important;
+}
+
+.project-request-context-card small {
+  width: fit-content;
+  border: 1px solid rgba(var(--pulse-rgb), 0.16);
+  border-radius: 999px;
+  padding: 0.32rem 0.52rem;
+  background: rgba(var(--pulse-rgb), 0.055);
+  color: rgba(var(--pulse-rgb), 0.82) !important;
+  font-size: 0.64rem !important;
+  line-height: 1.2;
+}
+
+.project-request-context-actions {
+  margin-top: 0.34rem !important;
+}
+
+.project-request-context-actions a {
+  min-height: 2.72rem !important;
+  padding-inline: 1rem !important;
+  color: rgba(2, 7, 6, 0.98) !important;
+  background:
+    linear-gradient(135deg, var(--pulse-main), var(--pulse-next-main)) !important;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.10) inset,
+    0 0 26px rgba(var(--pulse-rgb), 0.22),
+    0 20px 54px rgba(0, 0, 0, 0.28) !important;
+}
+
+.project-request-context-actions a::after {
+  content: "kostenlos";
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.28rem;
+  border-radius: 999px;
+  padding: 0 0.45rem;
+  background: rgba(0, 0, 0, 0.15);
+  color: rgba(2, 7, 6, 0.86);
+  font-size: 0.58rem;
+  font-weight: 950;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.project-request-context-actions button {
+  min-height: 2.36rem !important;
+  opacity: 0.84;
+}
+
+.project-request-context-actions button:hover {
+  opacity: 1;
+}
+
+/* Wenn die Kontextkarte neben der großen Kontaktheadline steht, wirkt sie
+   dadurch wie ein bewusstes Anfrage-Modul statt wie eine lose Zusatzkarte. */
+#kontakt .project-request-context-card {
+  transform: translateY(0.08rem);
+}
+
+/* Auf schmaleren Displays bleibt die Karte lesbar und blockt nicht zu viel Höhe. */
+@media (max-width: 980px) {
+  .project-request-context-card {
+    min-height: auto;
+  }
+
+  .project-request-context-card strong,
+  .project-request-context-card p {
+    max-width: none !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .project-request-context-actions a::after {
+    display: none;
+  }
+}
+
+/* =====================================================
+   SECTION: CES-BUILD-083 / GAMING MATRIX INSELLEBEN CASE
+   Ziel:
+   - Gaming Matrix bekommt mit Inselleben einen echten Demo-/Showroom-Case.
+   - All4You bleibt unverändert.
+   - Die Inselleben-Demo nutzt dieselbe Demo-Galerie-Shell, aber mit
+     dunkler/lila/orange Gaming-Stimmung.
+   - Kein iframe, nur lokale Screenshot-Assets.
+
+   Pflege:
+   - Bilder: src/assets/demos/inselleben/
+   - Daten: App.jsx -> insellebenDemoGallery / insellebenSharedCubeFaces
+   - Ziel: App.jsx -> gaming-matrix-inselleben-demo
+===================================================== */
+
+.target-gaming-matrix .corehub-demo-shell {
+  border-color: rgba(180, 96, 255, 0.30) !important;
+  background:
+    radial-gradient(circle at 8% 0%, rgba(171, 97, 255, 0.18), transparent 18rem),
+    radial-gradient(circle at 95% 100%, rgba(255, 142, 91, 0.14), transparent 18rem),
+    linear-gradient(135deg, rgba(23, 12, 36, 0.92), rgba(7, 4, 12, 0.96)) !important;
+}
+
+.target-gaming-matrix .corehub-demo-shell-preview:not(.is-story-slide) {
+  background:
+    radial-gradient(circle at 50% 0%, rgba(171, 97, 255, 0.13), transparent 22rem),
+    linear-gradient(180deg, rgba(16, 8, 27, 0.96), rgba(7, 4, 13, 0.98)) !important;
+}
+
+.target-gaming-matrix .corehub-demo-shell-preview img {
+  border-radius: 1.05rem !important;
+  box-shadow:
+    0 0 0 1px rgba(180, 96, 255, 0.22),
+    0 24px 70px rgba(0, 0, 0, 0.42),
+    0 0 48px rgba(171, 97, 255, 0.10) !important;
+}
+
+.target-gaming-matrix .corehub-demo-shell-content {
+  border-color: rgba(180, 96, 255, 0.22) !important;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(180, 96, 255, 0.16), transparent 11rem),
+    radial-gradient(circle at 100% 100%, rgba(255, 142, 91, 0.12), transparent 12rem),
+    rgba(8, 4, 13, 0.78) !important;
+}
+
+.target-gaming-matrix .corehub-demo-shell-content > span,
+.target-gaming-matrix .corehub-demo-story-panel span {
+  color: rgba(255, 183, 99, 0.96) !important;
+}
+
+.target-gaming-matrix .corehub-demo-shell-content > strong {
+  color: rgba(255, 252, 244, 0.96) !important;
+}
+
+.target-gaming-matrix .corehub-demo-shell-modules em {
+  border-color: rgba(180, 96, 255, 0.24) !important;
+  background: rgba(180, 96, 255, 0.08) !important;
+  color: rgba(250, 238, 255, 0.9) !important;
+}
+
+.target-gaming-matrix .corehub-demo-gallery-dock button.is-active {
+  border-color: rgba(255, 142, 91, 0.48) !important;
+  box-shadow: inset 0 0 22px rgba(255, 142, 91, 0.10) !important;
+}
+
+.target-gaming-matrix .corehub-demo-project-start,
+.target-gaming-matrix .corehub-demo-shell-actions a:last-child {
+  background: linear-gradient(135deg, #a855f7, #ff8a5b) !important;
+}
+
+.target-gaming-matrix .corehub-demo-story-panel {
+  background:
+    radial-gradient(circle at 0% 0%, rgba(171, 97, 255, 0.16), transparent 18rem),
+    radial-gradient(circle at 100% 100%, rgba(255, 142, 91, 0.12), transparent 18rem),
+    rgba(8, 4, 13, 0.76) !important;
+}
+
+/* Cube-Sync für Gaming-Matrix: helle Vorschau nicht erzwingen,
+   sondern Inselleben-Screenshots in dunkler Bühne lassen. */
+.hero-showcase-cube.is-demo-synced .showcase-cube-face.has-preview-image:has(img[src*="inselleben"]),
+.corehub-launch-cube.has-demo-preview-face .showcase-cube-face.has-preview-image:has(img[src*="inselleben"]) {
+  background:
+    linear-gradient(145deg, rgba(255,255,255,0.10), transparent 24%),
+    radial-gradient(circle at 45% 42%, rgba(171, 97, 255, 0.20), transparent 34%),
+    linear-gradient(135deg, rgba(18, 8, 31, 0.98), rgba(3, 2, 6, 0.99)) !important;
+}
+
+/* =====================================================
+   SECTION: CES-BUILD-084 / GAMING MATRIX DEMO POLISH
+   Ziel:
+   - Inselleben-Demo wirkt in der Demo-Shell ruhiger, klarer und lesbarer.
+   - Screenshots bleiben vollständig sichtbar und nicht zu dunkel.
+   - Dock, Controls und Story-Slide werden für Gaming Matrix kompakter.
+   - All4You bleibt unangetastet.
+   - Keine neue Logik, keine Routing-Änderung, keine Cube-Animation.
+
+   Pflege:
+   - Gaming-Daten: App.jsx -> insellebenDemoGallery
+   - Gaming-Faces: App.jsx -> insellebenSharedCubeFaces
+   - Dieser Block überschreibt nur .target-gaming-matrix
+===================================================== */
+
+/* Die Gaming-Demo bekommt etwas mehr Bühne, ohne das allgemeine Demo-Layout zu verändern. */
+.target-gaming-matrix .corehub-demo-shell {
+  max-width: min(73.5rem, calc(100vw - 6rem)) !important;
+  border-color: rgba(180, 96, 255, 0.36) !important;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.035) inset,
+    0 30px 90px rgba(0, 0, 0, 0.36),
+    0 0 70px rgba(171, 97, 255, 0.08) !important;
+}
+
+/* Screenshots klarer und weniger abgedunkelt anzeigen. */
+.target-gaming-matrix .corehub-demo-shell-preview:not(.is-story-slide) {
+  background:
+    radial-gradient(circle at 50% 0%, rgba(171, 97, 255, 0.12), transparent 22rem),
+    radial-gradient(circle at 95% 100%, rgba(255, 142, 91, 0.08), transparent 18rem),
+    linear-gradient(180deg, rgba(16, 8, 27, 0.94), rgba(7, 4, 13, 0.98)) !important;
+}
+
+.target-gaming-matrix .corehub-demo-shell-preview img {
+  object-fit: contain !important;
+  object-position: center top !important;
+  opacity: 1 !important;
+  filter: saturate(1.08) contrast(1.04) brightness(1.04) !important;
+  -webkit-filter: saturate(1.08) contrast(1.04) brightness(1.04) !important;
+}
+
+/* Rechte Info-Karte mehr Gaming, weniger Textblock-Gefühl. */
+.target-gaming-matrix .corehub-demo-shell-content {
+  align-self: center !important;
+  border-color: rgba(180, 96, 255, 0.28) !important;
+  box-shadow:
+    inset 0 0 30px rgba(171, 97, 255, 0.055),
+    0 20px 60px rgba(0, 0, 0, 0.28) !important;
+}
+
+.target-gaming-matrix .corehub-demo-shell-content > strong {
+  font-size: clamp(1.12rem, 1.58vw, 1.78rem) !important;
+  letter-spacing: -0.052em !important;
+}
+
+.target-gaming-matrix .corehub-demo-shell-content > p {
+  color: rgba(239, 232, 247, 0.78) !important;
+  font-size: 0.76rem !important;
+  line-height: 1.5 !important;
+}
+
+/* Module-Tags im Gaming-Stil ruhiger und gleichmäßiger. */
+.target-gaming-matrix .corehub-demo-shell-modules {
+  gap: 0.34rem !important;
+}
+
+.target-gaming-matrix .corehub-demo-shell-modules em {
+  min-height: 1.66rem !important;
+  border-color: rgba(180, 96, 255, 0.26) !important;
+  background:
+    linear-gradient(135deg, rgba(171, 97, 255, 0.12), rgba(255, 142, 91, 0.055)) !important;
+  color: rgba(250, 238, 255, 0.9) !important;
+}
+
+/* Galerie-Dock kompakter, damit der Gaming-Case nicht nach unten drückt. */
+.target-gaming-matrix .corehub-demo-gallery-dock {
+  gap: 0.24rem !important;
+}
+
+.target-gaming-matrix .corehub-demo-gallery-dock button {
+  min-height: 1.84rem !important;
+  border-color: rgba(180, 96, 255, 0.16) !important;
+  background: rgba(11, 5, 19, 0.62) !important;
+}
+
+.target-gaming-matrix .corehub-demo-gallery-dock button.is-active {
+  border-color: rgba(255, 142, 91, 0.54) !important;
+  background:
+    linear-gradient(135deg, rgba(171, 97, 255, 0.16), rgba(255, 142, 91, 0.10)) !important;
+}
+
+/* Story-Slide kompakter und stärker als Case-Zusammenfassung. */
+.target-gaming-matrix .corehub-demo-shell-preview.is-story-slide {
+  min-height: clamp(17rem, 28vw, 23.25rem) !important;
+  max-height: min(50vh, 24rem) !important;
+}
+
+.target-gaming-matrix .corehub-demo-story-panel {
+  width: min(100%, 55rem) !important;
+  padding: clamp(1.05rem, 1.55vw, 1.45rem) !important;
+  gap: 0.58rem !important;
+}
+
+.target-gaming-matrix .corehub-demo-story-panel p {
+  max-width: 50rem !important;
+  color: rgba(243, 236, 250, 0.8) !important;
+  font-size: clamp(0.8rem, 0.86vw, 0.92rem) !important;
+  line-height: 1.54 !important;
+}
+
+.target-gaming-matrix .corehub-demo-story-panel ul {
+  gap: 0.42rem !important;
+}
+
+.target-gaming-matrix .corehub-demo-story-panel li {
+  min-height: 2.48rem !important;
+  border-color: rgba(180, 96, 255, 0.18) !important;
+  background:
+    linear-gradient(135deg, rgba(171, 97, 255, 0.105), rgba(255, 142, 91, 0.05)) !important;
+  color: rgba(245, 239, 252, 0.82) !important;
+}
+
+/* Pfeile/Counter im Gaming-Case deutlicher, aber nicht grell. */
+.target-gaming-matrix .corehub-demo-gallery-controls {
+  background: rgba(11, 5, 19, 0.78) !important;
+  border-color: rgba(180, 96, 255, 0.28) !important;
+}
+
+.target-gaming-matrix .corehub-demo-gallery-controls button {
+  background:
+    linear-gradient(135deg, rgba(171, 97, 255, 0.24), rgba(255, 142, 91, 0.12)) !important;
+}
+
+/* Der Projekt-CTA bleibt passend zur Gaming-Farbwelt. */
+.target-gaming-matrix .corehub-demo-project-start {
+  color: rgba(12, 5, 18, 0.98) !important;
+  background: linear-gradient(135deg, #b45cff, #ff8a5b) !important;
+}
+
+/* Mobile: Gaming-Screenshots nicht aufblasen, Stabilität behalten. */
+@media (max-width: 760px) {
+  .target-gaming-matrix .corehub-demo-shell {
+    max-width: calc(100vw - 1.6rem) !important;
+  }
+
+  .target-gaming-matrix .corehub-demo-story-panel ul {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* =====================================================
+   SECTION: CES-BUILD-085 / DEMO CASE SELECTOR POLISH
+   Ziel:
+   - Im CoreHub wird sichtbar, welche Auswahlwege bereits echte
+     Demo-Cases haben.
+   - Business Clean -> All4You und Gaming Matrix -> Inselleben
+     werden auf den Karten markiert.
+   - Keine neue Route, keine neue Demo, keine Änderung an All4You
+     oder Inselleben selbst.
+
+   Pflege:
+   - Metadaten: App.jsx -> getCoreHubDemoCaseMeta
+   - Kartenanzeige: .hub-card-demo-badge / .hub-card.has-demo-case
+===================================================== */
+
+.hub-card.has-demo-case {
+  position: relative;
+  border-color: rgba(var(--pulse-rgb), 0.34) !important;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(var(--pulse-rgb), 0.14), transparent 10rem),
+    radial-gradient(circle at 0% 100%, rgba(var(--pulse-next-rgb), 0.08), transparent 12rem),
+    rgba(7, 16, 12, 0.58) !important;
+}
+
+.hub-card.has-demo-case::after {
+  content: "";
+  position: absolute;
+  right: 0.8rem;
+  bottom: 0.75rem;
+  width: 0.46rem;
+  height: 0.46rem;
+  border-radius: 999px;
+  background: var(--pulse-main);
+  box-shadow:
+    0 0 0 0.32rem rgba(var(--pulse-rgb), 0.08),
+    0 0 18px rgba(var(--pulse-rgb), 0.34);
+  pointer-events: none;
+}
+
+.hub-card.has-demo-case:hover {
+  border-color: rgba(var(--pulse-rgb), 0.5) !important;
+  box-shadow:
+    0 18px 60px rgba(0, 0, 0, 0.25),
+    inset 0 0 34px rgba(var(--pulse-rgb), 0.055),
+    0 0 34px rgba(var(--pulse-rgb), 0.10) !important;
+}
+
+.hub-card-demo-badge {
+  width: fit-content;
+  max-width: 100%;
+  display: inline-grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  gap: 0.22rem 0.42rem;
+  margin: 0.08rem 0 0.24rem;
+  border: 1px solid rgba(var(--pulse-rgb), 0.22);
+  border-radius: 0.85rem;
+  padding: 0.34rem 0.46rem;
+  background:
+    linear-gradient(135deg, rgba(var(--pulse-rgb), 0.11), rgba(var(--pulse-next-rgb), 0.055));
+}
+
+.hub-card-demo-badge span {
+  grid-column: 1 / -1;
+  color: rgba(var(--pulse-rgb), 0.92);
+  font-size: 0.54rem;
+  font-weight: 950;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.hub-card-demo-badge strong {
+  color: rgba(248, 255, 244, 0.95);
+  font-size: 0.76rem;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.hub-card-demo-badge em {
+  color: rgba(224, 240, 224, 0.64);
+  font-size: 0.61rem;
+  font-style: normal;
+  font-weight: 850;
+  line-height: 1.05;
+}
+
+/* Spezifische optische Signatur:
+   Gaming Matrix soll im Selector leicht lila/orange wirken,
+   ohne globale CoreHub-Karten umzubauen. */
+.hub-card.has-demo-case[data-badge="Gaming"] {
+  border-color: rgba(180, 96, 255, 0.34) !important;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(180, 96, 255, 0.16), transparent 10rem),
+    radial-gradient(circle at 0% 100%, rgba(255, 142, 91, 0.09), transparent 12rem),
+    rgba(11, 5, 18, 0.62) !important;
+}
+
+.hub-card.has-demo-case[data-badge="Gaming"] .hub-card-demo-badge {
+  border-color: rgba(180, 96, 255, 0.24);
+  background:
+    linear-gradient(135deg, rgba(180, 96, 255, 0.12), rgba(255, 142, 91, 0.06));
+}
+
+.hub-card.has-demo-case[data-badge="Gaming"] .hub-card-demo-badge span {
+  color: rgba(255, 183, 99, 0.94);
+}
+
+@media (max-width: 760px) {
+  .hub-card-demo-badge {
+    margin-top: 0.18rem;
+  }
+
+  .hub-card.has-demo-case::after {
+    display: none;
+  }
+}
+
+/* =====================================================
+   SECTION: CES-BUILD-086 / SHOPFLOW HAMMER MODDING CASE
+   Ziel:
+   - Shopflow bekommt mit Hammer Modding einen echten Demo-/Showroom-Case.
+   - Der Case zeigt einen digitalen Produkt-/Asset-Shop mit Warenkorb,
+     Account, Discord-Verknüpfung und interner Produktpflege.
+   - All4You und Inselleben bleiben unangetastet.
+   - Kein iframe, nur lokale Screenshot-Assets.
+
+   Pflege:
+   - Bilder: src/assets/demos/hammer/
+   - Daten: App.jsx -> hammerDemoGallery / hammerSharedCubeFaces
+   - Ziel: App.jsx -> shopflow-hammermodding-demo
+===================================================== */
+
+.target-shopflow .corehub-demo-shell {
+  max-width: min(73.5rem, calc(100vw - 6rem)) !important;
+  border-color: rgba(255, 74, 74, 0.36) !important;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(255, 66, 66, 0.18), transparent 18rem),
+    radial-gradient(circle at 100% 100%, rgba(255, 135, 86, 0.11), transparent 18rem),
+    linear-gradient(135deg, rgba(31, 7, 7, 0.94), rgba(7, 2, 2, 0.98)) !important;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.035) inset,
+    0 30px 90px rgba(0, 0, 0, 0.38),
+    0 0 72px rgba(255, 54, 54, 0.08) !important;
+}
+
+.target-shopflow .corehub-demo-shell-preview:not(.is-story-slide) {
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255, 66, 66, 0.12), transparent 22rem),
+    radial-gradient(circle at 95% 100%, rgba(255, 145, 91, 0.08), transparent 18rem),
+    linear-gradient(180deg, rgba(22, 5, 5, 0.95), rgba(7, 2, 2, 0.98)) !important;
+}
+
+.target-shopflow .corehub-demo-shell-preview img {
+  object-fit: contain !important;
+  object-position: center top !important;
+  opacity: 1 !important;
+  filter: saturate(1.1) contrast(1.05) brightness(1.02) !important;
+  -webkit-filter: saturate(1.1) contrast(1.05) brightness(1.02) !important;
+  border-radius: 1.05rem !important;
+  box-shadow:
+    0 0 0 1px rgba(255, 92, 92, 0.23),
+    0 24px 70px rgba(0, 0, 0, 0.42),
+    0 0 48px rgba(255, 72, 72, 0.10) !important;
+}
+
+.target-shopflow .corehub-demo-shell-content {
+  align-self: center !important;
+  border-color: rgba(255, 74, 74, 0.28) !important;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(255, 66, 66, 0.16), transparent 11rem),
+    radial-gradient(circle at 100% 100%, rgba(255, 145, 91, 0.10), transparent 12rem),
+    rgba(11, 3, 3, 0.80) !important;
+  box-shadow:
+    inset 0 0 30px rgba(255, 54, 54, 0.055),
+    0 20px 60px rgba(0, 0, 0, 0.28) !important;
+}
+
+.target-shopflow .corehub-demo-shell-content > span,
+.target-shopflow .corehub-demo-story-panel span {
+  color: rgba(255, 165, 155, 0.96) !important;
+}
+
+.target-shopflow .corehub-demo-shell-content > strong {
+  color: rgba(255, 245, 242, 0.96) !important;
+  font-size: clamp(1.12rem, 1.58vw, 1.78rem) !important;
+  letter-spacing: -0.052em !important;
+}
+
+.target-shopflow .corehub-demo-shell-content > p {
+  color: rgba(248, 223, 220, 0.78) !important;
+  font-size: 0.76rem !important;
+  line-height: 1.5 !important;
+}
+
+.target-shopflow .corehub-demo-shell-modules {
+  gap: 0.34rem !important;
+}
+
+.target-shopflow .corehub-demo-shell-modules em {
+  min-height: 1.66rem !important;
+  border-color: rgba(255, 74, 74, 0.26) !important;
+  background:
+    linear-gradient(135deg, rgba(255, 66, 66, 0.13), rgba(255, 145, 91, 0.055)) !important;
+  color: rgba(255, 235, 232, 0.9) !important;
+}
+
+.target-shopflow .corehub-demo-gallery-dock button {
+  min-height: 1.84rem !important;
+  border-color: rgba(255, 74, 74, 0.16) !important;
+  background: rgba(18, 4, 4, 0.62) !important;
+}
+
+.target-shopflow .corehub-demo-gallery-dock button.is-active {
+  border-color: rgba(255, 145, 91, 0.54) !important;
+  background:
+    linear-gradient(135deg, rgba(255, 66, 66, 0.16), rgba(255, 145, 91, 0.10)) !important;
+}
+
+.target-shopflow .corehub-demo-gallery-controls {
+  background: rgba(18, 4, 4, 0.80) !important;
+  border-color: rgba(255, 74, 74, 0.28) !important;
+}
+
+.target-shopflow .corehub-demo-gallery-controls button {
+  background:
+    linear-gradient(135deg, rgba(255, 66, 66, 0.24), rgba(255, 145, 91, 0.12)) !important;
+}
+
+.target-shopflow .corehub-demo-project-start,
+.target-shopflow .corehub-demo-shell-actions a:last-child {
+  color: rgba(14, 3, 3, 0.98) !important;
+  background: linear-gradient(135deg, #ff4b4b, #ff9a5b) !important;
+}
+
+.target-shopflow .corehub-demo-story-panel {
+  background:
+    radial-gradient(circle at 0% 0%, rgba(255, 66, 66, 0.16), transparent 18rem),
+    radial-gradient(circle at 100% 100%, rgba(255, 145, 91, 0.11), transparent 18rem),
+    rgba(12, 3, 3, 0.78) !important;
+}
+
+.target-shopflow .corehub-demo-story-panel li {
+  border-color: rgba(255, 74, 74, 0.18) !important;
+  background:
+    linear-gradient(135deg, rgba(255, 66, 66, 0.105), rgba(255, 145, 91, 0.05)) !important;
+  color: rgba(255, 238, 235, 0.84) !important;
+}
+
+/* Cube-Flächen für Hammer Modding bewusst dunkel/rot halten. */
+.hero-showcase-cube.is-demo-synced .showcase-cube-face.has-preview-image:has(img[src*="hammer"]),
+.corehub-launch-cube.has-demo-preview-face .showcase-cube-face.has-preview-image:has(img[src*="hammer"]) {
+  background:
+    linear-gradient(145deg, rgba(255,255,255,0.10), transparent 24%),
+    radial-gradient(circle at 45% 42%, rgba(255, 66, 66, 0.20), transparent 34%),
+    linear-gradient(135deg, rgba(24, 4, 4, 0.98), rgba(4, 1, 1, 0.99)) !important;
+}
+
+/* Temporäre 085-Demo-Hinweise: Shopflow bekommt rote Store-Signatur. */
+.hub-card.has-demo-case[data-badge="Shop"] {
+  border-color: rgba(255, 74, 74, 0.34) !important;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(255, 66, 66, 0.16), transparent 10rem),
+    radial-gradient(circle at 0% 100%, rgba(255, 145, 91, 0.09), transparent 12rem),
+    rgba(18, 4, 4, 0.62) !important;
+}
+
+.hub-card.has-demo-case[data-badge="Shop"] .hub-card-demo-badge {
+  border-color: rgba(255, 74, 74, 0.24);
+  background:
+    linear-gradient(135deg, rgba(255, 66, 66, 0.12), rgba(255, 145, 91, 0.06));
+}
+
+.hub-card.has-demo-case[data-badge="Shop"] .hub-card-demo-badge span {
+  color: rgba(255, 165, 155, 0.94);
+}
+
+@media (max-width: 760px) {
+  .target-shopflow .corehub-demo-shell {
+    max-width: calc(100vw - 1.6rem) !important;
+  }
+
+  .target-shopflow .corehub-demo-story-panel ul {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* =====================================================
+   SECTION: CES-BUILD-087 / SELECTOR NEUTRAL PANELS
+   Ziel:
+   - Die temporären Demo-/Live-Demo-Hinweise dürfen bleiben.
+   - Die CoreHub-Panels selbst dürfen dadurch aber NICHT farblich
+     anders wirken.
+   - Business Clean, Gaming Matrix und Shopflow behalten denselben
+     transparenten Panel-Look wie alle anderen Karten.
+   - All4You-, Inselleben- und Hammer-Demos selbst bleiben unangetastet.
+
+   Pflege:
+   - Temporäre Hinweise: App.jsx -> getCoreHubDemoCaseMeta
+   - Neutrale Panels: dieser CSS-Block
+===================================================== */
+
+/* Die Demo-Markierung darf keinen eigenen Kartenhintergrund erzeugen. */
+.hub-card.has-demo-case,
+.hub-card.has-demo-case[data-badge],
+.hub-card.has-demo-case[data-badge="Gaming"],
+.hub-card.has-demo-case[data-badge="Shop"] {
+  border-color: rgba(var(--pulse-rgb), 0.16) !important;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0.055), rgba(255,255,255,0.018)),
+    rgba(4, 12, 9, 0.48) !important;
+  box-shadow: none !important;
+}
+
+/* Hover soll wie bei normalen Karten wirken, nicht wie farbige Demo-Kachel. */
+.hub-card.has-demo-case:hover,
+.hub-card.has-demo-case[data-badge]:hover,
+.hub-card.has-demo-case[data-badge="Gaming"]:hover,
+.hub-card.has-demo-case[data-badge="Shop"]:hover {
+  border-color: rgba(var(--pulse-rgb), 0.32) !important;
+  background:
+    radial-gradient(circle at 45% 0%, rgba(var(--pulse-rgb), 0.12), transparent 12rem),
+    linear-gradient(135deg, rgba(255,255,255,0.065), rgba(255,255,255,0.02)),
+    rgba(4, 12, 9, 0.52) !important;
+  box-shadow: none !important;
+}
+
+/* Den auffälligen farbigen Punkt unten rechts entfernen. */
+.hub-card.has-demo-case::after {
+  display: none !important;
+}
+
+/* Die kleine Markierung bleibt als interne Orientierung, aber deutlich ruhiger. */
+.hub-card-demo-badge {
+  border-color: rgba(var(--pulse-rgb), 0.16) !important;
+  background: rgba(255,255,255,0.035) !important;
+  box-shadow: none !important;
+}
+
+.hub-card-demo-badge span {
+  color: rgba(var(--pulse-rgb), 0.72) !important;
+}
+
+.hub-card-demo-badge strong {
+  color: rgba(242, 255, 236, 0.86) !important;
+}
+
+.hub-card-demo-badge em {
+  color: rgba(224, 240, 224, 0.56) !important;
+}
+
+/* Shop/Gaming-Sonderfarben aus 085/086 im Selector neutralisieren. */
+.hub-card.has-demo-case[data-badge="Gaming"] .hub-card-demo-badge,
+.hub-card.has-demo-case[data-badge="Shop"] .hub-card-demo-badge {
+  border-color: rgba(var(--pulse-rgb), 0.16) !important;
+  background: rgba(255,255,255,0.035) !important;
+}
+
+.hub-card.has-demo-case[data-badge="Gaming"] .hub-card-demo-badge span,
+.hub-card.has-demo-case[data-badge="Shop"] .hub-card-demo-badge span {
+  color: rgba(var(--pulse-rgb), 0.72) !important;
+}
+
+/* =====================================================
+   SECTION: CES-BUILD-088 / SHOPFLOW HAMMER DEMO POLISH
+   Ziel:
+   - Hammer-Modding-Demo selbst polieren.
+   - Screenshots in der Galerie ruhiger, heller und vollständiger zeigen.
+   - Rechte Info-Karte und Story-Slide kompakter führen.
+   - Galerie-Dock im Shopflow sauberer lesbar halten.
+   - Selector/Hub-Karten, All4You und Inselleben NICHT anfassen.
+
+   Pflege:
+   - Demo-Daten: App.jsx -> hammerDemoGallery
+   - Cube-Faces: App.jsx -> hammerSharedCubeFaces
+   - Dieser Block betrifft nur .target-shopflow
+===================================================== */
+
+/* Demo-Shell: etwas kontrollierter, weniger schwer und sauber im Viewport. */
+.target-shopflow .corehub-demo-shell {
+  width: min(100%, 72.5rem) !important;
+  max-width: min(72.5rem, calc(100vw - 6rem)) !important;
+  grid-template-columns: minmax(0, 1.04fr) minmax(16rem, 0.56fr) !important;
+  gap: clamp(0.72rem, 0.95vw, 0.96rem) !important;
+  padding: clamp(0.78rem, 0.95vw, 0.94rem) !important;
+}
+
+/* Preview-Fläche: Screenshots vollständig und nicht abgeschnitten zeigen. */
+.target-shopflow .corehub-demo-gallery-wrap .corehub-demo-shell-preview,
+.target-shopflow .corehub-demo-shell-preview:not(.is-story-slide) {
+  height: clamp(17.75rem, 31vw, 27.5rem) !important;
+  max-height: min(49vh, 27.5rem) !important;
+  min-height: 17.5rem !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: hidden !important;
+}
+
+.target-shopflow .corehub-demo-shell-preview img {
+  max-width: 100% !important;
+  max-height: 100% !important;
+  width: auto !important;
+  height: auto !important;
+  object-fit: contain !important;
+  object-position: center top !important;
+  opacity: 1 !important;
+  filter: saturate(1.08) contrast(1.04) brightness(1.055) !important;
+  -webkit-filter: saturate(1.08) contrast(1.04) brightness(1.055) !important;
+  transform: none !important;
+}
+
+/* Der rote Shop-Look bleibt, aber etwas weniger matschig/dunkel. */
+.target-shopflow .corehub-demo-shell-preview:not(.is-story-slide) {
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255, 66, 66, 0.10), transparent 22rem),
+    radial-gradient(circle at 95% 100%, rgba(255, 145, 91, 0.075), transparent 18rem),
+    linear-gradient(180deg, rgba(24, 6, 6, 0.90), rgba(7, 2, 2, 0.97)) !important;
+}
+
+/* Rechte Info-Karte kompakter und verkaufsorientierter. */
+.target-shopflow .corehub-demo-shell-content {
+  padding: clamp(0.72rem, 0.95vw, 0.9rem) !important;
+  gap: 0.5rem !important;
+}
+
+.target-shopflow .corehub-demo-shell-content > span {
+  font-size: 0.6rem !important;
+  letter-spacing: 0.13em !important;
+}
+
+.target-shopflow .corehub-demo-shell-content > strong {
+  font-size: clamp(1.06rem, 1.42vw, 1.62rem) !important;
+  line-height: 1.03 !important;
+}
+
+.target-shopflow .corehub-demo-shell-content > small {
+  font-size: 0.62rem !important;
+  line-height: 1.35 !important;
+}
+
+.target-shopflow .corehub-demo-shell-content > p {
+  font-size: 0.72rem !important;
+  line-height: 1.46 !important;
+}
+
+/* Tags und Buttons bleiben klar, aber nehmen weniger Platz weg. */
+.target-shopflow .corehub-demo-shell-modules {
+  gap: 0.28rem !important;
+}
+
+.target-shopflow .corehub-demo-shell-modules em {
+  min-height: 1.56rem !important;
+  padding: 0 0.42rem !important;
+  font-size: 0.58rem !important;
+}
+
+.target-shopflow .corehub-demo-shell-actions {
+  margin-top: 0.68rem !important;
+  gap: 0.42rem !important;
+}
+
+.target-shopflow .corehub-demo-shell-actions a {
+  min-height: 2.28rem !important;
+  padding: 0 0.72rem !important;
+  font-size: 0.68rem !important;
+}
+
+/* Galerie-Dock für 10 Slides flacher und besser nutzbar. */
+.target-shopflow .corehub-demo-gallery-dock {
+  grid-template-columns: repeat(10, minmax(4.1rem, 1fr)) !important;
+  max-height: 2.26rem !important;
+  gap: 0.22rem !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  scrollbar-width: thin !important;
+}
+
+.target-shopflow .corehub-demo-gallery-dock button {
+  min-height: 1.78rem !important;
+  padding: 0.18rem 0.3rem !important;
+}
+
+.target-shopflow .corehub-demo-gallery-dock button span {
+  font-size: 0.52rem !important;
+}
+
+.target-shopflow .corehub-demo-gallery-dock button strong {
+  max-width: 5.7rem !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  font-size: 0.5rem !important;
+  white-space: nowrap !important;
+}
+
+/* Controls dezenter auf Shop-Rot abstimmen. */
+.target-shopflow .corehub-demo-gallery-controls {
+  right: 0.7rem !important;
+  bottom: 0.6rem !important;
+  transform: scale(0.86) !important;
+  transform-origin: right bottom !important;
+}
+
+/* Story-Slide kompakter und informationsstärker. */
+.target-shopflow .corehub-demo-shell:has(.corehub-demo-shell-preview.is-story-slide) {
+  max-width: min(60.5rem, calc(100vw - 6rem)) !important;
+  grid-template-columns: 1fr !important;
+}
+
+.target-shopflow .corehub-demo-shell-preview.is-story-slide {
+  min-height: clamp(17rem, 28vw, 23rem) !important;
+  max-height: min(50vh, 24rem) !important;
+  height: auto !important;
+}
+
+.target-shopflow .corehub-demo-story-panel {
+  width: min(100%, 54.5rem) !important;
+  max-width: 54.5rem !important;
+  padding: clamp(1.05rem, 1.5vw, 1.42rem) !important;
+  gap: 0.55rem !important;
+}
+
+.target-shopflow .corehub-demo-story-panel p {
+  max-width: 50rem !important;
+  font-size: clamp(0.78rem, 0.84vw, 0.9rem) !important;
+  line-height: 1.52 !important;
+}
+
+.target-shopflow .corehub-demo-story-panel ul {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 0.4rem !important;
+  margin-top: 0.24rem !important;
+}
+
+.target-shopflow .corehub-demo-story-panel li {
+  min-height: 2.42rem !important;
+  padding: 0.46rem 0.6rem 0.46rem 1.78rem !important;
+  font-size: clamp(0.7rem, 0.73vw, 0.79rem) !important;
+  line-height: 1.32 !important;
+}
+
+/* Cube-Preview für Hammer etwas klarer, aber nicht hell/weiß wie All4You. */
+.hero-showcase-cube.is-demo-synced .showcase-cube-face.has-preview-image:has(img[src*="hammer"]) .face-preview-screen,
+.corehub-launch-cube.has-demo-preview-face .showcase-cube-face.has-preview-image:has(img[src*="hammer"]) .face-preview-screen {
+  width: 87% !important;
+  height: 77% !important;
+  border-color: rgba(255, 86, 86, 0.34) !important;
+  background: rgba(20, 4, 4, 0.96) !important;
+}
+
+.hero-showcase-cube.is-demo-synced .showcase-cube-face.has-preview-image:has(img[src*="hammer"]) .face-preview-screen img,
+.corehub-launch-cube.has-demo-preview-face .showcase-cube-face.has-preview-image:has(img[src*="hammer"]) .face-preview-screen img {
+  filter: saturate(1.08) contrast(1.04) brightness(1.02) !important;
+  -webkit-filter: saturate(1.08) contrast(1.04) brightness(1.02) !important;
+}
+
+/* Mobile bleibt stabil: kein neues schweres Layout. */
+@media (max-width: 1180px) {
+  .target-shopflow .corehub-demo-shell {
+    max-width: calc(100vw - 2.2rem) !important;
+    grid-template-columns: 1fr !important;
+  }
+
+  .target-shopflow .corehub-demo-gallery-dock {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    max-height: none !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .target-shopflow .corehub-demo-gallery-wrap .corehub-demo-shell-preview,
+  .target-shopflow .corehub-demo-shell-preview:not(.is-story-slide) {
+    height: clamp(15.5rem, 68vw, 22rem) !important;
+    max-height: none !important;
+  }
+
+  .target-shopflow .corehub-demo-story-panel ul {
+    grid-template-columns: 1fr !important;
+  }
+
+  .target-shopflow .corehub-demo-gallery-dock {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+/* =====================================================
+   SECTION: CES-BUILD-089 / DEMO WORLDS CLEANUP MAP
+   Ziel:
+   - Kein sichtbarer Designpatch.
+   - Nur Orientierung für die drei vorhandenen Demo-Welten und
+     die drei offenen Showroom-Slots.
+
+   Aktive Demo-Welten:
+   01 Business Clean  -> All4You
+   02 Gaming Matrix   -> Inselleben
+   03 Shopflow        -> Hammer Modding
+
+   Offene Demo-Welten:
+   04 Dark Premium
+   05 Booking / Rental
+   06 Smart Systems
+
+   Pflege:
+   - App.jsx -> COREHUB / DEMO WORLD MAP
+   - App.jsx -> getCoreHubDemoTarget()
+   - App.css -> die jeweiligen target-* Blöcke:
+     .target-business-clean
+     .target-gaming-matrix
+     .target-shopflow
+
+   Wichtig:
+   Die in 085 eingeführten Demo-Hinweise sind nur temporäre
+   Entwicklungs-/Orientierungshilfen und kein finaler Endnutzer-Look.
+===================================================== */
+
+/* =====================================================
+   SECTION: CES-BUILD-090 / BOOKING RENTAL CASE SCAFFOLD
+   Ziel:
+   - Booking/Rental bekommt einen ersten echten Scaffold-Case
+     auf Basis der All4You-Anhängervermietung.
+   - Die Demo zeigt Mietzeitraum, Kalender, Preislogik, Anfrage
+     und interne Belegung.
+   - All4You-Business-Clean, Inselleben und Hammer bleiben unangetastet.
+   - Kein iframe, keine neuen Assets nötig.
+
+   Pflege:
+   - Daten: App.jsx -> bookingRentalDemoGallery
+   - Cube-Faces: App.jsx -> bookingRentalSharedCubeFaces
+   - Ziel: App.jsx -> booking-rental-all4you-demo
+===================================================== */
+
+.target-booking-rental .corehub-demo-shell {
+  max-width: min(72.5rem, calc(100vw - 6rem)) !important;
+  border-color: rgba(0, 214, 170, 0.34) !important;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(0, 214, 170, 0.16), transparent 18rem),
+    radial-gradient(circle at 100% 100%, rgba(118, 255, 22, 0.10), transparent 18rem),
+    linear-gradient(135deg, rgba(4, 24, 22, 0.94), rgba(2, 8, 7, 0.98)) !important;
+}
+
+.target-booking-rental .corehub-demo-shell-preview:not(.is-story-slide) {
+  background:
+    radial-gradient(circle at 50% 0%, rgba(0, 214, 170, 0.12), transparent 22rem),
+    linear-gradient(180deg, rgba(10, 24, 23, 0.92), rgba(2, 8, 7, 0.98)) !important;
+}
+
+.target-booking-rental .corehub-demo-shell-preview img {
+  object-fit: contain !important;
+  object-position: center top !important;
+  opacity: 1 !important;
+  filter: saturate(1.04) contrast(1.03) brightness(1.04) !important;
+  -webkit-filter: saturate(1.04) contrast(1.03) brightness(1.04) !important;
+  border-radius: 1.05rem !important;
+  box-shadow:
+    0 0 0 1px rgba(0, 214, 170, 0.22),
+    0 24px 70px rgba(0, 0, 0, 0.36),
+    0 0 48px rgba(0, 214, 170, 0.10) !important;
+}
+
+.target-booking-rental .corehub-demo-shell-content {
+  border-color: rgba(0, 214, 170, 0.26) !important;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(0, 214, 170, 0.14), transparent 11rem),
+    radial-gradient(circle at 100% 100%, rgba(118, 255, 22, 0.08), transparent 12rem),
+    rgba(3, 16, 14, 0.80) !important;
+}
+
+.target-booking-rental .corehub-demo-shell-content > span,
+.target-booking-rental .corehub-demo-story-panel span {
+  color: rgba(103, 255, 220, 0.96) !important;
+}
+
+.target-booking-rental .corehub-demo-shell-modules em {
+  border-color: rgba(0, 214, 170, 0.24) !important;
+  background:
+    linear-gradient(135deg, rgba(0, 214, 170, 0.11), rgba(118, 255, 22, 0.055)) !important;
+  color: rgba(230, 255, 247, 0.9) !important;
+}
+
+.target-booking-rental .corehub-demo-gallery-dock button {
+  min-height: 1.84rem !important;
+  border-color: rgba(0, 214, 170, 0.16) !important;
+  background: rgba(3, 16, 14, 0.62) !important;
+}
+
+.target-booking-rental .corehub-demo-gallery-dock button.is-active {
+  border-color: rgba(103, 255, 220, 0.50) !important;
+  background:
+    linear-gradient(135deg, rgba(0, 214, 170, 0.16), rgba(118, 255, 22, 0.09)) !important;
+}
+
+.target-booking-rental .corehub-demo-gallery-controls {
+  background: rgba(3, 16, 14, 0.78) !important;
+  border-color: rgba(0, 214, 170, 0.28) !important;
+}
+
+.target-booking-rental .corehub-demo-gallery-controls button {
+  background:
+    linear-gradient(135deg, rgba(0, 214, 170, 0.24), rgba(118, 255, 22, 0.10)) !important;
+}
+
+.target-booking-rental .corehub-demo-project-start,
+.target-booking-rental .corehub-demo-shell-actions a:last-child {
+  color: rgba(2, 12, 10, 0.98) !important;
+  background: linear-gradient(135deg, #00d6aa, #76ff16) !important;
+}
+
+.target-booking-rental .corehub-demo-story-panel {
+  background:
+    radial-gradient(circle at 0% 0%, rgba(0, 214, 170, 0.14), transparent 18rem),
+    radial-gradient(circle at 100% 100%, rgba(118, 255, 22, 0.08), transparent 18rem),
+    rgba(3, 16, 14, 0.78) !important;
+}
+
+.target-booking-rental .corehub-demo-story-panel li {
+  border-color: rgba(0, 214, 170, 0.18) !important;
+  background:
+    linear-gradient(135deg, rgba(0, 214, 170, 0.10), rgba(118, 255, 22, 0.045)) !important;
+  color: rgba(232, 255, 247, 0.84) !important;
+}
+
+@media (max-width: 760px) {
+  .target-booking-rental .corehub-demo-shell {
+    max-width: calc(100vw - 1.6rem) !important;
+  }
+
+  .target-booking-rental .corehub-demo-story-panel ul {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* =====================================================
+   SECTION: CES-BUILD-091 / SMART SYSTEMS DASHBOARD CONCEPT
+   Ziel:
+   - Smart Systems bekommt bewusst keine normale Website als Demo.
+   - Stattdessen wird eine eigene CoreOps-Dashboard-/Portal-Welt
+     als Konzept vorbereitet.
+   - Aktuell ohne neue Screenshots: reine Concept-/Story-Slides.
+   - Später folgen eigene Dashboard-Mockups.
+   - Bestehende Demos bleiben unangetastet.
+
+   Pflege:
+   - Daten: App.jsx -> smartSystemsDemoGallery
+   - Cube-Faces: App.jsx -> smartSystemsSharedCubeFaces
+   - Ziel: App.jsx -> smart-systems-coreops-concept
+===================================================== */
+
+.target-smart-systems .corehub-demo-shell {
+  max-width: min(68rem, calc(100vw - 6rem)) !important;
+  grid-template-columns: 1fr !important;
+  border-color: rgba(86, 160, 255, 0.34) !important;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(86, 160, 255, 0.16), transparent 18rem),
+    radial-gradient(circle at 100% 100%, rgba(118, 255, 22, 0.08), transparent 18rem),
+    linear-gradient(135deg, rgba(5, 12, 28, 0.94), rgba(2, 5, 11, 0.98)) !important;
+}
+
+.target-smart-systems .corehub-demo-shell-content {
+  display: none !important;
+}
+
+.target-smart-systems .corehub-demo-shell-preview.is-story-slide {
+  height: auto !important;
+  min-height: clamp(18rem, 30vw, 25rem) !important;
+  max-height: none !important;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(86, 160, 255, 0.14), transparent 18rem),
+    radial-gradient(circle at 100% 100%, rgba(118, 255, 22, 0.07), transparent 18rem),
+    rgba(4, 10, 22, 0.78) !important;
+}
+
+.target-smart-systems .corehub-demo-story-panel {
+  width: min(100%, 58rem) !important;
+  max-width: 58rem !important;
+  border-color: rgba(86, 160, 255, 0.22) !important;
+  background:
+    linear-gradient(135deg, rgba(86, 160, 255, 0.105), rgba(118, 255, 22, 0.035)),
+    rgba(3, 8, 18, 0.82) !important;
+}
+
+.target-smart-systems .corehub-demo-story-panel span {
+  color: rgba(136, 190, 255, 0.96) !important;
+  border-color: rgba(86, 160, 255, 0.22) !important;
+  background: rgba(86, 160, 255, 0.08) !important;
+}
+
+.target-smart-systems .corehub-demo-story-panel p {
+  color: rgba(232, 242, 255, 0.82) !important;
+}
+
+.target-smart-systems .corehub-demo-story-panel ul {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+}
+
+.target-smart-systems .corehub-demo-story-panel li {
+  border-color: rgba(86, 160, 255, 0.18) !important;
+  background:
+    linear-gradient(135deg, rgba(86, 160, 255, 0.10), rgba(118, 255, 22, 0.035)) !important;
+  color: rgba(235, 244, 255, 0.84) !important;
+}
+
+.target-smart-systems .corehub-demo-gallery-dock button {
+  min-height: 1.84rem !important;
+  border-color: rgba(86, 160, 255, 0.16) !important;
+  background: rgba(4, 10, 22, 0.62) !important;
+}
+
+.target-smart-systems .corehub-demo-gallery-dock button.is-active {
+  border-color: rgba(136, 190, 255, 0.50) !important;
+  background:
+    linear-gradient(135deg, rgba(86, 160, 255, 0.16), rgba(118, 255, 22, 0.08)) !important;
+}
+
+.target-smart-systems .corehub-demo-gallery-controls {
+  background: rgba(4, 10, 22, 0.78) !important;
+  border-color: rgba(86, 160, 255, 0.28) !important;
+}
+
+.target-smart-systems .corehub-demo-gallery-controls button {
+  background:
+    linear-gradient(135deg, rgba(86, 160, 255, 0.24), rgba(118, 255, 22, 0.08)) !important;
+}
+
+.target-smart-systems .corehub-demo-project-start,
+.target-smart-systems .corehub-demo-shell-actions a:last-child {
+  color: rgba(2, 7, 14, 0.98) !important;
+  background: linear-gradient(135deg, #56a0ff, #76ff16) !important;
+}
+
+/* Smart Systems Cube-Faces bleiben abstrakt, bis echte Dashboard-Mockups da sind. */
+.target-smart-systems .corehub-launch-cube .showcase-cube-face,
+.hero-showcase-cube.is-demo-synced .showcase-cube-face {
+  --system-face-blue: rgba(86, 160, 255, 0.18);
+}
+
+@media (max-width: 760px) {
+  .target-smart-systems .corehub-demo-shell {
+    max-width: calc(100vw - 1.6rem) !important;
+  }
+
+  .target-smart-systems .corehub-demo-story-panel ul {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* =====================================================
+   SECTION: CES-BUILD-094 / COREOPS GALLERY PANEL FIX
+   Ziel:
+   - Smart Systems/CoreOps nutzt wieder dieselbe Demo-Shell-Logik
+     wie All4You, Inselleben, Hammer Modding und Booking/Rental.
+   - Die rechte Beschreibungs-/Aktionskarte bleibt sichtbar.
+   - Der Button "Live-Demo öffnen" ist wieder im Detailpanel sichtbar.
+   - Die alte CES-BUILD-091 Story-Slide-Optik wird nur überschrieben,
+     aber nicht global gelöscht, damit keine anderen Demo-Welten kippen.
+
+   Pflege:
+   - Texte/Bildbeschriftungen: App.jsx -> smartSystemsDemoGallery
+   - Live-Link: App.jsx -> getCoreHubDemoTarget -> smart systems
+   - Layout-Fix: dieser CSS-Block
+===================================================== */
+
+.target-smart-systems .corehub-demo-shell {
+  width: min(100%, 72.5rem) !important;
+  max-width: min(72.5rem, calc(100vw - 6rem)) !important;
+  grid-template-columns: minmax(0, 1.06fr) minmax(16.5rem, 0.58fr) !important;
+  gap: clamp(0.72rem, 0.95vw, 1rem) !important;
+  border-color: rgba(var(--pulse-rgb), 0.24) !important;
+  background:
+    radial-gradient(circle at 35% 18%, rgba(var(--pulse-rgb), 0.15), transparent 18rem),
+    radial-gradient(circle at 90% 100%, rgba(var(--pulse-next-rgb), 0.09), transparent 20rem),
+    linear-gradient(135deg, rgba(var(--pulse-rgb), 0.07), rgba(0, 0, 0, 0.26) 52%, rgba(var(--pulse-next-rgb), 0.05)),
+    rgba(0, 0, 0, 0.3) !important;
+}
+
+.target-smart-systems .corehub-demo-shell-content {
+  display: flex !important;
+  align-self: center !important;
+  justify-content: flex-start !important;
+  border-color: rgba(var(--pulse-rgb), 0.16) !important;
+  background: rgba(0, 0, 0, 0.24) !important;
+}
+
+.target-smart-systems .corehub-demo-shell-content > span {
+  color: var(--pulse-main) !important;
+}
+
+.target-smart-systems .corehub-demo-shell-content > strong {
+  color: rgba(245, 255, 240, 0.96) !important;
+}
+
+.target-smart-systems .corehub-demo-shell-content > small,
+.target-smart-systems .corehub-demo-shell-content > p {
+  color: rgba(224, 238, 218, 0.72) !important;
+}
+
+.target-smart-systems .corehub-demo-shell-modules em {
+  border-color: rgba(var(--pulse-rgb), 0.2) !important;
+  background: rgba(var(--pulse-rgb), 0.055) !important;
+  color: rgba(238, 255, 230, 0.82) !important;
+}
+
+.target-smart-systems .corehub-demo-gallery-dock button.active {
+  border-color: rgba(var(--pulse-rgb), 0.36) !important;
+  color: rgba(245, 255, 240, 0.94) !important;
+  background: rgba(var(--pulse-rgb), 0.1) !important;
+}
+
+.target-smart-systems .corehub-demo-shell-actions a:last-child,
+.target-smart-systems .corehub-demo-project-start {
+  color: rgba(4, 9, 7, 0.96) !important;
+  background: linear-gradient(135deg, var(--pulse-main), var(--pulse-next-main)) !important;
+}
+
+@media (max-width: 1180px) {
+  .target-smart-systems .corehub-demo-shell {
+    max-width: calc(100vw - 2.2rem) !important;
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .target-smart-systems .corehub-demo-shell {
+    max-width: calc(100vw - 1.6rem) !important;
+  }
+}
+
+/* =====================================================
+   CES-BUILD-101-105 / PROJEKTSTART-SEITE
+   Route: /projekt-starten
+   Zweck:
+   - eigenständiger Projektstart-Assistent
+   - aktuell Frontend-only mit vorbereiteter E-Mail
+   - CES-BUILD-102 ergänzt Zeitraum/Kontaktweg und bessere Zusammenfassung
+   - CES-BUILD-103 ergänzt kopierbaren Mail-Fallback
+   - CES-BUILD-105 ergänzt Vertrauens-/Orientierungsstreifen
+   - später erweiterbar Richtung Supabase / Resend / Kundenportal
+   ===================================================== */
+.project-start-page {
+  min-height: 100vh;
+  color: rgba(244, 255, 238, 0.94);
+}
+
+.project-start-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+}
+
+.project-start-hero {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.65fr);
+  gap: clamp(1.2rem, 3vw, 2.8rem);
+  align-items: center;
+  padding-top: clamp(6.8rem, 10vw, 9rem);
+  padding-bottom: clamp(3.5rem, 7vw, 6rem);
+}
+
+.project-start-copy {
+  max-width: 860px;
+}
+
+.project-start-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-bottom: 1.15rem;
+  padding: 0.55rem 0.8rem;
+  border: 1px solid rgba(var(--pulse-rgb), 0.24);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.34);
+  color: var(--pulse-main);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  box-shadow: 0 0 28px rgba(var(--pulse-rgb), 0.12);
+}
+
+.project-start-copy h1 {
+  max-width: 780px;
+  margin: 0;
+  font-size: clamp(2.45rem, 6vw, 5.6rem);
+  line-height: 0.92;
+  letter-spacing: -0.08em;
+}
+
+.project-start-copy p {
+  max-width: 720px;
+  margin: 1.3rem 0 0;
+  color: rgba(228, 238, 224, 0.72);
+  font-size: clamp(1rem, 1.4vw, 1.17rem);
+  line-height: 1.75;
+}
+
+.project-start-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-top: 1.6rem;
+}
+
+.project-start-status-card {
+  position: relative;
+  overflow: hidden;
+  min-height: 310px;
+  padding: clamp(1.15rem, 2vw, 1.6rem);
+  border: 1px solid rgba(var(--pulse-rgb), 0.2);
+  border-radius: 32px;
+  background:
+    radial-gradient(circle at 20% 10%, rgba(var(--pulse-rgb), 0.18), transparent 16rem),
+    radial-gradient(circle at 100% 100%, rgba(var(--pulse-next-rgb), 0.14), transparent 18rem),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.065), rgba(0, 0, 0, 0.36));
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.09);
+}
+
+.project-start-status-card::before {
+  content: "";
+  position: absolute;
+  inset: 16px;
+  border: 1px solid rgba(var(--pulse-rgb), 0.12);
+  border-radius: 24px;
+  pointer-events: none;
+}
+
+.project-start-status-card span,
+.project-start-summary-card span,
+.project-start-step {
+  display: inline-flex;
+  color: var(--pulse-main);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.project-start-status-card strong {
+  position: relative;
+  display: block;
+  margin-top: 4.2rem;
+  font-size: clamp(1.65rem, 3vw, 2.4rem);
+  line-height: 1.03;
+  letter-spacing: -0.06em;
+}
+
+.project-start-status-card p {
+  position: relative;
+  max-width: 360px;
+  margin: 0.9rem 0 0;
+  color: rgba(230, 238, 225, 0.74);
+  line-height: 1.6;
+}
+
+.project-start-status-card small {
+  position: absolute;
+  left: clamp(1.15rem, 2vw, 1.6rem);
+  right: clamp(1.15rem, 2vw, 1.6rem);
+  bottom: clamp(1.15rem, 2vw, 1.6rem);
+  display: block;
+  padding-top: 0.9rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(236, 248, 230, 0.62);
+}
+
+
+.project-start-confidence {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(0.75rem, 1.5vw, 1rem);
+  padding-top: 0;
+  padding-bottom: clamp(1.4rem, 3vw, 2.4rem);
+}
+
+.project-start-confidence-card {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.85rem;
+  align-items: start;
+  min-height: 132px;
+  padding: clamp(0.95rem, 1.8vw, 1.15rem);
+  border: 1px solid rgba(var(--pulse-rgb), 0.16);
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(var(--pulse-rgb), 0.11), transparent 12rem),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.048), rgba(0, 0, 0, 0.24));
+  box-shadow: 0 18px 54px rgba(0, 0, 0, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.055);
+  backdrop-filter: blur(16px);
+}
+
+.project-start-confidence-card svg {
+  margin-top: 0.1rem;
+  color: var(--pulse-main);
+  filter: drop-shadow(0 0 12px rgba(var(--pulse-rgb), 0.24));
+}
+
+.project-start-confidence-card strong {
+  display: block;
+  color: rgba(250, 255, 246, 0.94);
+  font-size: 0.98rem;
+  letter-spacing: -0.025em;
+}
+
+.project-start-confidence-card p {
+  margin: 0.4rem 0 0;
+  color: rgba(220, 232, 216, 0.64);
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+.project-start-flow {
+  position: relative;
+  z-index: 2;
+  padding-top: clamp(2rem, 5vw, 4rem);
+  padding-bottom: clamp(4rem, 8vw, 7rem);
+}
+
+.project-start-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.32fr);
+  gap: clamp(1rem, 2.2vw, 1.5rem);
+  align-items: start;
+}
+
+.project-start-panel,
+.project-start-summary-card {
+  border: 1px solid rgba(255, 255, 255, 0.095);
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at 18% 0%, rgba(var(--pulse-rgb), 0.08), transparent 15rem),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.052), rgba(0, 0, 0, 0.32));
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(18px);
+}
+
+.project-start-panel {
+  grid-column: 1;
+  padding: clamp(1rem, 2vw, 1.35rem);
+}
+
+.project-start-type-panel {
+  padding-bottom: clamp(1.1rem, 2.4vw, 1.65rem);
+}
+
+.project-start-option-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.project-start-option,
+.project-start-pill-grid button,
+.project-start-check-grid button {
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  background: rgba(0, 0, 0, 0.28);
+  color: rgba(238, 248, 232, 0.78);
+  transition: border-color 180ms ease, background 180ms ease, color 180ms ease, transform 180ms ease;
+}
+
+.project-start-option {
+  min-height: 142px;
+  padding: 0.95rem;
+  border-radius: 22px;
+  text-align: left;
+}
+
+.project-start-option svg {
+  color: var(--pulse-main);
+}
+
+.project-start-option strong {
+  display: block;
+  margin-top: 0.72rem;
+  color: rgba(248, 255, 244, 0.93);
+  font-size: 1rem;
+}
+
+.project-start-option small {
+  display: block;
+  margin-top: 0.42rem;
+  color: rgba(220, 232, 216, 0.62);
+  line-height: 1.45;
+}
+
+.project-start-option:hover,
+.project-start-pill-grid button:hover,
+.project-start-check-grid button:hover,
+.project-start-option.is-active,
+.project-start-pill-grid button.is-active,
+.project-start-check-grid button.is-active {
+  border-color: rgba(var(--pulse-rgb), 0.36);
+  background: rgba(var(--pulse-rgb), 0.095);
+  color: rgba(250, 255, 246, 0.96);
+  transform: translateY(-1px);
+}
+
+.project-start-pill-grid,
+.project-start-check-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-top: 1rem;
+}
+
+.project-start-pill-grid button,
+.project-start-check-grid button {
+  min-height: 42px;
+  padding: 0.72rem 0.92rem;
+  border-radius: 999px;
+  font-weight: 800;
+}
+
+.project-start-check-grid button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.project-start-split-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(0.9rem, 2vw, 1.2rem);
+  margin-top: 1rem;
+}
+
+.project-start-split-grid > div {
+  padding: 0.95rem;
+  border: 1px solid rgba(255, 255, 255, 0.075);
+  border-radius: 20px;
+  background: rgba(0, 0, 0, 0.18);
+}
+
+.project-start-split-grid strong {
+  display: block;
+  color: rgba(248, 255, 244, 0.9);
+  font-size: 0.9rem;
+  letter-spacing: -0.02em;
+}
+
+.project-start-pill-grid.compact {
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.project-start-pill-grid.compact button {
+  min-height: 38px;
+  padding: 0.62rem 0.78rem;
+  font-size: 0.82rem;
+}
+
+.project-start-form-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.85rem;
+  margin-top: 1rem;
+}
+
+.project-start-form-grid label {
+  display: grid;
+  gap: 0.48rem;
+  color: rgba(235, 246, 230, 0.7);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.project-start-form-grid input,
+.project-start-form-grid textarea {
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  outline: none;
+  background: rgba(0, 0, 0, 0.32);
+  color: rgba(248, 255, 244, 0.95);
+  font: inherit;
+  padding: 0.85rem 0.95rem;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.045);
+}
+
+.project-start-form-grid input:focus,
+.project-start-form-grid textarea:focus {
+  border-color: rgba(var(--pulse-rgb), 0.42);
+  box-shadow: 0 0 0 4px rgba(var(--pulse-rgb), 0.08);
+}
+
+.project-start-message-field {
+  grid-column: 1 / -1;
+}
+
+.project-start-form-grid textarea {
+  resize: vertical;
+  min-height: 130px;
+}
+
+.project-start-submit-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.project-start-clear {
+  min-height: 46px;
+  padding: 0.75rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.25);
+  color: rgba(235, 246, 230, 0.74);
+  font-weight: 800;
+}
+
+.project-start-summary-card {
+  position: sticky;
+  top: 96px;
+  grid-column: 2;
+  grid-row: 1 / span 5;
+  padding: clamp(1rem, 2vw, 1.35rem);
+}
+
+.project-start-summary-card strong {
+  display: block;
+  margin-top: 0.9rem;
+  color: rgba(250, 255, 246, 0.96);
+  font-size: 1.55rem;
+  letter-spacing: -0.05em;
+}
+
+.project-start-summary-card p {
+  margin: 0.35rem 0 0;
+  color: rgba(224, 238, 218, 0.66);
+}
+
+.project-start-summary-card ul {
+  display: grid;
+  gap: 0.55rem;
+  margin: 1.1rem 0;
+  padding: 0;
+  list-style: none;
+}
+
+.project-start-summary-card li {
+  padding: 0.62rem 0.7rem;
+  border: 1px solid rgba(var(--pulse-rgb), 0.16);
+  border-radius: 14px;
+  background: rgba(var(--pulse-rgb), 0.055);
+  color: rgba(236, 248, 230, 0.78);
+  font-size: 0.88rem;
+}
+
+.project-start-summary-card small {
+  color: rgba(220, 232, 216, 0.58);
+  line-height: 1.55;
+}
+
+.project-start-fallback {
+  margin-top: 1rem;
+  padding: 0.95rem;
+  border: 1px solid rgba(var(--pulse-rgb), 0.18);
+  border-radius: 18px;
+  background: rgba(0, 0, 0, 0.22);
+}
+
+.project-start-fallback strong {
+  display: block;
+  margin: 0 0 0.45rem;
+  color: rgba(250, 255, 246, 0.92);
+  font-size: 0.9rem;
+  letter-spacing: -0.02em;
+}
+
+.project-start-fallback p {
+  margin: 0;
+  color: rgba(220, 232, 216, 0.66);
+  font-size: 0.86rem;
+  line-height: 1.55;
+}
+
+.project-start-fallback a {
+  color: var(--pulse-main);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.project-start-fallback button {
+  width: 100%;
+  min-height: 42px;
+  margin-top: 0.8rem;
+  border: 1px solid rgba(var(--pulse-rgb), 0.28);
+  border-radius: 999px;
+  background: rgba(var(--pulse-rgb), 0.09);
+  color: rgba(250, 255, 246, 0.94);
+  font-weight: 900;
+  cursor: pointer;
+  transition: border-color 180ms ease, background 180ms ease, transform 180ms ease;
+}
+
+.project-start-fallback button:hover {
+  border-color: rgba(var(--pulse-rgb), 0.46);
+  background: rgba(var(--pulse-rgb), 0.14);
+  transform: translateY(-1px);
+}
+
+.project-start-fallback em {
+  display: block;
+  margin-top: 0.65rem;
+  color: rgba(238, 248, 232, 0.72);
+  font-size: 0.82rem;
+  font-style: normal;
+}
+
+@media (max-width: 1180px) {
+  .project-start-hero,
+  .project-start-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .project-start-confidence {
+    grid-template-columns: 1fr;
+  }
+
+  .project-start-summary-card {
+    position: relative;
+    top: auto;
+    grid-column: 1;
+    grid-row: auto;
+  }
+}
+
+@media (max-width: 860px) {
+  .project-start-option-grid,
+  .project-start-form-grid,
+  .project-start-split-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .project-start-hero {
+    padding-top: 5.7rem;
+  }
+
+  .project-start-copy h1 {
+    letter-spacing: -0.06em;
+  }
+}
+
+
+/* =====================================================
+   CES-BUILD-104 · CUSTOMER JOURNEY CTA POLISH
+   Kleine Ergänzung für die finale Kontaktkarte:
+   Der Projektstart-Assistent ist der primäre Weg,
+   die direkte E-Mail bleibt als sekundärer Kontakt sichtbar.
+===================================================== */
+.contact-mail-link-secondary {
+  margin-top: 10px;
+  opacity: 0.84;
+}
+
+.contact-mail-link-secondary:hover {
+  opacity: 1;
+}
+
+
+/* =====================================================
+   CES-BUILD-106 · MOBILE & CUSTOMER QA POLISH
+   Ziel:
+   - Projektstart-Seite auf Tablet/Mobile ruhiger und klarer machen
+   - CoreCube-Demoansichten auf kleinen Screens besser bedienbar halten
+   - keine Struktur-/Funktionsänderung, nur responsiver Feinschliff
+===================================================== */
+@media (max-width: 920px) {
+  .project-start-header {
+    align-items: flex-start;
+    gap: 0.85rem;
+  }
+
+  .project-start-header .main-nav {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    max-width: min(100%, 26rem);
+    border-radius: 22px;
+  }
+
+  .project-start-header .main-nav a {
+    padding: 0.56rem 0.68rem;
+    font-size: 0.78rem;
+  }
+}
+
+@media (max-width: 760px) {
+  .project-start-page {
+    overflow-x: hidden;
+  }
+
+  .project-start-header {
+    padding-top: 0.72rem;
+    padding-bottom: 0.72rem;
+  }
+
+  .project-start-header .brand img {
+    width: 2.85rem;
+    height: 2.85rem;
+  }
+
+  .project-start-copy p {
+    font-size: 0.96rem;
+    line-height: 1.62;
+  }
+
+  .project-start-hero-actions,
+  .project-start-submit-row {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .project-start-hero-actions a,
+  .project-start-submit-row button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .project-start-status-card {
+    min-height: 17rem;
+  }
+
+  .project-start-status-card strong {
+    margin-top: 2.8rem;
+    font-size: clamp(1.45rem, 9vw, 2rem);
+  }
+
+  .project-start-status-card p {
+    line-height: 1.5;
+  }
+
+  .project-start-confidence {
+    gap: 0.7rem;
+  }
+
+  .project-start-confidence-card {
+    min-height: auto;
+    border-radius: 20px;
+  }
+
+  .project-start-flow {
+    padding-top: 2.2rem;
+  }
+
+  .project-start-panel,
+  .project-start-summary-card {
+    border-radius: 22px;
+  }
+
+  .project-start-option {
+    min-height: unset;
+  }
+
+  .project-start-option-grid {
+    gap: 0.62rem;
+  }
+
+  .project-start-form-grid input,
+  .project-start-form-grid textarea {
+    font-size: 16px;
+  }
+
+  .project-start-summary-card strong {
+    font-size: 1.35rem;
+  }
+
+  .project-start-fallback button {
+    min-height: 46px;
+  }
+}
+
+@media (max-width: 620px) {
+  .corehub-demo-shell {
+    max-width: calc(100vw - 1.2rem) !important;
+    padding: 0.66rem !important;
+    border-radius: 1rem !important;
+  }
+
+  .corehub-demo-gallery-wrap .corehub-demo-shell-preview,
+  .corehub-demo-shell-preview {
+    min-height: 14.5rem !important;
+  }
+
+  .corehub-demo-gallery-dock {
+    grid-template-columns: 1fr !important;
+    max-height: 7.4rem !important;
+  }
+
+  .corehub-demo-shell-actions {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+  }
+
+  .corehub-demo-shell-actions button,
+  .corehub-demo-shell-actions a,
+  .corehub-demo-project-start {
+    width: 100% !important;
+  }
+
+  .corehub-demo-shell-content > strong {
+    font-size: 1.25rem !important;
+  }
+}
+
+/* =====================================================
+   SECTION: CES-BUILD-107 / SEO & PUBLIC TRUST BASICS
+   Ziel:
+   - Footer stärker als öffentlicher Vertrauens-/Kontaktbereich nutzen.
+   - Einheitliche Links zu Projektstart, E-Mail und Showroom sichtbar machen.
+   - Keine rechtlichen Pflichtangaben erfinden; Impressum/Datenschutz später
+     mit echten Daten ergänzen.
+   Pflege:
+   - Daten: App.jsx -> PUBLIC_CONTACT_EMAIL, PUBLIC_SITE_DOMAIN, publicTrustFooterItems
+   - Markup: App.jsx -> SiteFooter()
+===================================================== */
+.public-trust-footer {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.15fr) minmax(16rem, 0.9fr) minmax(12rem, 0.55fr) !important;
+  align-items: start !important;
+  gap: clamp(1rem, 2vw, 2rem) !important;
+}
+
+.final-footer-brand,
+.final-footer-build,
+.final-footer-trust {
+  min-width: 0;
+}
+
+.final-footer-links,
+.final-footer-socials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 0.7rem;
+}
+
+.final-footer-links a,
+.final-footer-socials a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(var(--pulse-rgb), 0.16);
+  border-radius: 999px;
+  padding: 0.38rem 0.62rem;
+  color: rgba(235, 250, 230, 0.72);
+  background: rgba(255, 255, 255, 0.035);
+  font-size: 0.72rem;
+  font-weight: 850;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  transition:
+    color 180ms ease,
+    border-color 4.5s ease,
+    background 180ms ease,
+    transform 180ms ease;
+}
+
+.final-footer-links a:hover,
+.final-footer-socials a:hover {
+  transform: translateY(-1px);
+  color: rgba(248, 255, 244, 0.94);
+  border-color: rgba(var(--pulse-rgb), 0.36);
+  background: rgba(var(--pulse-rgb), 0.08);
+}
+
+.final-footer-socials {
+  margin-top: 0.5rem;
+  opacity: 0.82;
+}
+
+.final-footer-socials a {
+  gap: 0.32rem;
+  padding: 0.3rem 0.52rem;
+  font-size: 0.68rem;
+}
+
+.final-footer-socials svg {
+  color: var(--pulse-main);
+  transition: color 4.5s ease;
+}
+
+.final-footer-trust {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.48rem;
+  justify-content: center;
+}
+
+.final-footer-trust span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.34rem;
+  border: 1px solid rgba(var(--pulse-rgb), 0.14);
+  border-radius: 999px;
+  padding: 0.42rem 0.64rem;
+  color: rgba(230, 244, 224, 0.68);
+  background:
+    radial-gradient(circle at 20% 10%, rgba(var(--pulse-rgb), 0.12), transparent 6rem),
+    rgba(255, 255, 255, 0.026);
+  font-size: 0.72rem;
+  font-weight: 850;
+  white-space: nowrap;
+}
+
+.final-footer-trust svg {
+  color: var(--pulse-main);
+  transition: color 4.5s ease;
+}
+
+.final-footer-build {
+  text-align: right;
+}
+
+@media (max-width: 980px) {
+  .public-trust-footer {
+    grid-template-columns: 1fr !important;
+  }
+
+  .final-footer-trust {
+    justify-content: flex-start;
+  }
+
+  .final-footer-build {
+    text-align: left;
+  }
+}
+
+@media (max-width: 520px) {
+  .final-footer-links,
+  .final-footer-socials,
+  .final-footer-trust {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .final-footer-links a,
+  .final-footer-socials a,
+  .final-footer-trust span {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}
+
+/* =====================================================
+   SECTION: CES-BUILD-108 / LEGAL PAGES SCAFFOLD
+   Ziel:
+   - Dezente rechtliche Unterseiten /impressum und /datenschutz ergänzen.
+   - Footer-Links sichtbar, aber unaufdringlich halten.
+   - Lesbarkeit vor Effekten: ruhige Karten, klare Abstände, mobile stabil.
+   Pflege:
+   - Inhalte: App.jsx -> legalProvider, publicSocialLinks, ImpressumPage(), DatenschutzPage()
+   - Routen: App.jsx -> LEGAL_IMPRESSUM_PATH / LEGAL_PRIVACY_PATH / App()
+===================================================== */
+.legal-page {
+  min-height: 100vh;
+}
+
+.legal-header {
+  position: relative;
+  z-index: 8;
+}
+
+.legal-hero {
+  position: relative;
+  z-index: 3;
+  padding-top: clamp(5.8rem, 9vw, 8rem);
+  padding-bottom: clamp(1.8rem, 4vw, 3.2rem);
+  display: grid;
+  gap: 0.9rem;
+  max-width: 68rem;
+}
+
+.legal-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  width: fit-content;
+  border: 1px solid rgba(var(--pulse-rgb), 0.18);
+  border-radius: 999px;
+  padding: 0.44rem 0.72rem;
+  color: rgba(232, 248, 224, 0.74);
+  background:
+    radial-gradient(circle at 20% 20%, rgba(var(--pulse-rgb), 0.12), transparent 5.5rem),
+    rgba(255, 255, 255, 0.035);
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.legal-kicker svg {
+  color: var(--pulse-main);
+  transition: color 4.5s ease;
+}
+
+.legal-hero h1 {
+  margin: 0;
+  max-width: 56rem;
+  color: rgba(248, 255, 244, 0.96);
+  font-size: clamp(2.35rem, 5.5vw, 5.2rem);
+  line-height: 0.96;
+  letter-spacing: -0.075em;
+}
+
+.legal-hero p {
+  margin: 0;
+  max-width: 48rem;
+  color: rgba(230, 244, 224, 0.7);
+  font-size: clamp(1rem, 1.55vw, 1.16rem);
+  line-height: 1.75;
+}
+
+.legal-content-section {
+  position: relative;
+  z-index: 3;
+  padding-top: 0;
+  padding-bottom: clamp(3rem, 7vw, 6rem);
+}
+
+.legal-content-card {
+  max-width: 70rem;
+  border: 1px solid rgba(var(--pulse-rgb), 0.14);
+  border-radius: clamp(1.35rem, 3vw, 2.2rem);
+  padding: clamp(1.1rem, 3vw, 2.4rem);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.026)),
+    rgba(8, 10, 9, 0.78);
+  box-shadow:
+    0 1.5rem 4rem rgba(0, 0, 0, 0.36),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(18px);
+}
+
+.legal-section-block {
+  padding: clamp(1rem, 2vw, 1.45rem) 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.075);
+}
+
+.legal-section-block:first-child {
+  padding-top: 0;
+}
+
+.legal-section-block:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.legal-section-block h2 {
+  margin: 0 0 0.75rem;
+  color: rgba(248, 255, 244, 0.94);
+  font-size: clamp(1.08rem, 2vw, 1.38rem);
+  line-height: 1.15;
+  letter-spacing: -0.035em;
+}
+
+.legal-section-block p {
+  margin: 0.45rem 0 0;
+  max-width: 62rem;
+  color: rgba(230, 244, 224, 0.72);
+  font-size: 0.95rem;
+  line-height: 1.75;
+}
+
+.legal-section-block a {
+  color: rgba(248, 255, 244, 0.9);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(var(--pulse-rgb), 0.36);
+  transition:
+    color 180ms ease,
+    border-color 4.5s ease;
+}
+
+.legal-section-block a:hover {
+  color: var(--pulse-main);
+  border-color: rgba(var(--pulse-rgb), 0.72);
+}
+
+.legal-address {
+  display: grid;
+  gap: 0.22rem;
+  color: rgba(230, 244, 224, 0.72);
+  font-style: normal;
+  line-height: 1.7;
+}
+
+.legal-address strong {
+  color: rgba(248, 255, 244, 0.95);
+}
+
+.legal-link-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin: 0.8rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.legal-link-list a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(var(--pulse-rgb), 0.16);
+  border-radius: 999px;
+  padding: 0.42rem 0.68rem;
+  background: rgba(255, 255, 255, 0.035);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+}
+
+@media (max-width: 760px) {
+  .legal-header .main-nav {
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding-bottom: 0.25rem;
+  }
+
+  .legal-hero {
+    padding-top: 4.8rem;
+  }
+
+  .legal-content-card {
+    border-radius: 1.25rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .legal-hero h1 {
+    letter-spacing: -0.055em;
+  }
+
+  .legal-link-list {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .legal-link-list a {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}
+
+
+/* =====================================================
+   SECTION: CES-BUILD-109 / SERVICE SECTIONS & OFFER CLARITY
+   Zweck:
+   - Leistungsbereich stärker als konkrete Angebotsübersicht lesbar machen
+   - kleine Orientierungsleiste unter den Karten
+   - CTA-Reihe Richtung /projekt-starten und Showroom
+   Keine Änderung an CoreCube-/Showcase-Logik.
+===================================================== */
+.service-offer-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.85rem;
+  margin-top: 1rem;
+}
+
+.service-offer-strip article {
+  position: relative;
+  overflow: hidden;
+  min-height: 11.5rem;
+  border: 1px solid rgba(var(--pulse-rgb), 0.14);
+  border-radius: 1.35rem;
+  padding: 1.05rem;
+  background:
+    radial-gradient(circle at 18% 0%, rgba(var(--pulse-rgb), 0.13), transparent 12rem),
+    rgba(255, 255, 255, 0.035);
+  box-shadow: 0 22px 70px rgba(0, 0, 0, 0.24);
+  transition: border-color 4.5s ease, background 4.5s ease, box-shadow 4.5s ease;
+}
+
+.service-offer-strip article::after {
+  content: "";
+  position: absolute;
+  right: -3rem;
+  bottom: -3rem;
+  width: 7rem;
+  height: 7rem;
+  border-radius: 50%;
+  background: rgba(var(--pulse-rgb), 0.1);
+  filter: blur(18px);
+}
+
+.service-offer-strip span {
+  display: inline-flex;
+  width: fit-content;
+  border: 1px solid rgba(var(--pulse-rgb), 0.22);
+  border-radius: 999px;
+  padding: 0.32rem 0.52rem;
+  color: var(--pulse-main);
+  background: rgba(var(--pulse-rgb), 0.08);
+  font-size: 0.72rem;
+  font-weight: 950;
+  transition: color 4.5s ease, border-color 4.5s ease, background 4.5s ease;
+}
+
+.service-offer-strip h3 {
+  position: relative;
+  z-index: 2;
+  margin: 0.85rem 0 0.45rem;
+  font-size: clamp(1.1rem, 1.25vw, 1.35rem);
+  letter-spacing: -0.04em;
+}
+
+.service-offer-strip p {
+  position: relative;
+  z-index: 2;
+  margin: 0;
+  color: rgba(226, 238, 220, 0.72);
+  line-height: 1.65;
+  font-size: 0.92rem;
+}
+
+.services-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 1.15rem;
+}
+
+.services-cta-row .primary-action,
+.services-cta-row .secondary-action {
+  min-height: 3rem;
+}
+
+@media (max-width: 980px) {
+  .service-offer-strip {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .services-cta-row {
+    align-items: stretch;
+  }
+
+  .services-cta-row .primary-action,
+  .services-cta-row .secondary-action {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+
+/* =====================================================
+   SECTION: CES-BUILD-110 / PUBLIC LAUNCH POLISH
+   Ziel:
+   - Footer minimal launch-reifer machen: Social Links und WhatsApp erreichbar,
+     aber weiterhin dezent.
+   - CTA-/Kontakttexte auf der Startseite klarer und unverbindlicher formulieren.
+   - Keine neue Logik, keine neuen Demos, keine Änderung am CoreCube.
+   Pflege:
+   - Texte und Links: App.jsx -> SiteFooter(), publicTrustFooterItems, #leistungen, #kontakt
+===================================================== */
+
+/* =====================================================
+   SECTION: CES-BUILD-111 / FOOTER COMPACT POLISH
+   Ziel:
+   - Footer unten kompakter und weniger dominant darstellen.
+   - Social-Links als kleine Kürzel-Pills statt breite Textflächen zeigen.
+   - Trust-Hinweise schlanker halten, ohne Inhalte zu entfernen.
+   Pflege:
+   - Markup/Daten: App.jsx -> SiteFooter(), publicSocialLinks, publicTrustFooterItems
+===================================================== */
+.public-trust-footer {
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr) minmax(10rem, 0.52fr) !important;
+  gap: clamp(0.75rem, 1.5vw, 1.35rem) !important;
+  padding-top: 1.15rem !important;
+  padding-bottom: 1.25rem !important;
+}
+
+.final-footer-brand > span {
+  font-size: 0.9rem;
+  line-height: 1.1;
+}
+
+.final-footer-brand > p {
+  max-width: 32rem;
+  font-size: 0.74rem;
+  line-height: 1.45;
+}
+
+.final-footer-links {
+  gap: 0.34rem;
+  margin-top: 0.52rem;
+}
+
+.final-footer-links a {
+  padding: 0.26rem 0.46rem;
+  font-size: 0.65rem;
+  line-height: 1;
+}
+
+.final-footer-socials {
+  display: flex !important;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin-top: 0.38rem;
+  opacity: 0.92;
+}
+
+.final-footer-socials a {
+  width: auto !important;
+  min-width: 2.35rem;
+  min-height: 1.82rem;
+  justify-content: center !important;
+  gap: 0.22rem;
+  padding: 0.2rem 0.34rem;
+  font-size: 0.62rem;
+  line-height: 1;
+  letter-spacing: 0.06em;
+}
+
+.final-footer-socials a span {
+  color: inherit;
+  font-size: inherit;
+  font-weight: 950;
+  line-height: 1;
+}
+
+.final-footer-socials svg {
+  width: 0.62rem;
+  height: 0.62rem;
+}
+
+.final-footer-trust {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, auto));
+  justify-content: center;
+  align-content: start;
+  gap: 0.34rem;
+}
+
+.final-footer-trust span {
+  gap: 0.24rem;
+  padding: 0.26rem 0.42rem;
+  font-size: 0.64rem;
+  line-height: 1;
+  background: rgba(255, 255, 255, 0.022);
+}
+
+.final-footer-trust svg {
+  width: 0.68rem;
+  height: 0.68rem;
+  flex: 0 0 auto;
+}
+
+.final-footer-build span {
+  font-size: 0.68rem;
+}
+
+.final-footer-build p {
+  font-size: 0.66rem;
+  line-height: 1.35;
+}
+
+@media (max-width: 980px) {
+  .public-trust-footer {
+    grid-template-columns: 1fr !important;
+    gap: 0.78rem !important;
+  }
+
+  .final-footer-trust {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 520px) {
+  .final-footer-links {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .final-footer-links a {
+    width: auto;
+    justify-content: center;
+  }
+
+  .final-footer-socials {
+    display: flex !important;
+    flex-wrap: wrap;
+  }
+
+  .final-footer-socials a {
+    width: auto !important;
+    justify-content: center !important;
+  }
+
+  .final-footer-trust {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.34rem;
+  }
+
+  .final-footer-trust span {
+    width: auto;
+    justify-content: flex-start;
+    white-space: normal;
+    line-height: 1.25;
+  }
+}
+
+/* =====================================================
+   SECTION: CES-BUILD-112 / FOOTER SOCIAL ICON POLISH
+   Ziel:
+   - Social-Links im Footer als echte Icon-Buttons darstellen.
+   - Instagram, Discord und TikTok größer als Build 111 zeigen, aber den
+     Footer weiterhin schmal und ruhig halten.
+   - Keine Änderung an Footer-Inhalt, Trust-Hinweisen oder CoreCube-Logik.
+   Pflege:
+   - Icons: src/assets/social/
+   - Daten/Markup: App.jsx -> publicSocialLinks, SiteFooter()
+===================================================== */
+.final-footer-socials {
+  gap: 0.46rem;
+  margin-top: 0.48rem;
+}
+
+.final-footer-socials a {
+  width: 2.85rem !important;
+  min-width: 2.85rem;
+  height: 2.85rem;
+  min-height: 2.85rem;
+  padding: 0.46rem;
+  border-radius: 1rem;
+  background:
+    radial-gradient(circle at 28% 18%, rgba(255, 255, 255, 0.11), transparent 58%),
+    rgba(255, 255, 255, 0.04);
+  box-shadow:
+    0 0.7rem 1.8rem rgba(0, 0, 0, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.055);
+}
+
+.final-footer-socials a img {
+  display: block;
+  width: 1.72rem;
+  height: 1.72rem;
+  object-fit: contain;
+  filter: drop-shadow(0 0 0.55rem rgba(var(--pulse-rgb), 0.16));
+  transition:
+    transform 180ms ease,
+    filter 4.5s ease;
+}
+
+.final-footer-socials a:hover img {
+  transform: scale(1.08);
+  filter: drop-shadow(0 0 0.78rem rgba(var(--pulse-rgb), 0.26));
+}
+
+@media (max-width: 520px) {
+  .final-footer-socials {
+    gap: 0.42rem;
+  }
+
+  .final-footer-socials a {
+    width: 2.7rem !important;
+    min-width: 2.7rem;
+    height: 2.7rem;
+    min-height: 2.7rem;
+  }
+
+  .final-footer-socials a img {
+    width: 1.58rem;
+    height: 1.58rem;
+  }
+}
+
+
+
+/* =====================================================
+   SECTION: CES-BUILD-114 / SCROLL TARGET CORRECTION
+   Ziel:
+   - CES-BUILD-113 hatte Leistungen/Ablauf zu weit nach unten geschoben.
+   - Die Header-Anker landen wieder deutlich näher am jeweiligen Abschnitt.
+   - Der CoreCube-Start wird in App.jsx bewusst etwas weniger weit gescrollt,
+     damit der CoreHub ruhiger im sichtbaren Bereich steht.
+===================================================== */
+#leistungen {
+  scroll-margin-top: clamp(0.75rem, 1.2vw, 1.35rem);
+}
+
+#ablauf {
+  scroll-margin-top: clamp(0.9rem, 1.35vw, 1.55rem);
+}
+
+@media (max-width: 900px) {
+  #leistungen {
+    scroll-margin-top: 1.15rem;
+  }
+
+  #ablauf {
+    scroll-margin-top: 1.25rem;
+  }
+}
+
+@media (max-width: 620px) {
+  #leistungen,
+  #ablauf {
+    scroll-margin-top: 0.85rem;
+  }
+}

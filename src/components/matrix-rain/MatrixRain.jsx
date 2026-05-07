@@ -1,28 +1,8 @@
-// =====================================================
-// MATRIX RAIN COMPONENT
-// Datei: src/components/matrix-rain/MatrixRain.jsx
-//
-// Zuständig für:
-// - animierten Matrix-Code-Regen im Hintergrund
-// - Canvas-Zeichnung
-// - weichen Farbwechsel passend zur aktiven Akzentfarbe
-//
-// Wird genutzt in:
-// src/App.jsx -> <MatrixRain tone={activeTone} />
-//
-// Typische Änderungen:
-// - SYMBOLS: Zeichen im Regen
-// - TONE_COLORS: Grundfarben des Regens
-// - fontSize / drops / Loop: Dichte und Bewegung
-// =====================================================
-
 import { useEffect, useRef } from "react";
 import "./MatrixRain.css";
 
-// Zeichenpool für den fallenden Code.
 const SYMBOLS = "011010110101COREENGINESTUDIO<>/{}[]#$%&";
 
-// Farbwerte für die Matrix-Animation.
 const TONE_COLORS = {
   green: [118, 255, 22],
   cyan: [65, 217, 255],
@@ -30,7 +10,6 @@ const TONE_COLORS = {
   red: [255, 69, 58],
 };
 
-// Interpoliert zwischen aktueller und nächster Farbe.
 function lerpColor(current, target, strength) {
   return [
     current[0] + (target[0] - current[0]) * strength,
@@ -39,30 +18,26 @@ function lerpColor(current, target, strength) {
   ];
 }
 
-// Hauptkomponente:
- // tone kommt aus App.jsx und bestimmt die aktuelle Akzentfarbe.
 function MatrixRain({ tone = "green" }) {
   const canvasRef = useRef(null);
   const animationRef = useRef(null);
   const targetColorRef = useRef(TONE_COLORS[tone] || TONE_COLORS.green);
   const currentColorRef = useRef(TONE_COLORS[tone] || TONE_COLORS.green);
 
-  // Wenn sich die Akzentfarbe ändert, wird nur die Ziel-Farbe aktualisiert.
-  // Der sichtbare Übergang passiert weich im Animationsloop.
   useEffect(() => {
     targetColorRef.current = TONE_COLORS[tone] || TONE_COLORS.green;
   }, [tone]);
 
-  // Canvas-Setup:
-  // - Größe an Viewport anpassen
-  // - Animation starten
-  // - bei prefers-reduced-motion deaktivieren
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return undefined;
 
     const reducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
     if (reducedMotion) return undefined;
+
+    const isTouchDevice = window.matchMedia?.("(hover: none) and (pointer: coarse)")?.matches;
+    const isSmallViewport = window.matchMedia?.("(max-width: 900px)")?.matches;
+    const mobileLiteMode = Boolean(isTouchDevice || isSmallViewport);
 
     const ctx = canvas.getContext("2d", { alpha: true });
     let width = 0;
@@ -72,7 +47,7 @@ function MatrixRain({ tone = "green" }) {
     let lastFrame = 0;
 
     const resize = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      const dpr = Math.min(window.devicePixelRatio || 1, mobileLiteMode ? 1 : 1.5);
       width = window.innerWidth;
       height = window.innerHeight;
       canvas.width = Math.floor(width * dpr);
@@ -81,7 +56,7 @@ function MatrixRain({ tone = "green" }) {
       canvas.style.height = `${height}px`;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-      const fontSize = width < 760 ? 17 : 19;
+      const fontSize = mobileLiteMode ? 24 : width < 760 ? 17 : 19;
       const nextColumns = Math.ceil(width / fontSize);
 
       // Preserve existing drop positions where possible so resizing also feels less abrupt.
@@ -96,24 +71,26 @@ function MatrixRain({ tone = "green" }) {
     const draw = (time) => {
       animationRef.current = requestAnimationFrame(draw);
 
-      // Premium, ruhig und leichter: ca. 30 FPS.
-      if (time - lastFrame < 33) return;
+      // Desktop bleibt bei ca. 30 FPS.
+      // CES-BUILD-050: Mobile/Touch bekommt ca. 15 FPS, damit Scrollen stabiler bleibt.
+      const frameInterval = mobileLiteMode ? 66 : 33;
+      if (time - lastFrame < frameInterval) return;
       lastFrame = time;
 
       currentColorRef.current = lerpColor(
         currentColorRef.current,
         targetColorRef.current,
-        0.035
+        mobileLiteMode ? 0.06 : 0.035
       );
 
       const [r, g, b] = currentColorRef.current;
 
       // Kein kompletter Reset beim Farbwechsel. Der bestehende Regen läuft weiter
       // und wird nur sanft überblendet.
-      ctx.fillStyle = "rgba(2, 4, 2, 0.145)";
+      ctx.fillStyle = mobileLiteMode ? "rgba(2, 4, 2, 0.235)" : "rgba(2, 4, 2, 0.145)";
       ctx.fillRect(0, 0, width, height);
 
-      const fontSize = width < 760 ? 17 : 19;
+      const fontSize = mobileLiteMode ? 24 : width < 760 ? 17 : 19;
       ctx.font = `${fontSize}px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace`;
 
       for (let i = 0; i < columns; i += 1) {
@@ -121,7 +98,7 @@ function MatrixRain({ tone = "green" }) {
         const x = i * fontSize;
         const y = drops[i] * fontSize;
 
-        const heroBias = x > width * 0.52 ? 0.72 : 0.32;
+        const heroBias = mobileLiteMode ? (x > width * 0.55 ? 0.28 : 0.12) : x > width * 0.52 ? 0.72 : 0.32;
         ctx.fillStyle = `rgba(${Math.round(r)}, ${Math.round(g)}, ${Math.round(b)}, ${heroBias})`;
         ctx.fillText(char, x, y);
 
@@ -129,7 +106,7 @@ function MatrixRain({ tone = "green" }) {
           drops[i] = Math.random() * -30;
         }
 
-        drops[i] += width < 760 ? 0.72 : 0.58;
+        drops[i] += mobileLiteMode ? 0.42 : width < 760 ? 0.72 : 0.58;
       }
     };
 

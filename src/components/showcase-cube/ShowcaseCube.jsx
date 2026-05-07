@@ -6,6 +6,8 @@
 // - 3D-CoreCube im Hero-/Showcase-Bereich
 // - Würfelflächen
 // - Übergabe von Texten pro Fläche
+// - optionale Preview-Bilder pro Cube-Fläche
+// - CES-BUILD-079: Hero- und Showroom-Cube können dieselben Demo-Faces teilen
 // - Auswahl der Animationsklasse
 //
 // Wird genutzt in:
@@ -33,7 +35,7 @@ const defaultFaces = [
 
 // Hauptkomponente:
  // size: steuert Würfelgröße über CSS-Variable --cube-size
- // faces: überschreibt optional defaultFaces
+ // faces: überschreibt optional defaultFaces und kann previewImage enthalten
  // autoRotate: aktiviert/deaktiviert automatische Rotation
  // rotationMode: wählt CSS-Animationsmodus
  // className: erlaubt zusätzliche Klassen von außen
@@ -62,31 +64,45 @@ export default function ShowcaseCube({
 
       <div className={`showcase-cube ${autoRotate ? modeClass : ''}`} aria-label="CoreCube Showcase Würfel mit sechs sichtbaren Seiten">
         {normalizedFaces.map((face) => (
-          <article className={`showcase-cube-face showcase-cube-face--${face.key}`} key={face.key}>
-            <div className="face-screen">
-              <div className="face-topbar">
-                <span />
-                <span />
-                <span />
-              </div>
-
-              <div className="face-hero">
-                <div className="face-orb" />
-                <div>
+          <article
+            className={`showcase-cube-face showcase-cube-face--${face.key} ${face.previewImage ? 'has-preview-image' : ''}`}
+            key={face.key}
+          >
+            {face.previewImage ? (
+              <div className="face-preview-screen">
+                <img src={face.previewImage} alt={face.previewAlt || ''} loading="lazy" />
+                <div className="face-preview-overlay">
                   <p>{face.eyebrow}</p>
                   <h3>{face.label}</h3>
+                  <small>{face.hint}</small>
                 </div>
               </div>
+            ) : (
+              <div className="face-screen">
+                <div className="face-topbar">
+                  <span />
+                  <span />
+                  <span />
+                </div>
 
-              <div className="face-layout">
-                <span className="wide" />
-                <span />
-                <span />
-                <span className="wide" />
+                <div className="face-hero">
+                  <div className="face-orb" />
+                  <div>
+                    <p>{face.eyebrow}</p>
+                    <h3>{face.label}</h3>
+                  </div>
+                </div>
+
+                <div className="face-layout">
+                  <span className="wide" />
+                  <span />
+                  <span />
+                  <span className="wide" />
+                </div>
+
+                <small>{face.hint}</small>
               </div>
-
-              <small>{face.hint}</small>
-            </div>
+            )}
           </article>
         ))}
       </div>

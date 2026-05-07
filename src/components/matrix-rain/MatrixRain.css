@@ -1,13 +1,3 @@
-/* =====================================================
-   MATRIX RAIN CANVAS
-   Datei: src/components/matrix-rain/MatrixRain.css
-
-   Zuständig für:
-   - Canvas vollflächig hinter der Seite platzieren
-   - keine Mausinteraktion blockieren
-   - Hintergrundanimation unter UI halten
-===================================================== */
-
 .matrix-rain-canvas {
   position: fixed;
   inset: 0;
@@ -15,4 +5,22 @@
   width: 100%;
   height: 100%;
   pointer-events: none;
+}
+
+
+/* CES-BUILD-050: Mobile Lite Performance
+   Touch-/kleine Geräte behalten den Matrix-Look, aber deutlich leichter. */
+@media (hover: none) and (pointer: coarse), (max-width: 900px) {
+  .matrix-rain-canvas {
+    opacity: 0.38;
+    contain: strict;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .matrix-rain-canvas {
+    display: none;
+  }
 }
