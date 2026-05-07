@@ -1,16 +1,56 @@
-# React + Vite
+# CoreEngineStudio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**CoreEngineStudio** ist ein Digital Studio für Webseiten, Systeme, Portale, Automatisierung und smarte digitale Auftritte.
 
-Currently, two official plugins are available:
+> Digitale Auftritte. Smarte Systeme. Klare Engine.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Die Website zeigt einen interaktiven Showroom mit mehreren Showcase-Welten: Business Clean, Gaming Matrix, Shopflow, Booking/Rental, Smart Systems und Dark Premium.
 
-## React Compiler
+## Live
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Website: https://coreenginestudio.de
+- Projektstart: https://coreenginestudio.de/projekt-starten
 
-## Expanding the ESLint configuration
+## Technik
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- React
+- Vite
+- Cloudflare Pages
+- GitHub Deployment
+
+## Lokale Entwicklung
+
+```bat
+cd /d F:\CoreEngineStudio\coreenginestudio
+npm install
+npm run dev
+```
+
+## Build & Preview
+
+```bat
+cd /d F:\CoreEngineStudio\coreenginestudio
+npm run build
+npm run preview -- --host 0.0.0.0
+```
+
+## Cloudflare Pages Build-Konfiguration
+
+```txt
+Production branch: main
+Build command: npm run build
+Build output directory: dist
+Root directory: leer lassen
+```
+
+## Projektstruktur
+
+```txt
+src/       React-App, Komponenten, Styles und Assets
+public/    statische Dateien, Redirects, Manifest, Sitemap
+CODEMAP.md interne Projektkarte und Änderungsübersicht
+```
+
+## Hinweise
+
+Der Ordner `dist/` wird bei jedem Build automatisch erzeugt und sollte nicht manuell bearbeitet werden. Cloudflare Pages baut die Website aus dem GitHub-Repository und veröffentlicht den erzeugten `dist`-Ordner.

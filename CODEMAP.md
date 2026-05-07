@@ -2567,3 +2567,38 @@ Der CoreCube, die sechs Showcase-Welten, externe Devlinks, Bilder, Galerie-Logik
 - Showcase-Welten und Live-Demo-Links
 - Footer/Social Icons
 - `/projekt-starten`, Impressum und Datenschutz
+
+
+## CES-BUILD-116 · Live Launch Final QA
+
+**Ziel:** letzter Launch-Check nach erfolgreicher Cloudflare-Pages-Veröffentlichung.
+
+**Geändert:**
+
+```txt
+src/App.jsx   -> BUILD_ID auf CES-BUILD-116 gesetzt und sichtbaren Referenz-Fallback "Preview ansehen" in "Großansicht ansehen" geglättet.
+README.md     -> öffentliches GitHub-README von Vite-Standardtext auf CoreEngineStudio-Projektübersicht geändert.
+.gitignore    -> Backup-/Patch-Dateien künftig vom Repository fernhalten.
+CODEMAP.md    -> diesen Stand dokumentiert.
+```
+
+**Nicht geändert:**
+
+```txt
+CoreCube-/CoreHub-Routing
+Showcase-Welten und Live-Demo-Links
+/projekt-starten Mail-/Kopier-Fallback
+Impressum / Datenschutz
+Footer-Social-Icons und Layout
+Cloudflare-/DNS-Konfiguration
+```
+
+**Cloudflare Pages Build-Konfiguration:**
+
+```txt
+Framework/Projekt: React + Vite
+Build command: npm run build
+Build output directory: dist
+Root directory: leer
+Branch: main
+```

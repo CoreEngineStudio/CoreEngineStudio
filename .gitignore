@@ -22,3 +22,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# CoreEngineStudio patch/backups
+backup-CES-BUILD-*/
+_backup_*/
+README_CES_BUILD_*.md
+COPY_CHANGED_FILES_CES_*.bat
+CES_BUILD_*_PATCH*/

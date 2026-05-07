@@ -102,7 +102,7 @@ import "./App.css";
 // Diese Kennung erscheint unten im Footer und hilft beim Prüfen,
 // ob die richtige Version lokal/live geladen ist.
 // =====================================================
-const BUILD_ID = "CES-BUILD-115 · Public Content Cleanup Check";
+const BUILD_ID = "CES-BUILD-116 · Live Launch Final QA";
 
 // =====================================================
 // FARB-/PULSE-SYSTEM
@@ -4075,7 +4075,7 @@ function LandingPage() {
                 </a>
               ) : (
                 <button type="button" onClick={() => openCasePreview(activeCaseIndex)}>
-                  Preview ansehen
+                  Großansicht ansehen
                 </button>
               )}
             </div>
